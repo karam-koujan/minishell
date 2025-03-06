@@ -1,7 +1,7 @@
 Name = minishell
 CC = cc 
 CFLAGS = -Wall -Wextra -Werror -lreadline
-OBJ = main.o
+OBJ = main.o ./libft/ft_strlen.o
 
 all : $(Name)
 
