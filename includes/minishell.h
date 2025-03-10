@@ -1,27 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/04 14:08:27 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/03/10 21:38:20 by kkoujan          ###   ########.fr       */
+/*   Created: 2025/03/10 21:36:09 by kkoujan           #+#    #+#             */
+/*   Updated: 2025/03/10 21:38:45 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "./includes/minishell.h"
+#ifndef MINISHELL_H
+# define MINISHELL_H
 
-int main()
-{
-	char    *cmd;
-	while (1337)
-	{
-	cmd = readline("minishell$ ");
-	if (!cmd || !*cmd)
-		return (0);
-	syntax_error(cmd);
-	add_history(cmd);
-	free(cmd);
-	}
-}
+# include <stdio.h>
+# include <readline/readline.h>
+# include <readline/history.h>
+# include <stdlib.h>
+# include "../libft/libft.h"
+# include "./error_checker.h"
+
+#endif
