@@ -2,7 +2,7 @@ Name = minishell
 CC = cc 
 CFLAGS = -Wall -Wextra -Werror -lreadline
 OBJ = main.o ./libft/ft_strlen.o ./libft/ft_strchr.o ./libft/ft_strnstr.o  src/error_checker/error_checker.o \
-src/error_checker/error_checker_helper.o
+src/error_checker/error_checker_helper.o ./libft/ft_memcpy.o libft/ft_lstadd_back_bonus.o src/tokenizer/tokenizer.o
 
 all : $(Name)
 
