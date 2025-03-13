@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 23:42:20 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/03/13 03:40:01 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/03/13 04:59:00 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,12 @@ char	*quote_token(char **cmd, char end_char)
 
 	count = 0;
 	start = *cmd;
+	if (**cmd == '$')
+		return (NULL);
 	while (**cmd && **cmd != end_char)
 	{
 		if (end_char == '"' && **cmd == '$')
-			break;
+			break ;
 		(*cmd)++;
 		count++;
 	}
@@ -37,6 +39,10 @@ char	*quote_token(char **cmd, char end_char)
 	return (arg);
 }
 
+int	is_whitespace(char c)
+{
+	return ((c >= 9 && c <= 13) || c == 32);
+}
 
 char	*var_token(char **cmd)
 {
@@ -46,7 +52,7 @@ char	*var_token(char **cmd)
 
 	count = 0;
 	start = *cmd;
-	while (**cmd && **cmd != '"' && **cmd != ' ')
+	while (**cmd && **cmd != '"' && !is_whitespace(**cmd))
 	{
 		(*cmd)++;
 		count++;
@@ -114,7 +120,7 @@ t_token	*tokenize(char *cmd)
 			token = quote_token(&current_pos, '\'');
 			if (!token)
 				return (free(token), NULL);
-			node_token = init_token(PIPE_T, token);
+			node_token = init_token(ARG_T, token);
 
 			if (!node_token)
 				return (free(token), NULL);
@@ -126,11 +132,13 @@ t_token	*tokenize(char *cmd)
 			current_pos = cmd + i + 1;
 			token = quote_token(&current_pos, '"');
 			if (!token)
-				return (free(token), NULL);
-			node_token = init_token(PIPE_T, token);
-
-			if (!node_token)
-				return (free(token), NULL);
+				free(token);
+			if (token)
+			{
+				node_token = init_token(ARG_T, token);
+				if (!node_token)
+					free(token);
+			}
 			ft_token_add_back((t_token **)&head, (t_token *)node_token);
 			i = current_pos - cmd;
 			if (cmd[i] == '$')
@@ -145,6 +153,29 @@ t_token	*tokenize(char *cmd)
 				ft_token_add_back(&head, node_token);
 				i = current_pos - cmd;
 			}
+		}
+		if (cmd[i] == '$')
+		{
+			current_pos = cmd + i + 1;
+			token = var_token(&current_pos);
+			if (!token)
+				return (free(token), NULL);
+			node_token = init_token(VAR_T, token);
+			if (!node_token)
+				return (free(token), NULL);
+			ft_token_add_back(&head, node_token);
+			i = current_pos - cmd;
+		}
+		if (cmd[i] == '|')
+		{
+			token = ft_strdup("|");
+			if (!token)
+				return (free(token), NULL);
+			node_token = init_token(PIPE_T, token);
+			if (!node_token)
+				return (free(token), NULL);
+			ft_token_add_back(&head, node_token);
+			i++;
 		}
 		else
 		{
