@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 23:42:20 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/03/13 04:59:00 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/03/14 01:43:51 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,9 @@ char	*quote_token(char **cmd, char end_char)
 
 	count = 0;
 	start = *cmd;
-	if (**cmd == '$')
-		return (NULL);
+
 	while (**cmd && **cmd != end_char)
 	{
-		if (end_char == '"' && **cmd == '$')
-			break ;
 		(*cmd)++;
 		count++;
 	}
@@ -38,6 +35,7 @@ char	*quote_token(char **cmd, char end_char)
 	arg[count] = 0;
 	return (arg);
 }
+
 
 int	is_whitespace(char c)
 {
@@ -102,6 +100,85 @@ void	ft_token_add_back(t_token **lst, t_token *new)
 	}
 }
 
+int	var_quote_token(char **str, t_token **head)
+{
+	int		j;
+	char	*token;
+	char	buffer[256];
+	t_token	*node_token;
+	int		is_var;
+
+	j = 0;
+	is_var = 0;
+	while (**str)
+	{
+		if (**str == '$')
+		{
+			if ((*(*str + 1) == '\0' || is_whitespace(*(*str + 1)) || \
+			*(*str + 1) == '"'))
+			{
+				buffer[j] = **str;
+				j++;
+				(*str)++;
+				continue ;
+			}
+			buffer[j] = 0;
+			if (j > 0)
+			{
+				token = ft_strdup(buffer);
+				if (!token)
+					return (free(token), 0);
+				if (is_var)
+					node_token = init_token(VAR_T, token);
+				else
+					node_token = init_token(ARG_T, token);
+				if (!node_token)
+					return (free(token), 0);
+				ft_token_add_back(head, node_token);
+				j = 0;
+				is_var = 1;
+			}
+		}
+		else if (**str == '"')
+		{
+			buffer[j] = 0;
+			token = ft_strdup(buffer);
+			if (!token)
+				return (free(token), 0);
+			if (is_var)
+				node_token = init_token(VAR_T, token);
+			else
+				node_token = init_token(ARG_T, token);
+			if (!node_token)
+				return (free(token), 0);
+			ft_token_add_back(head, node_token);
+			j = 0;
+			(*str)++;
+			return (1);
+		}
+		else if (is_whitespace(**str) && is_var)
+		{
+			buffer[j] = 0;
+			token = ft_strdup(buffer);
+			if (!token)
+				return (free(token), 0);
+			node_token = init_token(VAR_T, token);
+			is_var = 0;
+			if (!node_token)
+				return (free(token), 0);
+			ft_token_add_back(head, node_token);
+			j = 0;
+		}
+		else
+		{
+			buffer[j] = **str;
+			j++;
+		}
+		(*str)++;
+	}
+	return (1);
+}
+
 t_token	*tokenize(char *cmd)
 {
 	int		i;
@@ -130,29 +207,9 @@ t_token	*tokenize(char *cmd)
 		if (cmd[i] == '"')
 		{
 			current_pos = cmd + i + 1;
-			token = quote_token(&current_pos, '"');
-			if (!token)
-				free(token);
-			if (token)
-			{
-				node_token = init_token(ARG_T, token);
-				if (!node_token)
-					free(token);
-			}
-			ft_token_add_back((t_token **)&head, (t_token *)node_token);
+			if (!var_quote_token(&current_pos, &head))
+				return (NULL);
 			i = current_pos - cmd;
-			if (cmd[i] == '$')
-			{
-				current_pos = cmd + i + 1;
-				token = var_token(&current_pos);
-				if (!token)
-					return (free(token), NULL);
-				node_token = init_token(VAR_T, token);
-				if (!node_token)
-					return (free(token), NULL);
-				ft_token_add_back(&head, node_token);
-				i = current_pos - cmd;
-			}
 		}
 		if (cmd[i] == '$')
 		{
