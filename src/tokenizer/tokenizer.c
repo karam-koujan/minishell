@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 23:42:20 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/03/16 02:41:57 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/03/16 03:45:45 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,13 +65,13 @@ char	*var_token(char **cmd)
 
 	count = 0;
 	start = *cmd;
-	while (**cmd && **cmd != '"' && !is_whitespace(**cmd))
+	while (**cmd && ft_isalnum(**cmd))
 	{
 		(*cmd)++;
 		count++;
 	}
-	if (**cmd == '"')
-		(*cmd)++;
+	if (**cmd == '$')
+		(*cmd)--;
 	arg = malloc((count + 1) * sizeof(char));
 	if (!arg)
 		return (NULL);
@@ -190,7 +190,8 @@ t_token	*tokenize(char *cmd)
 	{
 		if (is_whitespace(*cmd) || *(cmd + 1) == 0)
 		{
-			printf("is cmd : %s %i\n", cmd, len);
+			if (*(cmd + 1) == 0)
+				len++;
 			if (is_cmd && len > 0)
 			{
 				add_token(&head, start_pos, len, CMD_T);
@@ -230,7 +231,7 @@ t_token	*tokenize(char *cmd)
 			start_pos = cmd;
 			continue ;
 		}
-		if (*cmd == '$')
+		if (*cmd == '$' && ft_isalnum(*(cmd + 1)))
 		{
 			cmd++;
 			token = var_token(&cmd);
