@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 23:42:20 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/03/16 01:34:23 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/03/16 01:45:43 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -200,6 +200,7 @@ t_token	*tokenize(char *cmd)
 		}
 		if (*cmd == '\'' && !is_escaped(cmd))
 		{
+			cmd++;
 			token = quote_token(&cmd, '\'');
 			if (!token)
 				return (free(token), NULL);
