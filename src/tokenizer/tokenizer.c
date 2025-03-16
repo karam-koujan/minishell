@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 23:42:20 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/03/16 01:45:43 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/03/16 02:41:57 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,21 +180,27 @@ t_token	*tokenize(char *cmd)
 	t_token	*node_token;
 	char	*start_pos;
 	int		len;
-
+	int		is_cmd;
 	len = 0;
+
 	start_pos = cmd;
 	head = NULL;
+	is_cmd = 1;
 	while (*cmd)
 	{
-		if (is_whitespace(*cmd))
+		if (is_whitespace(*cmd) || *(cmd + 1) == 0)
 		{
-			if (head == NULL && len > 0)
+			printf("is cmd : %s %i\n", cmd, len);
+			if (is_cmd && len > 0)
+			{
 				add_token(&head, start_pos, len, CMD_T);
-			else if (head != NULL && len > 0)
+				is_cmd = 0;
+			}
+			else if (!is_cmd && len > 0)
 				add_token(&head, start_pos, len, ARG_T);
 
 			cmd++;
-			len = 0;
+			len = 1;
 			start_pos = cmd;
 			continue ;
 		}
@@ -247,6 +253,7 @@ t_token	*tokenize(char *cmd)
 			ft_token_add_back(&head, node_token);
 			cmd++;
 			len = 0;
+			is_cmd = 1;
 			start_pos = cmd;
 			continue ;
 		}
