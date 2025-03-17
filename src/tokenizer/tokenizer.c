@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 23:42:20 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/03/16 03:45:45 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/03/17 00:31:53 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,24 @@ int	var_quote_token(char **str, t_token **head)
 	start_pos = *str;
 	while (**str)
 	{
-		if (**str == '$' && !ft_isalnum(*(*str + 1)))
+		if (**str == '$' && *(*str + 1) == '$')
+		{
+			if (len > 0)
+			{
+				if ((is_var && add_token(head, start_pos, len, VAR_T) == 0) || \
+					(!is_var && add_token(head, start_pos, len, ARG_T) == 0))
+					return (0);
+			}
+			(*str)++;
+			if (add_token(head, *str, 1, VAR_T) == 0)
+				return (0);
+			(*str)++;
+			start_pos = *str;
+			len = 0;
+			is_var = 0;
+			continue ;
+		}
+		else if (**str == '$' && !ft_isalnum(*(*str + 1)))
 			len++;
 		else if (**str == '$' && ft_isalnum(*(*str + 1)))
 		{
@@ -153,7 +170,7 @@ int	var_quote_token(char **str, t_token **head)
 			start_pos = *str + 1;
 			len = 0;
 		}
-		else if (**str == '"' && !is_escaped(*str))
+		else if (**str == '"' && !is_escaped(*str) && len > 0)
 		{
 			if (is_var)
 				return (add_token(head, start_pos, len, VAR_T));
