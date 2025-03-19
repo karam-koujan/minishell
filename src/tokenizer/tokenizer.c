@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 23:42:20 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/03/19 22:24:36 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/03/19 23:53:06 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,32 +25,6 @@ int	is_escaped(char *str)
 	}
 	return (count % 2 != 0);
 }
-
-char	*quote_token(char **cmd, char end_char)
-{
-	int		count;
-	char	*arg;
-	char	*start;
-
-	count = 0;
-	start = *cmd;
-
-	while (**cmd && (**cmd != end_char || \
-		(**cmd == end_char && is_escaped(*cmd))))
-	{
-		(*cmd)++;
-		count++;
-	}
-	if (**cmd == end_char)
-		(*cmd)++;
-	arg = malloc((count + 1) * sizeof(char));
-	if (!arg)
-		return (NULL);
-	ft_memcpy(arg, start, count);
-	arg[count] = 0;
-	return (arg);
-}
-
 
 int	is_whitespace(char c)
 {
@@ -273,6 +247,22 @@ int	handle_operation(char *cmd, t_token **head)
 	return (idx);
 }
 
+int	handle_single_quote(char *cmd, t_token **head)
+{
+	int		len;
+	char	*start;
+
+	len = 1;
+	start = cmd + 1;
+
+	while (cmd[len] && (cmd[len] != '\'' || \
+		(cmd[len] == '\'' && is_escaped(cmd + len))))
+		len++;
+	if (add_token(head, start, len - 1, ARG_T) == 0)
+		return (-1);
+	return (len + 1);
+}
+
 int	is_var_spchar(char c)
 {
 	if (c == '$' || c == '?' || c == '#' || c == '@' || \
@@ -312,6 +302,14 @@ t_token	*tokenize(char *cmd)
 		if (*cmd == '|' || *cmd == '>' || *cmd == '<')
 		{
 			idx = handle_operation(cmd, &head);
+			if (idx < 0)
+				return (NULL);
+			cmd = cmd + idx;
+			continue ;
+		}
+		if (*cmd == '\'' && !is_escaped(cmd))
+		{
+			idx = handle_single_quote(cmd, &head);
 			if (idx < 0)
 				return (NULL);
 			cmd = cmd + idx;
