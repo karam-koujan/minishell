@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 23:42:20 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/03/19 21:37:22 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/03/19 22:24:36 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -228,23 +228,49 @@ int var_tokenization(char **str, t_token **head)
 	return (0);
 }
 
-int	handle_var(char **cmd, t_token **head)
+int	handle_var(char *cmd, t_token **head)
 {
 	int		i;
+	char	*start;
 
 	i = 0;
-	while ((*cmd)[++i])
+	start = cmd + 1;
+	while (cmd[++i])
 	{
-		if ((*cmd)[i] == '_')
+		if (cmd[i] == '_')
 			continue ;
-		if (is_whitespace((*cmd)[i]) || !ft_isalnum((*cmd)[i]) \
-			|| ((*cmd)[i] == '$' && i > 1))
+		if (is_whitespace(cmd[i]) || !ft_isalnum(cmd[i]) \
+			|| (cmd[i] == '$' && i > 1))
 			break ;
 	}
-	(*cmd)++;
 	if (i == 1)
 		i++;
-	return (add_token(head, *cmd, i - 1, VAR_T));
+	if (add_token(head, start, i - 1, VAR_T) == 0)
+		return (-1);
+	return (i);
+}
+
+int	handle_operation(char *cmd, t_token **head)
+{
+	t_token	*node_token;
+	int		idx;
+
+	node_token = NULL;
+	idx = 1;
+	if (*cmd == '|')
+		node_token = init_token(PIPE_T, NULL);
+	else if (*cmd == '>' && ft_strncmp(cmd, ">>", 2) != 0)
+		node_token = init_token(REDIR_F_T, NULL);
+	else if (*cmd == '<' && ft_strncmp(cmd, "<<", 2) != 0)
+		node_token = init_token(REDIR_B_T, NULL);
+	else if (*cmd == '>' && ft_strncmp(cmd, ">>", 2) == 0 && (++idx))
+		node_token = init_token(APPEND_T, NULL);
+	else if (*cmd == '<' && ft_strncmp(cmd, "<<", 2) == 0 && (++idx))
+		node_token = init_token(HERDOC_T, NULL);
+	if (!node_token)
+		return (-1);
+	ft_token_add_back(head, node_token);
+	return (idx);
 }
 
 int	is_var_spchar(char c)
@@ -259,8 +285,9 @@ t_token	*tokenize(char *cmd)
 {
 	//char	*token;
 	t_token	*head;
-
+	int		idx;
 	head = NULL;
+
 	// t_token	*node_token;
 	// char	*start_pos;
 	// int		len;
@@ -270,12 +297,25 @@ t_token	*tokenize(char *cmd)
 	// start_pos = cmd;
 	// head = NULL;
 	// is_cmd = 1;
+	idx = 0;
 	while (*cmd)
 	{
 		if (*cmd == '$' && (is_var_spchar(cmd[1]) || ft_isalpha(cmd[1])))
 		{
-			if (handle_var(&cmd, &head) == 0)
+			idx = handle_var(cmd, &head);
+			if (idx < 0)
 				return (NULL);
+			cmd = cmd + idx;
+			continue ;
+			printf("idx %i\n", idx);
+		}
+		if (*cmd == '|' || *cmd == '>' || *cmd == '<')
+		{
+			idx = handle_operation(cmd, &head);
+			if (idx < 0)
+				return (NULL);
+			cmd = cmd + idx;
+			continue ;
 		}
 		cmd++;
 	}
