@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 23:42:20 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/03/19 23:53:06 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/03/20 01:17:13 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ int	is_escaped(char *str)
 	int	count;
 
 	count = 0;
-	str = str - 1;
-	while (*str == '\\')
+	str = str + 1;
+	while (*str && *str == '\\')
 	{
-		str = str - 1;
+		str = str + 1;
 		count++;
 	}
 	return (count % 2 != 0);
@@ -271,6 +271,44 @@ int	is_var_spchar(char c)
 	return (0);
 }
 
+int	handle_double_quote(char *cmd, t_token **head)
+{
+	int		len;
+	char	*start;
+	int		var;
+	int		offset;
+
+	len = 1;
+	offset = 1;
+	start = cmd + 1;
+	while (cmd[offset] && (cmd[offset] != '\"' || \
+		(cmd[offset] == '\"' && is_escaped(cmd + offset))))
+		offset++;
+	while (cmd[len] && (cmd[len] != '\"' || \
+		(cmd[len] == '\"' && is_escaped(cmd + len))))
+	{
+		printf("start : %s\n", cmd + len);
+		if (cmd[len] == '$' && (is_var_spchar(cmd[len + 1]) || \
+		ft_isalpha(cmd[len + 1])))
+		{
+			if (len > 1 && add_token(head, start, len, ARG_T) == 0)
+				return (-1);
+			var = handle_var(cmd + len, head);
+			printf("s : %s varidx %i len : %i\n", cmd + len,var, len);
+			if (var < 0)
+				return (-1);
+			cmd = cmd + len + var;
+			start = cmd;
+			len = 0;
+		}
+		else
+			len++;
+	}
+	if (start < cmd + len && add_token(head, start, len, ARG_T) == 0)
+		return (-1);
+	return (offset);
+}
+
 t_token	*tokenize(char *cmd)
 {
 	//char	*token;
@@ -297,7 +335,6 @@ t_token	*tokenize(char *cmd)
 				return (NULL);
 			cmd = cmd + idx;
 			continue ;
-			printf("idx %i\n", idx);
 		}
 		if (*cmd == '|' || *cmd == '>' || *cmd == '<')
 		{
@@ -310,6 +347,14 @@ t_token	*tokenize(char *cmd)
 		if (*cmd == '\'' && !is_escaped(cmd))
 		{
 			idx = handle_single_quote(cmd, &head);
+			if (idx < 0)
+				return (NULL);
+			cmd = cmd + idx;
+			continue ;
+		}
+		if (*cmd == '"' && !is_escaped(cmd))
+		{
+			idx = handle_double_quote(cmd, &head);
 			if (idx < 0)
 				return (NULL);
 			cmd = cmd + idx;
