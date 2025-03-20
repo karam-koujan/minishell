@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 23:42:20 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/03/20 01:17:13 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/03/20 01:43:47 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -284,17 +284,22 @@ int	handle_double_quote(char *cmd, t_token **head)
 	while (cmd[offset] && (cmd[offset] != '\"' || \
 		(cmd[offset] == '\"' && is_escaped(cmd + offset))))
 		offset++;
+	if (offset == 1)
+	{
+		if (add_token(head, start, 0, ARG_T) == 0)
+			return (-1);
+		return (2);
+	}
+
 	while (cmd[len] && (cmd[len] != '\"' || \
 		(cmd[len] == '\"' && is_escaped(cmd + len))))
 	{
-		printf("start : %s\n", cmd + len);
 		if (cmd[len] == '$' && (is_var_spchar(cmd[len + 1]) || \
 		ft_isalpha(cmd[len + 1])))
 		{
-			if (len > 1 && add_token(head, start, len, ARG_T) == 0)
+			if (len > 1 && add_token(head, start, len - 1, ARG_T) == 0)
 				return (-1);
 			var = handle_var(cmd + len, head);
-			printf("s : %s varidx %i len : %i\n", cmd + len,var, len);
 			if (var < 0)
 				return (-1);
 			cmd = cmd + len + var;
@@ -304,27 +309,17 @@ int	handle_double_quote(char *cmd, t_token **head)
 		else
 			len++;
 	}
-	if (start < cmd + len && add_token(head, start, len, ARG_T) == 0)
+	if (start < cmd + len && add_token(head, start, len - 1, ARG_T) == 0)
 		return (-1);
-	return (offset);
+	return (offset + 1);
 }
 
 t_token	*tokenize(char *cmd)
 {
-	//char	*token;
 	t_token	*head;
 	int		idx;
+
 	head = NULL;
-
-	// t_token	*node_token;
-	// char	*start_pos;
-	// int		len;
-	// int		is_cmd;
-	// len = 0;
-
-	// start_pos = cmd;
-	// head = NULL;
-	// is_cmd = 1;
 	idx = 0;
 	while (*cmd)
 	{
