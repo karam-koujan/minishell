@@ -1,9 +1,0 @@
-includes
-libft
-main.c
-main.o
-makefile
-minishell
-output2.txt
-output.txt
-src

@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 23:42:20 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/03/20 01:43:47 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/03/21 19:52:31 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,29 +29,6 @@ int	is_escaped(char *str)
 int	is_whitespace(char c)
 {
 	return ((c >= 9 && c <= 13) || c == 32);
-}
-
-char	*var_token(char **cmd)
-{
-	int		count;
-	char	*arg;
-	char	*start;
-
-	count = 0;
-	start = *cmd;
-	while (**cmd && ft_isalnum(**cmd))
-	{
-		(*cmd)++;
-		count++;
-	}
-	if (**cmd == '$')
-		(*cmd)--;
-	arg = malloc((count + 1) * sizeof(char));
-	if (!arg)
-		return (NULL);
-	ft_memcpy(arg, start, count);
-	arg[count] = 0;
-	return (arg);
 }
 
 
@@ -106,101 +83,7 @@ int	add_token(t_token **head, char *start_ptr, int len, t_token_type type)
 
 
 
-int	var_quote_token(char **str, t_token **head)
-{
-	int		len;
-	int		is_var;
-	char	*start_pos;
 
-	len = 0;
-	is_var = 0;
-	start_pos = *str;
-	while (**str)
-	{
-		if (**str == '$' && *(*str + 1) == '$')
-		{
-			if (len > 0)
-			{
-				if ((is_var && add_token(head, start_pos, len, VAR_T) == 0) || \
-					(!is_var && add_token(head, start_pos, len, ARG_T) == 0))
-					return (0);
-			}
-			(*str)++;
-			if (add_token(head, *str, 1, VAR_T) == 0)
-				return (0);
-			(*str)++;
-			start_pos = *str;
-			len = 0;
-			is_var = 0;
-			continue ;
-		}
-		else if (**str == '$' && !ft_isalnum(*(*str + 1)))
-			len++;
-		else if (**str == '$' && ft_isalnum(*(*str + 1)))
-		{
-			is_var = 1;
-			if (add_token(head, start_pos, len, ARG_T) == 0)
-				return (0);
-			start_pos = *str + 1;
-			len = 0;
-		}
-		else if (**str == '"' && !is_escaped(*str) && len > 0)
-		{
-			if (is_var)
-				return (add_token(head, start_pos, len, VAR_T));
-			return (add_token(head, start_pos, len, ARG_T));
-		}
-		else if (is_whitespace(**str) && is_var)
-		{
-			add_token(head, start_pos, len, VAR_T);
-			len = 1;
-			is_var = 0;
-			start_pos = *str;
-		}
-		else
-			len++;
-		(*str)++;
-	}
-	return (1);
-}
-
-int var_tokenization(char **str, t_token **head)
-{
-	char	*token;
-	t_token	*node_token;
-
-	if (**str == '$')
-	{
-		token = ft_strdup("$");
-		if (!token)
-			return (free(token), 0);
-		node_token = init_token(VAR_T, token);
-		if (!node_token)
-			return (free(token), 0);
-		return (ft_token_add_back((t_token **)head, (t_token *)node_token), 1);
-	}
-	else if (**str == '?')
-	{
-		token = ft_strdup("?");
-		if (!token)
-			return (free(token), 0);
-		node_token = init_token(VAR_T, token);
-		if (!node_token)
-			return (free(token), 0);
-		return (ft_token_add_back((t_token **)head, (t_token *)node_token), 1);
-	}
-	else if (ft_isalnum(**str) || **str == '_')
-	{
-		token = var_token(str);
-		if (!token)
-			return (free(token), 0);
-		node_token = init_token(VAR_T, token);
-		if (!node_token)
-			return (free(token), 0);
-		return (ft_token_add_back((t_token **)head, (t_token *)node_token), 1);
-	}
-	return (0);
-}
 
 int	handle_var(char *cmd, t_token **head)
 {
@@ -271,47 +154,109 @@ int	is_var_spchar(char c)
 	return (0);
 }
 
-int	handle_double_quote(char *cmd, t_token **head)
+int	double_quote_len(char *cmd)
 {
-	int		len;
-	char	*start;
-	int		var;
 	int		offset;
+	char	*start;
 
-	len = 1;
 	offset = 1;
 	start = cmd + 1;
 	while (cmd[offset] && (cmd[offset] != '\"' || \
 		(cmd[offset] == '\"' && is_escaped(cmd + offset))))
 		offset++;
+
+	return (offset);
+}
+
+int	loop_double_quote(char **cmd_ptr,t_token **head,char **start,int *len)
+{
+	char	*cmd;
+	int		var;
+
+	cmd = *cmd_ptr + 1;
+	*start = *start + 1;
+	while (cmd[*len] && (cmd[*len] != '\"' || \
+		(cmd[*len] == '\"' && is_escaped(cmd + *len))))
+	{
+		if (cmd[*len] == '$' && (is_var_spchar(cmd[*len + 1]) || \
+		ft_isalpha(cmd[*len + 1])))
+		{
+			printf("start: %s  len: %i\n", *start, *len);
+			if (*len > 0 && add_token(head, *start, *len, ARG_T) == 0)
+				return (-1);
+			var = handle_var(cmd + *len, head);
+			if (var < 0)
+				return (-1);
+			cmd = cmd + *len + var;
+			*start = cmd;
+			*len = 0;
+		}
+		else
+			(*len)++;
+	}
+	return (1);
+}
+
+int	handle_double_quote(char *cmd, t_token **head)
+{
+	int		len;
+	char	*start;
+	int		offset;
+
+	len = 0;
+	offset = double_quote_len(cmd);
+	start = cmd;
 	if (offset == 1)
 	{
-		if (add_token(head, start, 0, ARG_T) == 0)
+		if (add_token(head, start + 1, 0, ARG_T) == 0)
 			return (-1);
 		return (2);
 	}
-
-	while (cmd[len] && (cmd[len] != '\"' || \
-		(cmd[len] == '\"' && is_escaped(cmd + len))))
-	{
-		if (cmd[len] == '$' && (is_var_spchar(cmd[len + 1]) || \
-		ft_isalpha(cmd[len + 1])))
-		{
-			if (len > 1 && add_token(head, start, len - 1, ARG_T) == 0)
-				return (-1);
-			var = handle_var(cmd + len, head);
-			if (var < 0)
-				return (-1);
-			cmd = cmd + len + var;
-			start = cmd;
-			len = 0;
-		}
-		else
-			len++;
-	}
-	if (start < cmd + len && add_token(head, start, len - 1, ARG_T) == 0)
+	if (loop_double_quote(&cmd, head, &start, &len) == -1)
+		return (-1);
+	if (offset == len)
+		len--;
+	if (len > 0 && add_token(head, start, len, ARG_T) == 0)
 		return (-1);
 	return (offset + 1);
+}
+
+int	handle_word(char *cmd, t_token **head)
+{
+	int		len;
+	char	*start;
+	int		offset;
+
+	len = 0;
+	start = cmd;
+	offset = 0;
+	while (cmd[offset] && !is_whitespace(cmd[offset]) && cmd[offset] != '$')
+		offset++;
+	while (cmd[len++])
+	{
+		if (is_whitespace(cmd[len]) || cmd[len] == '$')
+			break ;
+	}
+	if (len == 1)
+		len++;
+	if (add_token(head, start, len, ARG_T) == 0)
+		return (-1);
+	return (offset);
+}
+
+int	handle_cmd(char *cmd, t_token **head)
+{
+	if (*cmd == '$' && (is_var_spchar(cmd[1]) || ft_isalpha(cmd[1])))
+		return (handle_var(cmd, head));
+	if (*cmd == '|' || *cmd == '>' || *cmd == '<')
+		return (handle_operation(cmd, head));
+	if (*cmd == '\'' && !is_escaped(cmd))
+		return (handle_single_quote(cmd, head));
+	if (*cmd == '"' && !is_escaped(cmd))
+		return (handle_double_quote(cmd, head));
+	if (*cmd && !is_whitespace(*cmd))
+		return (handle_word(cmd, head));
+	return (0);
 }
 
 t_token	*tokenize(char *cmd)
@@ -323,39 +268,13 @@ t_token	*tokenize(char *cmd)
 	idx = 0;
 	while (*cmd)
 	{
-		if (*cmd == '$' && (is_var_spchar(cmd[1]) || ft_isalpha(cmd[1])))
-		{
-			idx = handle_var(cmd, &head);
-			if (idx < 0)
-				return (NULL);
+		idx = handle_cmd(cmd, &head);
+		if (idx < 0)
+			return (NULL);
+		else if (idx > 0)
 			cmd = cmd + idx;
-			continue ;
-		}
-		if (*cmd == '|' || *cmd == '>' || *cmd == '<')
-		{
-			idx = handle_operation(cmd, &head);
-			if (idx < 0)
-				return (NULL);
-			cmd = cmd + idx;
-			continue ;
-		}
-		if (*cmd == '\'' && !is_escaped(cmd))
-		{
-			idx = handle_single_quote(cmd, &head);
-			if (idx < 0)
-				return (NULL);
-			cmd = cmd + idx;
-			continue ;
-		}
-		if (*cmd == '"' && !is_escaped(cmd))
-		{
-			idx = handle_double_quote(cmd, &head);
-			if (idx < 0)
-				return (NULL);
-			cmd = cmd + idx;
-			continue ;
-		}
-		cmd++;
+		else
+			cmd++;
 	}
 	return (head);
 }

@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 23:13:00 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/03/11 00:50:40 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/03/21 00:40:04 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ int	in_quotes(char *cmd, int pos)
 	double_q = 0;
 	while (i < pos && cmd[i])
 	{
-		if (cmd[i] == '\'' && !double_q)
+		if (cmd[i] == '\'' && is_escaped(cmd + i) && !double_q)
 			single_q = !single_q;
-		else if (cmd[i] == '"' && !single_q)
+		else if (cmd[i] == '"' && is_escaped(cmd + i) && !single_q)
 			double_q = !double_q;
 		i++;
 	}
@@ -85,4 +85,3 @@ int	detect_invalid_redir(char *cmd, int *redirfor, int *redirback, int i)
 		return ((int)cmd[i]);
 	return (0);
 }
-
