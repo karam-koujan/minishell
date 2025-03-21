@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 23:42:20 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/03/21 19:52:31 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/03/21 20:14:58 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,60 +30,6 @@ int	is_whitespace(char c)
 {
 	return ((c >= 9 && c <= 13) || c == 32);
 }
-
-
-t_token	*init_token(t_token_type type, char *val)
-{
-	t_token	*token;
-
-	token = malloc(sizeof(t_token));
-	if (!token)
-		return (NULL);
-	token->type = type;
-	token->val = val;
-	token->next = NULL;
-	return (token);
-}
-
-void	ft_token_add_back(t_token **lst, t_token *new)
-{
-	t_token	*l;
-
-	if (!lst || !new)
-		return ;
-	if (*lst == NULL)
-	{
-		*lst = new;
-	}
-	else
-	{
-		l = *lst;
-		while (l->next != NULL)
-		{
-			l = l->next;
-		}
-		l->next = new;
-	}
-}
-
-int	add_token(t_token **head, char *start_ptr, int len, t_token_type type)
-{
-	char	*token;
-	t_token	*node_token;
-
-	token = ft_substr(start_ptr, 0, len);
-	if (!token)
-		return (free(token), 0);
-	node_token = init_token(type, token);
-	if (!node_token)
-		return (free(token), 0);
-	ft_token_add_back(head, node_token);
-	return (1);
-}
-
-
-
-
 
 int	handle_var(char *cmd, t_token **head)
 {
@@ -141,85 +87,13 @@ int	handle_single_quote(char *cmd, t_token **head)
 	while (cmd[len] && (cmd[len] != '\'' || \
 		(cmd[len] == '\'' && is_escaped(cmd + len))))
 		len++;
-	if (add_token(head, start, len - 1, ARG_T) == 0)
+	if (add_token(head, start, len - 1, WORD_T) == 0)
 		return (-1);
 	return (len + 1);
 }
 
-int	is_var_spchar(char c)
-{
-	if (c == '$' || c == '?' || c == '#' || c == '@' || \
-			c == '*' || c == '!' || c == '-' || c == '_')
-		return (1);
-	return (0);
-}
 
-int	double_quote_len(char *cmd)
-{
-	int		offset;
-	char	*start;
 
-	offset = 1;
-	start = cmd + 1;
-	while (cmd[offset] && (cmd[offset] != '\"' || \
-		(cmd[offset] == '\"' && is_escaped(cmd + offset))))
-		offset++;
-
-	return (offset);
-}
-
-int	loop_double_quote(char **cmd_ptr,t_token **head,char **start,int *len)
-{
-	char	*cmd;
-	int		var;
-
-	cmd = *cmd_ptr + 1;
-	*start = *start + 1;
-	while (cmd[*len] && (cmd[*len] != '\"' || \
-		(cmd[*len] == '\"' && is_escaped(cmd + *len))))
-	{
-		if (cmd[*len] == '$' && (is_var_spchar(cmd[*len + 1]) || \
-		ft_isalpha(cmd[*len + 1])))
-		{
-			printf("start: %s  len: %i\n", *start, *len);
-			if (*len > 0 && add_token(head, *start, *len, ARG_T) == 0)
-				return (-1);
-			var = handle_var(cmd + *len, head);
-			if (var < 0)
-				return (-1);
-			cmd = cmd + *len + var;
-			*start = cmd;
-			*len = 0;
-		}
-		else
-			(*len)++;
-	}
-	return (1);
-}
-
-int	handle_double_quote(char *cmd, t_token **head)
-{
-	int		len;
-	char	*start;
-	int		offset;
-
-	len = 0;
-	offset = double_quote_len(cmd);
-	start = cmd;
-	if (offset == 1)
-	{
-		if (add_token(head, start + 1, 0, ARG_T) == 0)
-			return (-1);
-		return (2);
-	}
-	if (loop_double_quote(&cmd, head, &start, &len) == -1)
-		return (-1);
-	if (offset == len)
-		len--;
-	if (len > 0 && add_token(head, start, len, ARG_T) == 0)
-		return (-1);
-	return (offset + 1);
-}
 
 int	handle_word(char *cmd, t_token **head)
 {
@@ -239,7 +113,7 @@ int	handle_word(char *cmd, t_token **head)
 	}
 	if (len == 1)
 		len++;
-	if (add_token(head, start, len, ARG_T) == 0)
+	if (add_token(head, start, len, WORD_T) == 0)
 		return (-1);
 	return (offset);
 }
@@ -279,24 +153,4 @@ t_token	*tokenize(char *cmd)
 	return (head);
 }
 
-void print_token_list(t_token *head)
-{
-    t_token *current = head;
-    int count = 0;
 
-    if (!head)
-    {
-        printf("Empty token list\n");
-        return;
-    }
-
-    printf("TOKEN LIST:\n");
-    while (current)
-    {
-        printf("Token %d:\n", count++);
-        printf("  Type: %d\n", current->type);
-        printf("  Value: %s\n", current->val ? current->val : "(null)");
-        current = current->next;
-    }
-    printf("End of token list. Total tokens: %d\n", count);
-}
