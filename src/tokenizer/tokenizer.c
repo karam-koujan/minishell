@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 23:42:20 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/03/21 22:27:21 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/03/21 22:58:30 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,52 +72,6 @@ int	handle_single_quote(char *cmd, t_token **head)
 	if (add_token(head, start, len - 1, WORD_T) == 0)
 		return (-1);
 	return (len + 1);
-}
-
-int	handle_word(char *cmd, t_token **head)
-{
-	int		len;
-	char	*start;
-	int		offset;
-
-	len = 0;
-	start = cmd;
-	offset = 0;
-	while (cmd[offset] && !is_whitespace(cmd[offset]) && cmd[offset] != '$')
-		offset++;
-	while (cmd[len++])
-	{
-		if (is_whitespace(cmd[len]) || cmd[len] == '$')
-			break ;
-	}
-	if (len == 1)
-		len++;
-	if (add_token(head, start, len, WORD_T) == 0)
-		return (-1);
-	return (offset);
-}
-
-int	handle_whitespace(char *cmd, t_token **head)
-{
-	int		len;
-	char	*start;
-	int		offset;
-
-	len = 0;
-	start = cmd;
-	offset = 0;
-	while (cmd[offset] && is_whitespace(cmd[offset]))
-		offset++;
-	while (cmd[len++])
-	{
-		if (!is_whitespace(cmd[len]))
-			break ;
-	}
-	// if (len == 1)
-	// 	len++;
-	if (add_token(head, start, len, SP_T) == 0)
-		return (-1);
-	return (offset);
 }
 
 int	handle_cmd(char *cmd, t_token **head)
