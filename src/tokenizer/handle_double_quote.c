@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   tokenizer_extra.c                                  :+:      :+:    :+:   */
+/*   handle_double_quote.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 19:59:35 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/03/21 20:02:41 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/03/21 20:35:20 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	loop_double_quote(char **cmd_ptr, t_token **head, char **start, int *len)
 		if (cmd[*len] == '$' && (is_var_spchar(cmd[*len + 1]) || \
 		ft_isalpha(cmd[*len + 1])))
 		{
-			if (*len > 0 && add_token(head, *start, *len, ARG_T) == 0)
+			if (*len > 0 && add_token(head, *start, *len, WORD_T) == 0)
 				return (-1);
 			var = handle_var(cmd + *len, head);
 			if (var < 0)
@@ -67,7 +67,7 @@ int	handle_double_quote(char *cmd, t_token **head)
 	start = cmd;
 	if (offset == 1)
 	{
-		if (add_token(head, start + 1, 0, ARG_T) == 0)
+		if (add_token(head, start + 1, 0, WORD_T) == 0)
 			return (-1);
 		return (2);
 	}
@@ -75,7 +75,7 @@ int	handle_double_quote(char *cmd, t_token **head)
 		return (-1);
 	if (offset == len)
 		len--;
-	if (len > 0 && add_token(head, start, len, ARG_T) == 0)
+	if (len > 0 && add_token(head, start, len, WORD_T) == 0)
 		return (-1);
 	return (offset + 1);
 }

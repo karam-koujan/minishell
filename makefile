@@ -1,10 +1,10 @@
 Name = minishell
 CC = cc
 CFLAGS = -g -Wall -Wextra -Werror
-OBJ = main.o ./libft/ft_strlen.o ./libft/ft_strchr.o ./libft/ft_strnstr.o  src/error_checker/error_checker.o \
-src/error_checker/error_checker_helper.o ./libft/ft_memcpy.o libft/ft_lstadd_back_bonus.o src/tokenizer/tokenizer.o \
-./libft/ft_strdup.o ./libft/ft_strlcpy.o ./libft/ft_substr.o ./libft/ft_strncmp.o ./libft/ft_isalnum.o ./libft/ft_isdigit.o \
-./libft/ft_isalpha.o
+OBJ = main.o ./lib/libft/ft_strlen.o ./lib/libft/ft_strchr.o ./lib/libft/ft_strnstr.o  src/error_checker/error_checker.o \
+src/error_checker/error_checker_helper.o ./lib/libft/ft_memcpy.o src/tokenizer/tokenizer.o \
+./lib/libft/ft_strdup.o ./lib/libft/ft_strlcpy.o ./lib/libft/ft_substr.o ./lib/libft/ft_strncmp.o ./lib/libft/ft_isalnum.o ./lib/libft/ft_isdigit.o \
+./lib/libft/ft_isalpha.o src/tokenizer/handle_double_quote.o src/tokenizer/token_operations.o src/tokenizer/tokenizer_helper.o ./lib/helper/helper.o
 
 all : $(Name)
 
@@ -12,7 +12,7 @@ $(Name) : $(OBJ)
 	$(CC) $(CFLAGS) -lreadline $^  -o $(Name)
 
 
-%.o : %.c libft/libft.h includes/error_checker.h includes/minishell.H
+%.o : %.c lib/libft/libft.h includes/error_checker.h includes/minishell.h includes/tokenizer.h includes/helper.h
 	$(CC) $(CFLAGS) -c $< -o $@
 
 
