@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 20:07:49 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/03/21 20:09:19 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/03/21 22:43:38 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,26 @@ void	ft_token_add_back(t_token **lst, t_token *new)
 		}
 		l->next = new;
 	}
+}
+
+void	ft_token_lstclear(t_token **lst, void (*del)(void*))
+{
+	t_token	*l;
+	void	*tmp;
+
+	if (!lst || !del)
+		return ;
+	if (*lst == NULL)
+		return ;
+	l = *lst;
+	while (l)
+	{
+		del(l->val);
+		tmp = l->next;
+		free(l);
+		l = tmp;
+	}
+	*lst = NULL;
 }
 
 int	add_token(t_token **head, char *start_ptr, int len, t_token_type type)
