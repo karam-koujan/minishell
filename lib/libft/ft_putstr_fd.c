@@ -1,24 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_putstr_fd.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/10 21:36:09 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/03/21 20:25:46 by kkoujan          ###   ########.fr       */
+/*   Created: 2024/10/28 09:49:27 by kkoujan           #+#    #+#             */
+/*   Updated: 2024/10/28 10:00:08 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "libft.h"
 
-# include <stdio.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <stdlib.h>
-# include "../lib/libft/libft.h"
-# include "./error_checker.h"
-# include "./tokenizer.h"
-
-#endif
+void	ft_putstr_fd(char *s, int fd)
+{
+	if (s != NULL)
+		write(fd, s, ft_strlen(s));
+}

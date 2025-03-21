@@ -1,24 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   helper.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/10 21:36:09 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/03/21 20:25:46 by kkoujan          ###   ########.fr       */
+/*   Created: 2025/03/21 20:23:00 by kkoujan           #+#    #+#             */
+/*   Updated: 2025/03/21 20:25:12 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#ifndef HELPER_H
+# define HELPER_H
 
-# include <stdio.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <stdlib.h>
-# include "../lib/libft/libft.h"
-# include "./error_checker.h"
-# include "./tokenizer.h"
+int	is_escaped(char *str);
+int	is_whitespace(char c);
 
 #endif

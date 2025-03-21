@@ -1,24 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/10 21:36:09 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/03/21 20:25:46 by kkoujan          ###   ########.fr       */
+/*   Created: 2024/10/24 21:27:01 by kkoujan           #+#    #+#             */
+/*   Updated: 2024/11/09 11:19:16 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "libft.h"
 
-# include <stdio.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <stdlib.h>
-# include "../lib/libft/libft.h"
-# include "./error_checker.h"
-# include "./tokenizer.h"
+void	*ft_calloc(size_t nmemb, size_t size)
+{
+	size_t	i;
+	void	*ptr;
 
-#endif
+	i = 0;
+	if (nmemb == 0 || size == 0)
+		return (malloc(0));
+	if (size != 0 && nmemb > SIZE_MAX / size)
+		return (NULL);
+	ptr = malloc(nmemb * size);
+	if (ptr == NULL)
+	{
+		return (NULL);
+	}
+	ft_memset(ptr, 0, nmemb * size);
+	return ((void *)ptr);
+}

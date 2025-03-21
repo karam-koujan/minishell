@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 21:28:03 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/03/20 20:08:26 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/03/21 20:30:40 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	has_misplaced_pipes(char *cmd)
 				pipe = 1;
 			if (ft_strchr("<>", cmd[i]) != NULL && pipe != 0)
 				return ((int)cmd[i]);
-			if (cmd[i] != '|' && !is_space(cmd[i]) && \
+			if (cmd[i] != '|' && !is_whitespace(cmd[i]) && \
 				ft_strchr("<>", cmd[i]) == NULL)
 				pipe = 0;
 		}
@@ -77,7 +77,7 @@ int	has_invalid_redir(char *cmd)
 			if (detect_invalid_redir(cmd, &redirfor, &redirback, i) != 0)
 				return (detect_invalid_redir(cmd, &redirfor, &redirback, i));
 			increment_redir(cmd[i], &redirfor, &redirback);
-			if ((cmd[i] != '<' && cmd[i] != '>') && !is_space(cmd[i]) && \
+			if ((cmd[i] != '<' && cmd[i] != '>') && !is_whitespace(cmd[i]) && \
 			ft_strchr("|", cmd[i]) == NULL)
 			{
 				redirback = 0;

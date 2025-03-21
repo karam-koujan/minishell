@@ -1,24 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   helper.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/10 21:36:09 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/03/21 20:25:46 by kkoujan          ###   ########.fr       */
+/*   Created: 2025/03/21 20:21:40 by kkoujan           #+#    #+#             */
+/*   Updated: 2025/03/21 20:24:07 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+int	is_escaped(char *str)
+{
+	int	count;
 
-# include <stdio.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <stdlib.h>
-# include "../lib/libft/libft.h"
-# include "./error_checker.h"
-# include "./tokenizer.h"
+	count = 0;
+	str = str + 1;
+	while (*str && *str == '\\')
+	{
+		str = str + 1;
+		count++;
+	}
+	return (count % 2 != 0);
+}
 
-#endif
+int	is_whitespace(char c)
+{
+	return ((c >= 9 && c <= 13) || c == 32);
+}

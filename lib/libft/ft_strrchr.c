@@ -1,24 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/03/10 21:36:09 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/03/21 20:25:46 by kkoujan          ###   ########.fr       */
+/*   Created: 2024/10/24 09:57:19 by kkoujan           #+#    #+#             */
+/*   Updated: 2024/10/31 17:35:34 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "libft.h"
 
-# include <stdio.h>
-# include <readline/readline.h>
-# include <readline/history.h>
-# include <stdlib.h>
-# include "../lib/libft/libft.h"
-# include "./error_checker.h"
-# include "./tokenizer.h"
+char	*ft_strrchr(const char *s, int c)
+{
+	int		i;
+	char	*p;
 
-#endif
+	p = (char *)s;
+	c = (char)c;
+	i = ft_strlen(s);
+	while (i > 0)
+	{
+		if (p[i] == c)
+		{
+			return (&p[i]);
+		}
+		i--;
+	}
+	if (*p == c)
+	{
+		return (p);
+	}
+	return (NULL);
+}

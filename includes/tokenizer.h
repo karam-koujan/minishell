@@ -6,14 +6,15 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 23:42:33 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/03/21 20:15:39 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/03/21 20:26:33 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef TOKENIZER_H
 # define TOKENIZER_H
 
-# include "../libft/libft.h"
+# include "../lib/libft/libft.h"
+# include "../includes/helper.h"
 # include <stdlib.h>
 # include <stdio.h>
 

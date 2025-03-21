@@ -6,16 +6,11 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 23:13:00 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/03/21 00:40:04 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/03/21 20:30:40 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/error_checker.h"
-
-int	is_space(char c)
-{
-	return ((c >= 9 && c <= 13) || c == 32);
-}
 
 void	increment_redir(char c, int *redirfor, int *redirback)
 {
@@ -53,9 +48,9 @@ int	check_edges(char	*cmd, char	*charset)
 
 	i = 0;
 	j = ft_strlen(cmd) - 1;
-	while (cmd[i] && is_space(cmd[i]))
+	while (cmd[i] && is_whitespace(cmd[i]))
 		i++;
-	while (j >= 0 && is_space(cmd[j]))
+	while (j >= 0 && is_whitespace(cmd[j]))
 		j--;
 
 	if (ft_strchr(charset, cmd[i]) != NULL)
@@ -74,9 +69,9 @@ int	detect_invalid_redir(char *cmd, int *redirfor, int *redirback, int i)
 	rb = *redirback;
 	if (cmd[i] == '>' && (rf >= 2 || rb != 0))
 		return ((int)cmd[i]);
-	if (i > 0 && cmd[i] == '>' && is_space(cmd[i - 1]) && rf > 0)
+	if (i > 0 && cmd[i] == '>' && is_whitespace(cmd[i - 1]) && rf > 0)
 		return ((int)cmd[i]);
-	if (i > 0 && cmd[i] == '<' && is_space(cmd[i - 1]) && rb > 0)
+	if (i > 0 && cmd[i] == '<' && is_whitespace(cmd[i - 1]) && rb > 0)
 		return ((int)cmd[i]);
 	if (ft_strchr("|", cmd[i]) != NULL && (rf != 0 \
 	|| rb != 0))
