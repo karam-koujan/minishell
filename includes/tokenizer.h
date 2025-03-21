@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 23:42:33 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/03/21 20:37:11 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/03/21 22:19:15 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ typedef enum e_token_type
 	WORD_T,
 	HERDOC_T,
 	APPEND_T,
-	VAR_T
+	VAR_T,
+	SP_T
 }			t_token_type;
 
 typedef struct s_token

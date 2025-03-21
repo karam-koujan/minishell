@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 23:42:20 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/03/21 20:36:34 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/03/21 22:27:21 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,6 @@ int	handle_single_quote(char *cmd, t_token **head)
 	return (len + 1);
 }
 
-
-
-
 int	handle_word(char *cmd, t_token **head)
 {
 	int		len;
@@ -100,6 +97,29 @@ int	handle_word(char *cmd, t_token **head)
 	return (offset);
 }
 
+int	handle_whitespace(char *cmd, t_token **head)
+{
+	int		len;
+	char	*start;
+	int		offset;
+
+	len = 0;
+	start = cmd;
+	offset = 0;
+	while (cmd[offset] && is_whitespace(cmd[offset]))
+		offset++;
+	while (cmd[len++])
+	{
+		if (!is_whitespace(cmd[len]))
+			break ;
+	}
+	// if (len == 1)
+	// 	len++;
+	if (add_token(head, start, len, SP_T) == 0)
+		return (-1);
+	return (offset);
+}
+
 int	handle_cmd(char *cmd, t_token **head)
 {
 	if (*cmd == '$' && (is_var_spchar(cmd[1]) || ft_isalpha(cmd[1])))
@@ -112,6 +132,8 @@ int	handle_cmd(char *cmd, t_token **head)
 		return (handle_double_quote(cmd, head));
 	if (*cmd && !is_whitespace(*cmd))
 		return (handle_word(cmd, head));
+	if (*cmd && is_whitespace(*cmd))
+		return (handle_whitespace(cmd, head));
 	return (0);
 }
 
