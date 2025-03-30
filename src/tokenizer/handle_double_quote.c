@@ -17,10 +17,8 @@
 int	double_quote_len(char *cmd)
 {
 	int		offset;
-	char	*start;
 
 	offset = 1;
-	start = cmd + 1;
 	while (cmd[offset] && (cmd[offset] != '\"' || \
 		(cmd[offset] == '\"' && is_escaped(cmd + offset))))
 		offset++;
