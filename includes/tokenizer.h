@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kkoujan <kkoujan@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 23:42:33 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/03/21 22:59:29 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/03/31 03:10:03 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,5 +54,7 @@ int		handle_var(char *cmd, t_token **head);
 void	ft_token_lstclear(t_token **lst, void (*del)(void*));
 int		handle_whitespace(char *cmd, t_token **head);
 int		handle_word(char *cmd, t_token **head);
+char	*join_cmd(char *cmd);
+t_token	*handle_tokenizer(t_token **tokenlst);
 
 #endif
