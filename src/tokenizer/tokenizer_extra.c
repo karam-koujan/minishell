@@ -6,25 +6,24 @@
 /*   By: kkoujan <kkoujan@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 03:07:06 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/03/31 03:08:21 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/03/31 03:35:22 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/tokenizer.h"
 
-char	*join_cmd(char *cmd)
+int str_concat_len(char *cmd)
 {
-	int	i;
-	int	counter;
-	char	*str;
-	char	quote_char;
-	int	in_quote;
+	int	    i;
+	int	    counter;
+	char    quote_char;
+	int	    in_quote;
 
 	counter = 0;
-	i = 0;
+	i = -1;
 	in_quote = 0;
 	quote_char = 0;	
-	while (cmd[i])
+	while (cmd[++i])
 	{
 		if (!in_quote && (cmd[i] == '\'' || cmd[i] == '\"'))
 		{
@@ -38,17 +37,21 @@ char	*join_cmd(char *cmd)
 		}
 		else
 			counter++;
-		i++;
 	}
-	str = malloc((counter + 1) * sizeof(char));
-	if (str == NULL)
-		return (NULL);
-	counter = 0;
-	i = 0;
+    return (counter);
+}
+
+char *concat_str(char *cmd, char *str ,int len)
+{
+	int	i;
+	char	quote_char;
+	int	in_quote;
+
+	i = -1;
 	in_quote = 0;
-	quote_char = 0;
-	
-	while (cmd[i])
+	quote_char = 0;	
+	len = 0;
+	while (cmd[++i])
 	{
 		if (!in_quote && (cmd[i] == '\'' || cmd[i] == '\"'))
 		{
@@ -61,10 +64,24 @@ char	*join_cmd(char *cmd)
 			quote_char = 0;
 		}
 		else
-			str[counter++] = cmd[i];
-		i++;
+			str[len++] = cmd[i];
 	}
-	str[counter] = '\0';
+	str[len] = '\0';
+	return (str);
+}
+
+char *join_cmd(char *cmd)
+{
+	int	len;
+	char	*str;
+
+	len = str_concat_len(cmd);
+	str = malloc((len + 1) * sizeof(char));
+	if (str == NULL)
+		return (NULL);
+    str = concat_str(cmd, str, len);
+	if (str == NULL)
+		return (NULL);
 	return (str);
 }
 
