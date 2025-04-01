@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_double_quote.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kkoujan <kkoujan@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 19:59:35 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/03/21 20:35:20 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/04/01 16:36:23 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	double_quote_len(char *cmd)
 
 	offset = 1;
 	while (cmd[offset] && (cmd[offset] != '\"' || \
-		(cmd[offset] == '\"' && is_escaped(cmd + offset))))
+		(cmd[offset] == '\"')))
 		offset++;
 
 	return (offset);
@@ -34,7 +34,7 @@ int	loop_double_quote(char **cmd_ptr, t_token **head, char **start, int *len)
 	cmd = *cmd_ptr + 1;
 	*start = *start + 1;
 	while (cmd[*len] && (cmd[*len] != '\"' || \
-		(cmd[*len] == '\"' && is_escaped(cmd + *len))))
+		(cmd[*len] == '\"')))
 	{
 		if (cmd[*len] == '$' && (is_var_spchar(cmd[*len + 1]) || \
 		ft_isalpha(cmd[*len + 1])))

@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   helper.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kkoujan <kkoujan@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 20:23:00 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/03/21 20:25:12 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/04/01 16:34:36 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef HELPER_H
 # define HELPER_H
 
-int	is_escaped(char *str);
 int	is_whitespace(char c);
 
 #endif

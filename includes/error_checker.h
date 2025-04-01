@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_checker.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kkoujan <kkoujan@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 21:29:10 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/03/21 20:28:27 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/04/01 16:34:40 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,5 @@ void    increment_redir(char c, int *redirfor, int *redirback);
 int		in_quotes(char *cmd, int pos);
 int		check_edges(char	*cmd, char	*charset);
 int		detect_invalid_redir(char *cmd, int *redirfor, int *redirback, int i);
-int     is_escaped(char *str);
 
 #endif

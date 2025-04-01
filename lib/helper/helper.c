@@ -3,26 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   helper.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kkoujan <kkoujan@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 20:21:40 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/03/21 20:24:07 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/04/01 16:34:52 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-int	is_escaped(char *str)
-{
-	int	count;
-
-	count = 0;
-	str = str + 1;
-	while (*str && *str == '\\')
-	{
-		str = str + 1;
-		count++;
-	}
-	return (count % 2 != 0);
-}
 
 int	is_whitespace(char c)
 {

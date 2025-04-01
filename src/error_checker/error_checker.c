@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 21:28:03 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/03/30 18:35:35 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/04/01 16:35:08 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ int	has_unclosed_quotes(char *cmd)
 	is_single_quote = 0;
 	while (cmd[++i])
 	{
-		if (cmd[i] == '\'' && !is_escaped(cmd + i) && is_double_quote == 0)
+		if (cmd[i] == '\'' && is_double_quote == 0)
 			is_single_quote = !is_single_quote;
-		else if (cmd[i] == '"' && !is_escaped(cmd + i) && is_single_quote == 0)
+		else if (cmd[i] == '"' && is_single_quote == 0)
 			is_double_quote = !is_double_quote;
 	}
 	return ((is_double_quote || is_single_quote));

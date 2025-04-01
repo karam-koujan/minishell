@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_checker_helper.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kkoujan <kkoujan@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 23:13:00 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/03/21 20:30:40 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/04/01 16:34:26 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ int	in_quotes(char *cmd, int pos)
 	double_q = 0;
 	while (i < pos && cmd[i])
 	{
-		if (cmd[i] == '\'' && is_escaped(cmd + i) && !double_q)
+		if (cmd[i] == '\'' && !double_q)
 			single_q = !single_q;
-		else if (cmd[i] == '"' && is_escaped(cmd + i) && !single_q)
+		else if (cmd[i] == '"' && !single_q)
 			double_q = !double_q;
 		i++;
 	}
