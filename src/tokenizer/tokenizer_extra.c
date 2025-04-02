@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 03:07:06 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/03/31 03:35:22 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/04/02 06:51:22 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ char *concat_str(char *cmd, char *str ,int len)
 	return (str);
 }
 
-char *join_cmd(char *cmd)
+char *remove_quotes(char *cmd)
 {
 	int	len;
 	char	*str;
@@ -85,6 +85,64 @@ char *join_cmd(char *cmd)
 	return (str);
 }
 
+char	*process_word_tokens(t_token *lst, t_token **next_ptr)
+{
+	t_token	*curr;
+	t_token	*next_node;
+	char	*val;
+	char	*tmp;
+
+	curr = lst->next;
+	val = ft_strdup(lst->val);
+	if (!val)
+		return (NULL);
+	while (curr && curr->type == WORD_T)
+	{
+		tmp = val;
+		val = ft_strjoin(tmp, curr->val);
+		free(tmp);
+		if (!val)
+			return (NULL);
+		next_node = curr;
+		curr = curr->next;
+		free(next_node->val);
+		free(next_node);
+	}
+	*next_ptr = curr;
+	return (val);
+}
+
+void	handle_word_token(t_token *lst, t_token **next_ptr)
+{
+	char	*val;
+
+	val = process_word_tokens(lst, next_ptr);
+	if (!val)
+		return ;
+	free(lst->val);
+	lst->val = val;
+	lst->next = *next_ptr;
+}
+
+void	join_cmd(t_token **tokenlst)
+{
+	t_token	*lst;
+	t_token	*next_token;
+
+	lst = *tokenlst;
+	next_token = NULL;
+	while (lst)
+	{
+		if (lst->type == WORD_T)
+		{
+			handle_word_token(lst, &next_token);
+			lst = next_token;
+		}
+		else
+			lst = lst->next;
+	}
+}
+
 t_token	*handle_tokenizer(t_token **tokenlst)
 {
 	t_token *lst;
@@ -95,14 +153,15 @@ t_token	*handle_tokenizer(t_token **tokenlst)
 	{
 		if (lst->type == WORD_T)
 		{
-			val = join_cmd(lst->val);
+			val = remove_quotes(lst->val);
 			if (val == NULL)
-				return (NULL);
+			return (NULL);
 			free(lst->val);
 			lst->val = val;
 			val = NULL;
 		}
 		lst = lst->next;
 	}
+	join_cmd(tokenlst);
 	return *tokenlst;
 }
