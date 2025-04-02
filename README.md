@@ -45,6 +45,81 @@ Tokens are categorized into several types:
 - `APPEND_T`: Append redirection (`>>`)
 - `HERDOC_T`: Heredoc redirection (`<<`)
 
+## Command Structure
+
+The internal command representation uses the following structures:
+
+```c
+typedef enum e_redir_type {
+    REDIR_IN,      // < (input redirection)
+    REDIR_OUT,     // > (output redirection)
+    REDIR_APPEND,  // >> (append output redirection)
+    REDIR_HEREDOC  // << (here document)
+} t_redir_type;
+
+typedef struct s_redirection {
+    t_redir_type type;              // Type of redirection
+    char *file_or_delimiter;        // File name or heredoc delimiter
+    struct s_redirection *next;     // Pointer to next redirection
+} t_redirection;
+
+typedef struct s_simple_cmd {
+    char **args;           // Array of command arguments
+    int argc;              // Number of arguments
+    t_redirection *redirs; // Linked list of redirections
+} t_simple_cmd;
+
+typedef struct s_cmd_table {
+    t_simple_cmd **cmds;   // Array of simple commands
+    int cmd_count;         // Number of commands
+} t_cmd_table;
+```
+
+### Command Structure Examples
+
+**Example 1:** `echo -la "$var1" | wc -l > ts.txt`
+
+**Command Table:**
+- Command 1:
+  - Arguments: 'echo' '-la' '$var1_expanded'
+  - Redirections: None
+- Command 2:
+  - Arguments: 'wc' '-l'
+  - Redirections: 
+    - Type: REDIR_OUT (>)
+    - File: "ts.txt"
+
+**Example 2:** `cat < input.txt | grep hello > output.txt`
+
+**Command Table:**
+- Command 1:
+  - Arguments: 'cat'
+  - Redirections:
+    - Type: REDIR_IN (<)
+    - File: "input.txt"
+- Command 2:
+  - Arguments: 'grep' 'hello'
+  - Redirections:
+    - Type: REDIR_OUT (>)
+    - File: "output.txt"
+
+**Example 3:** `cat << EOF | sort | uniq > unique.txt`
+
+**Command Table:**
+- Command 1:
+  - Arguments: 'cat'
+  - Redirections:
+    - Type: REDIR_HEREDOC (<<)
+    - Delimiter: "EOF"
+- Command 2:
+  - Arguments: 'sort'
+  - Redirections: None
+- Command 3:
+  - Arguments: 'uniq'
+  - Redirections:
+    - Type: REDIR_OUT (>)
+    - File: "unique.txt"
+
 ## Key Functions
 
 ### Main Program (`main.c`)
@@ -211,4 +286,3 @@ Most handler functions return the number of characters processed, which is used 
 - Return `-1`: Error in processing
 - Return `0`: No characters processed
 - Return `>0`: Number of characters processed
-
