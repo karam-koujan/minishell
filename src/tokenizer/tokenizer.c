@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 23:42:20 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/04/01 16:36:06 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/04/01 17:39:45 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,7 @@ int	handle_var(char *cmd, t_token **head)
 	{
 		if (cmd[i] == '_')
 			continue ;
-		if (is_whitespace(cmd[i]) || !ft_isalnum(cmd[i]) \
-			|| (cmd[i] == '$' && i > 1))
+		if (is_whitespace(cmd[i]) || !ft_isalnum(cmd[i]))
 			break ;
 	}
 	if (i == 1)
@@ -66,8 +65,7 @@ int	handle_single_quote(char *cmd, t_token **head)
 	len = 1;
 	start = cmd + 1;
 
-	while (cmd[len] && (cmd[len] != '\'' || \
-		(cmd[len] == '\'')))
+	while (cmd[len] && cmd[len] != '\'')
 		len++;
 	if (add_token(head, start, len - 1, WORD_T) == 0)
 		return (-1);

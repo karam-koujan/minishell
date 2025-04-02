@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 20:14:14 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/04/01 16:32:26 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/04/02 04:48:33 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,25 +19,24 @@ int	is_var_spchar(char c)
 	return (0);
 }
 
+int	is_var(char	*cmd, int idx)
+{
+	return ((cmd[idx] == '$' && cmd[idx + 1] && (is_var_spchar(cmd[idx + 1]) || ft_isalpha(cmd[idx + 1]))));
+}
 int	handle_word(char *cmd, t_token **head)
 {
-	int		len;
 	char	*start;
 	int		offset;
 
-	len = 0;
 	start = cmd;
 	offset = 0;
-	while (cmd[offset] && !is_whitespace(cmd[offset]) && cmd[offset] != '$')
-		offset++;
-	while (cmd[len++])
+	while (cmd[offset] && !is_var(cmd, offset))
 	{
-		if (is_whitespace(cmd[len]) || cmd[len] == '$')
-			break ;
+		if (is_whitespace(cmd[offset]))
+			break;
+		offset++;
 	}
-	if (len == 1)
-		len++;
-	if (add_token(head, start, len, WORD_T) == 0)
+	if (add_token(head, start, offset, WORD_T) == 0)
 		return (-1);
 	return (offset);
 }
