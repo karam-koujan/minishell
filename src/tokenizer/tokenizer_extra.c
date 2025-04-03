@@ -6,23 +6,23 @@
 /*   By: kkoujan <kkoujan@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 03:07:06 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/04/02 06:51:22 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/04/03 12:30:25 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/tokenizer.h"
 
-int str_concat_len(char *cmd)
+int	str_concat_len(char *cmd)
 {
-	int	    i;
-	int	    counter;
-	char    quote_char;
-	int	    in_quote;
+	int		i;
+	int		counter;
+	char	quote_char;
+	int		in_quote;
 
 	counter = 0;
 	i = -1;
 	in_quote = 0;
-	quote_char = 0;	
+	quote_char = 0;
 	while (cmd[++i])
 	{
 		if (!in_quote && (cmd[i] == '\'' || cmd[i] == '\"'))
@@ -38,18 +38,18 @@ int str_concat_len(char *cmd)
 		else
 			counter++;
 	}
-    return (counter);
+	return (counter);
 }
 
-char *concat_str(char *cmd, char *str ,int len)
+char	*concat_str(char *cmd, char *str, int len)
 {
-	int	i;
+	int		i;
 	char	quote_char;
-	int	in_quote;
+	int		in_quote;
 
 	i = -1;
 	in_quote = 0;
-	quote_char = 0;	
+	quote_char = 0;
 	len = 0;
 	while (cmd[++i])
 	{
@@ -70,16 +70,16 @@ char *concat_str(char *cmd, char *str ,int len)
 	return (str);
 }
 
-char *remove_quotes(char *cmd)
+char	*remove_quotes(char *cmd)
 {
-	int	len;
+	int		len;
 	char	*str;
 
 	len = str_concat_len(cmd);
 	str = malloc((len + 1) * sizeof(char));
 	if (str == NULL)
 		return (NULL);
-    str = concat_str(cmd, str, len);
+	str = concat_str(cmd, str, len);
 	if (str == NULL)
 		return (NULL);
 	return (str);
@@ -122,46 +122,4 @@ void	handle_word_token(t_token *lst, t_token **next_ptr)
 	free(lst->val);
 	lst->val = val;
 	lst->next = *next_ptr;
-}
-
-void	join_cmd(t_token **tokenlst)
-{
-	t_token	*lst;
-	t_token	*next_token;
-
-	lst = *tokenlst;
-	next_token = NULL;
-	while (lst)
-	{
-		if (lst->type == WORD_T)
-		{
-			handle_word_token(lst, &next_token);
-			lst = next_token;
-		}
-		else
-			lst = lst->next;
-	}
-}
-
-t_token	*handle_tokenizer(t_token **tokenlst)
-{
-	t_token *lst;
-	char	*val;
-
-	lst = *tokenlst;
-	while (lst)
-	{
-		if (lst->type == WORD_T)
-		{
-			val = remove_quotes(lst->val);
-			if (val == NULL)
-			return (NULL);
-			free(lst->val);
-			lst->val = val;
-			val = NULL;
-		}
-		lst = lst->next;
-	}
-	join_cmd(tokenlst);
-	return *tokenlst;
 }

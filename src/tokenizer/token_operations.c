@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_operations.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kkoujan <kkoujan@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 20:07:49 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/03/21 22:43:38 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/04/03 12:22:49 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,29 @@ void	ft_token_add_back(t_token **lst, t_token *new)
 		}
 		l->next = new;
 	}
+}
+
+t_token	*handle_tokenizer(t_token **tokenlst)
+{
+	t_token	*lst;
+	char	*val;
+
+	lst = *tokenlst;
+	while (lst)
+	{
+		if (lst->type == WORD_T)
+		{
+			val = remove_quotes(lst->val);
+			if (val == NULL)
+				return (NULL);
+			free(lst->val);
+			lst->val = val;
+			val = NULL;
+		}
+		lst = lst->next;
+	}
+	join_cmd(tokenlst);
+	return (*tokenlst);
 }
 
 void	ft_token_lstclear(t_token **lst, void (*del)(void*))
