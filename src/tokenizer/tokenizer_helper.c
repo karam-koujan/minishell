@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 20:14:14 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/04/03 12:28:57 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/04/03 13:01:38 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ int	handle_whitespace(char *cmd, t_token **head)
 		return (-1);
 	return (offset);
 }
-
 
 void	join_cmd(t_token **tokenlst)
 {

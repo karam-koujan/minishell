@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 23:42:33 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/04/02 05:53:28 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/04/03 13:03:54 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,5 +56,8 @@ int		handle_whitespace(char *cmd, t_token **head);
 int		handle_word(char *cmd, t_token **head);
 char	*remove_quotes(char *cmd);
 t_token	*handle_tokenizer(t_token **tokenlst);
+
+void	join_cmd(t_token **tokenlst);
+void	handle_word_token(t_token *lst, t_token **next_ptr);
 
 #endif
