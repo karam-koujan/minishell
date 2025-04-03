@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 03:09:20 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/04/03 13:00:15 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/04/03 13:22:54 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,30 @@ t_token	*parse_redir(t_simple_cmd **cmd, t_token *token)
 	return (token);
 }
 
+t_token	*parse_token(t_cmd_table **cmd_table, \
+	t_simple_cmd **simple_cmd, t_token *token)
+{
+	if (token->type == WORD_T)
+	{
+		token = parse_word(simple_cmd, token);
+		if (!token)
+			return (NULL);
+	}
+	else if (token->type == APPEND_T || token->type == HERDOC_T \
+		|| token->type == REDIR_B_T || token->type == REDIR_F_T)
+	{
+		token = parse_redir(simple_cmd, token);
+		if (!token)
+			return (NULL);
+	}
+	else if (token->type == PIPE_T)
+	{
+		add_cmd_to_table(*cmd_table, *simple_cmd);
+		*simple_cmd = NULL;
+	}
+	return (token->next);
+}
+
 t_cmd_table	*parse(t_token *tokenlst)
 {
 	t_token			*token;
@@ -73,27 +97,7 @@ t_cmd_table	*parse(t_token *tokenlst)
 	cmd_table = create_command_table();
 	simple_cmd = NULL;
 	while (token)
-	{
-		if (token->type == WORD_T)
-		{
-			token = parse_word(&simple_cmd, token);
-			if (!token)
-				return (NULL);
-		}
-		else if (token->type == APPEND_T || token->type == HERDOC_T \
-			|| token->type == REDIR_B_T || token->type == REDIR_F_T)
-		{
-			token = parse_redir(&simple_cmd, token);
-			if (!token)
-				return (NULL);
-		}
-		else if (token->type == PIPE_T)
-		{
-			add_cmd_to_table(cmd_table, simple_cmd);
-			simple_cmd = NULL;
-		}
-		token = token->next;
-	}
+		token = parse_token(&cmd_table, &simple_cmd, token);
 	if (simple_cmd != NULL)
 		add_cmd_to_table(cmd_table, simple_cmd);
 	return (cmd_table);
