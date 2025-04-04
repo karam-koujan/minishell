@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 03:09:20 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/04/03 13:22:54 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/04/04 12:48:15 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ void	add_cmd_to_table(t_cmd_table *cmd_table, t_simple_cmd *cmd)
 		new_cmds[i] = cmd_table->cmds[i];
 	new_cmds[i] = cmd;
 	new_cmds[++i] = NULL;
+	free(cmd_table->cmds);
 	cmd_table->cmds = new_cmds;
 	cmd_table->cmd_count = cmd_c + 1;
 }

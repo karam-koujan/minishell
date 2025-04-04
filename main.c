@@ -97,28 +97,38 @@ void print_cmd_table(t_cmd_table *cmd_table)
         i++;
     }
 }
+void	handler(int signum)
+{
+	if (signum == SIGINT)
+		printf("\n");
+}
 int main()
 {
-	char    *cmd;
-	t_token	*token_head;
-	t_cmd_table *cmd_table;
+	char		*cmd;
+	t_token		*token_head;
+	t_cmd_table	*cmd_table;
+
+	signal(SIGINT, handler);
 	while (1337)
 	{
-	cmd = readline("minishell$ ");
-	if (!cmd || !*cmd)
-		return (0);
-    add_history(cmd);
-	if (!syntax_error(cmd))
-    {
-        continue;
-        free(cmd);
-    }
-	token_head = tokenize(cmd);
-	print_token_list(token_head);
-	cmd_table = parse(token_head);
-	print_cmd_table(cmd_table);
-	add_history(cmd);
-	free(cmd);
-	ft_token_lstclear(&token_head, free);
+		cmd = readline("minishell$ ");
+		if (!cmd || !*cmd)
+			return (0);
+		add_history(cmd);
+		if (!syntax_error(cmd))
+		{
+			continue ;
+			free(cmd);
+		}
+		token_head = tokenize(cmd);
+		print_token_list(token_head);
+		cmd_table = parse(token_head);
+		print_cmd_table(cmd_table);
+		add_history(cmd);
+		free(cmd);
+		ft_token_lstclear(&token_head, free);
+		free_table(cmd_table);
+		token_head = NULL;
+		cmd_table = NULL;
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 12:31:27 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/04/03 12:56:13 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/04/04 12:43:57 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,11 @@ void	add_arg_to_cmd(t_simple_cmd *cmd, char *arg)
 		return ;
 	while (++i < arg_c)
 		new_arg[i] = cmd->args[i];
-	new_arg[i] = arg;
+	new_arg[i] = ft_strdup(arg);
+	if (!new_arg[i])
+		return (free(new_arg));
 	new_arg[++i] = NULL;
+	free(cmd->args);
 	cmd->args = new_arg;
 	cmd->argc = arg_c + 1;
 }

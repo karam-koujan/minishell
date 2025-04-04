@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 03:08:32 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/03/30 18:25:48 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/04/04 11:14:12 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,14 +42,15 @@ typedef struct s_cmd_table {
 t_cmd_table *parse(t_token *tokenlst);
 t_token *parse_redir(t_simple_cmd **cmd,t_token *token);
 t_token *parse_word(t_simple_cmd **cmd,t_token *token);
-void add_cmd_to_table(t_cmd_table *cmd_table, t_simple_cmd *cmd);
-void add_arg_to_cmd(t_simple_cmd *cmd, char *arg);
-void add_redir_to_cmd(t_simple_cmd *cmd, t_redirection *redir);
+void	add_cmd_to_table(t_cmd_table *cmd_table, t_simple_cmd *cmd);
+void	add_arg_to_cmd(t_simple_cmd *cmd, char *arg);
+void	add_redir_to_cmd(t_simple_cmd *cmd, t_redirection *redir);
 t_cmd_table *create_command_table();
 t_simple_cmd *create_simple_cmd();
 t_redirection *create_redirection(t_redir_type type, char *file_or_delimiter);
-
-
+void	free_table(t_cmd_table *cmd_table);
+void	free_simple_cmd(t_simple_cmd *cmd);
+void	free_redirections(t_redirection *redirs);
 
 
 #endif
