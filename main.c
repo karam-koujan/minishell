@@ -99,6 +99,8 @@ void	handler(int signum)
 {
 	if (signum == SIGINT)
 		printf("\n");
+	if (signum == SIGQUIT)
+		return ;
 }
 int main()
 {
@@ -107,11 +109,14 @@ int main()
 	t_cmd_table	*cmd_table;
 
 	signal(SIGINT, handler);
+	signal(SIGQUIT, SIG_IGN);
 	while (1337)
 	{
 		cmd = readline("minishell$ ");
 		if (!cmd || !*cmd)
 			return (free(cmd), 0);
+		if (ft_strlen(cmd) == 1 && cmd[0] == 4)
+			return (0);
 		add_history(cmd);
 		if (!syntax_error(cmd))
 		{
