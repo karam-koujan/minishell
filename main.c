@@ -121,19 +121,22 @@ int main()
 	{
 		cmd = readline("minishell$ ");
 		if (!cmd || !*cmd)
-			return (free(cmd), 0);
+			return (free(cmd), rl_clear_history(), 0);
 		if (ft_strlen(cmd) == 1 && cmd[0] == 4)
 			return (0);
 		add_history(cmd);
 		if (!syntax_error(cmd))
 		{
 			free(cmd);
-			rl_clear_history();
 			continue ;
 		}
 		token_head = tokenize(cmd);
+		if (!token_head)
+			return (free(cmd), rl_clear_history(), 1);
 		print_token_list(token_head);
 		cmd_table = parse(token_head);
+		if (!cmd_table)
+			return (free(cmd), rl_clear_history(), 1);
 		print_cmd_table(cmd_table);
 		free(cmd);
 		ft_token_lstclear(&token_head, free);
