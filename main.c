@@ -136,7 +136,8 @@ int main()
 		print_token_list(token_head);
 		cmd_table = parse(token_head);
 		if (!cmd_table)
-			return (free(cmd), rl_clear_history(), 1);
+			return (free(cmd), rl_clear_history(), \
+			ft_token_lstclear(&token_head, free), 1);
 		print_cmd_table(cmd_table);
 		free(cmd);
 		ft_token_lstclear(&token_head, free);
