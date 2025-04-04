@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 20:14:14 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/04/03 13:01:38 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/04/04 15:12:08 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ int	handle_word(char *cmd, t_token **head)
 	while (cmd[offset] && !is_var(cmd, offset))
 	{
 		if (is_whitespace(cmd[offset]) || cmd[offset] == '>' || \
-			cmd[offset] == '<' || cmd[offset] == '|')
+			cmd[offset] == '<' || cmd[offset] == '|' || cmd[offset] == '"' \
+			|| cmd[offset] == '\'')
 			break ;
 		offset++;
 	}

@@ -102,6 +102,7 @@ void	handler(int signum)
 	if (signum == SIGQUIT)
 		return ;
 }
+
 int main()
 {
 	char		*cmd;

@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 20:07:49 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/04/04 13:03:45 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/04/04 15:32:02 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,23 +48,6 @@ void	ft_token_add_back(t_token **lst, t_token *new)
 
 t_token	*handle_tokenizer(t_token **tokenlst)
 {
-	t_token	*lst;
-	char	*val;
-
-	lst = *tokenlst;
-	while (lst)
-	{
-		if (lst->type == WORD_T)
-		{
-			val = remove_quotes(lst->val);
-			if (val == NULL)
-				return (NULL);
-			free(lst->val);
-			lst->val = val;
-			val = NULL;
-		}
-		lst = lst->next;
-	}
 	join_cmd(tokenlst);
 	return (*tokenlst);
 }

@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 23:42:20 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/04/03 12:16:03 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/04/04 15:28:54 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,4 +107,5 @@ t_token	*tokenize(char *cmd)
 			cmd++;
 	}
 	return (handle_tokenizer(&head));
+	// return (head);
 }

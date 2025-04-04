@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 03:07:06 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/04/03 12:30:25 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/04/04 15:17:43 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	str_concat_len(char *cmd)
 	quote_char = 0;
 	while (cmd[++i])
 	{
-		if (!in_quote && (cmd[i] == '\'' || cmd[i] == '\"'))
+		if (!in_quote && (cmd[i] == '\'' || cmd[i] == '"'))
 		{
 			in_quote = 1;
 			quote_char = cmd[i];
@@ -53,7 +53,7 @@ char	*concat_str(char *cmd, char *str, int len)
 	len = 0;
 	while (cmd[++i])
 	{
-		if (!in_quote && (cmd[i] == '\'' || cmd[i] == '\"'))
+		if (!in_quote && (cmd[i] == '\'' || cmd[i] == '"'))
 		{
 			in_quote = 1;
 			quote_char = cmd[i];
