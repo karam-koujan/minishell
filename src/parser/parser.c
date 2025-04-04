@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 03:09:20 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/04/04 12:48:15 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/04/04 13:09:39 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@ void	add_cmd_to_table(t_cmd_table *cmd_table, t_simple_cmd *cmd)
 	int				i;
 
 	i = -1;
+	if (!cmd_table || !cmd)
+		return ;
 	cmd_c = cmd_table->cmd_count;
 	new_cmds = malloc((cmd_c + 2) * sizeof(t_simple_cmd *));
 	if (!new_cmds)
@@ -96,6 +98,8 @@ t_cmd_table	*parse(t_token *tokenlst)
 
 	token = tokenlst;
 	cmd_table = create_command_table();
+	if (!cmd_table)
+		return (NULL);
 	simple_cmd = NULL;
 	while (token)
 		token = parse_token(&cmd_table, &simple_cmd, token);

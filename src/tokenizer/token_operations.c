@@ -6,12 +6,11 @@
 /*   By: kkoujan <kkoujan@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 20:07:49 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/04/03 12:22:49 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/04/04 13:03:45 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/tokenizer.h"
-
 
 t_token	*init_token(t_token_type type, char *val)
 {

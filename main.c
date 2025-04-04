@@ -1,8 +1,6 @@
 #include "./includes/minishell.h"
 #include <stdio.h>
 
-#include <stdio.h>
-
 void print_cmd_table(t_cmd_table *cmd_table)
 {
     int i;
