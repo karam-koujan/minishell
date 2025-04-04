@@ -1,6 +1,8 @@
 #include "./includes/minishell.h"
 #include <stdio.h>
 
+int	sigcode = 0;
+
 void print_cmd_table(t_cmd_table *cmd_table)
 {
     int i;
@@ -98,9 +100,13 @@ void print_cmd_table(t_cmd_table *cmd_table)
 void	handler(int signum)
 {
 	if (signum == SIGINT)
-		printf("\n");
-	if (signum == SIGQUIT)
-		return ;
+	{
+		write(1, "\n", 1);
+		rl_replace_line("", 0);
+		rl_on_new_line();
+		rl_redisplay();
+		sigcode = SIGINT;
+	}
 }
 
 int main()
@@ -122,6 +128,7 @@ int main()
 		if (!syntax_error(cmd))
 		{
 			free(cmd);
+			rl_clear_history();
 			continue ;
 		}
 		token_head = tokenize(cmd);
