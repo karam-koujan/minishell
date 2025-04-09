@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 03:09:20 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/04/09 17:33:08 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/04/09 17:55:25 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,7 @@ t_token	*parse_word(t_simple_cmd **cmd, t_token *token)
 		token = token->next;
 	}
 	add_arg_to_cmd(*cmd, value);
+	free(value);
 	return (token);
 }
 
