@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkoujan <kkoujan@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 03:09:20 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/04/04 13:09:39 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/04/09 17:33:08 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,29 @@ void	add_cmd_to_table(t_cmd_table *cmd_table, t_simple_cmd *cmd)
 
 t_token	*parse_word(t_simple_cmd **cmd, t_token *token)
 {
+	char	*value;
+	char	*prev;
+
+	prev = NULL;
+	value = token->val;
 	if (*cmd == NULL)
 		*cmd = create_simple_cmd();
 	if (*cmd == NULL)
 		return (NULL);
-	add_arg_to_cmd(*cmd, token->val);
+	while (token && (token->type == WORD_T || token->type == VAR_T))
+	{
+		if (token->type == VAR_T)
+			value = getenv(token->val);
+		else
+			value = token->val;
+		value = ft_strjoin(prev, value);
+		if (value == NULL)
+			return (free(prev), NULL);
+		free(prev);
+		prev = value;
+		token = token->next;
+	}
+	add_arg_to_cmd(*cmd, value);
 	return (token);
 }
 
@@ -70,6 +88,12 @@ t_token	*parse_token(t_cmd_table **cmd_table, \
 	t_simple_cmd **simple_cmd, t_token *token)
 {
 	if (token->type == WORD_T)
+	{
+		token = parse_word(simple_cmd, token);
+		if (!token)
+			return (NULL);
+	}
+	if (token->type == VAR_T)
 	{
 		token = parse_word(simple_cmd, token);
 		if (!token)
