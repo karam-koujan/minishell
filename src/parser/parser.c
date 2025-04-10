@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 03:09:20 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/04/09 18:15:12 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/04/10 10:40:02 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ t_token	*parse_redir(t_simple_cmd **cmd, t_token *token)
 	redir = create_redirection(redir_type, token->val);
 	if (redir == NULL || cmd == NULL)
 		return (NULL);
+	if (*cmd == NULL)
+		*cmd = create_simple_cmd();
 	add_redir_to_cmd(*cmd, redir);
 	return (token);
 }
