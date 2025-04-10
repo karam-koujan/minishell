@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 21:28:03 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/04/10 10:04:28 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/04/10 14:12:48 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,12 +120,13 @@ int	syntax_error(char	*cmd)
 	if (has_unclosed_quotes(cmd))
 		return (write(2, unclosed_quote_err, ft_strlen(unclosed_quote_err)), 0);
 	if (operator && write(2, operator_err, ft_strlen(operator_err)))
-		return (write(2, &operator, 1), write(2,"\n",1), 0);
+		return (write(2, "`", 1), write(2, &operator, 1), write(2, "'\n", 2), 0);
 	operator = has_misplaced_pipes(cmd);
 	if (operator && write(2, operator_err, ft_strlen(operator_err)))
-		return (write(2, &operator, 1), write(2,"\n",1), 0);
+		return (write(2, "`", 1), write(2, &operator, 1), write(2, "'\n", 2), 0);
 	operator = has_logical_op(cmd);
 	if (operator && write(2, log_op_err, ft_strlen(log_op_err)))
-		return (write(2, &operator, 1), write(2, &operator, 1), write(2,"\n",1), 0);
+		return (write(2, "`", 1), write(2, &operator, 1), \
+		write(2, &operator, 1), write(2, "'\n", 2), 0);
 	return (1);
 }
