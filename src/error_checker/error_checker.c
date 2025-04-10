@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   error_checker.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkoujan <kkoujan@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 21:28:03 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/04/01 16:35:08 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/04/10 10:04:28 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,10 +48,9 @@ int	has_misplaced_pipes(char *cmd)
 				return ((int)cmd[i]);
 			if (cmd[i] == '|' && pipe == 0)
 				pipe = 1;
-			if (ft_strchr("<>", cmd[i]) != NULL && pipe != 0)
-				return ((int)cmd[i]);
-			if (cmd[i] != '|' && !is_whitespace(cmd[i]) && \
-				ft_strchr("<>", cmd[i]) == NULL)
+			// if (ft_strchr("<>", cmd[i]) != NULL && pipe != 0)
+			// 	return ((int)cmd[i]);
+			if (cmd[i] != '|' && !is_whitespace(cmd[i]))
 				pipe = 0;
 		}
 	}
