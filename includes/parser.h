@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkoujan <kkoujan@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 03:08:32 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/04/04 11:14:12 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/04/16 12:05:44 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,5 @@ t_redirection *create_redirection(t_redir_type type, char *file_or_delimiter);
 void	free_table(t_cmd_table *cmd_table);
 void	free_simple_cmd(t_simple_cmd *cmd);
 void	free_redirections(t_redirection *redirs);
-
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 23:13:00 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/04/10 10:00:21 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/04/16 14:05:58 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	in_quotes(char *cmd, int pos)
 }
 
 
-int	check_edges(char	*cmd, char	*charset)
+int	check_edges(char	*cmd, char	*charset, int edge)
 {
 	int	i;
 	int	j;
@@ -53,9 +53,9 @@ int	check_edges(char	*cmd, char	*charset)
 	while (j >= 0 && is_whitespace(cmd[j]))
 		j--;
 
-	if (ft_strchr(charset, cmd[i]) != NULL)
+	if (ft_strchr(charset, cmd[i]) != NULL && (edge == 1 || edge == 0))
 		return ((int)cmd[i]);
-	if (ft_strchr(charset, cmd[j]) != NULL)
+	if (ft_strchr(charset, cmd[j]) != NULL && (edge == 2 || edge == 0))
 		return ((int)cmd[j]);
 	return (-i);
 }
