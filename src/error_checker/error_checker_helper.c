@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 23:13:00 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/04/16 14:05:58 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/04/16 15:12:26 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,9 +54,9 @@ int	check_edges(char	*cmd, char	*charset, int edge)
 		j--;
 
 	if (ft_strchr(charset, cmd[i]) != NULL && (edge == 1 || edge == 0))
-		return ((int)cmd[i]);
+		return (i);
 	if (ft_strchr(charset, cmd[j]) != NULL && (edge == 2 || edge == 0))
-		return ((int)cmd[j]);
+		return (j);
 	return (-i);
 }
 
@@ -68,15 +68,15 @@ int	detect_invalid_redir(char *cmd, int *redirfor, int *redirback, int i)
 	rf = *redirfor;
 	rb = *redirback;
 	if (cmd[i] == '>' && (rf >= 2 || rb != 0))
-		return ((int)cmd[i]);
+		return (i);
 	if (i > 0 && cmd[i] == '>' && is_whitespace(cmd[i - 1]) && rf > 0)
-		return ((int)cmd[i]);
+		return (i);
 	if (i > 0 && cmd[i] == '<' && is_whitespace(cmd[i - 1]) && rb > 0)
-		return ((int)cmd[i]);
+		return (i);
 	if (ft_strchr("|", cmd[i]) != NULL && (rf != 0 \
 	|| rb != 0))
-		return ((int)cmd[i]);
+		return (i);
 	if (cmd[i] == '<' && (rb >= 2 || rf != 0))
-		return ((int)cmd[i]);
-	return (0);
+		return (i);
+	return (-1);
 }
