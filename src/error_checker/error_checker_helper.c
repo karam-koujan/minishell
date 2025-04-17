@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 23:13:00 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/04/16 15:12:26 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/04/17 16:26:35 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	in_quotes(char *cmd, int pos)
 }
 
 
-int	check_edges(char	*cmd, char	*charset, int edge)
+int	check_edges(char	*cmd, char	*charset, int edge, int *flag)
 {
 	int	i;
 	int	j;
@@ -54,9 +54,17 @@ int	check_edges(char	*cmd, char	*charset, int edge)
 		j--;
 
 	if (ft_strchr(charset, cmd[i]) != NULL && (edge == 1 || edge == 0))
+	{
+		if (flag)
+			*flag = 1;
 		return (i);
+	}
 	if (ft_strchr(charset, cmd[j]) != NULL && (edge == 2 || edge == 0))
+	{
+		if (flag)
+			*flag = 1;
 		return (j);
+	}	
 	return (-i);
 }
 
@@ -79,4 +87,21 @@ int	detect_invalid_redir(char *cmd, int *redirfor, int *redirback, int i)
 	if (cmd[i] == '<' && (rb >= 2 || rf != 0))
 		return (i);
 	return (-1);
+}
+#include <stdio.h>
+int	check_err(int p_idx, int r_idx)
+{
+	int	min;
+	printf("pidx:%i r_idx:%i\n",p_idx,r_idx);
+	min = -1;
+	if (r_idx == -1 && p_idx != -1)
+		return (p_idx);
+	if (p_idx == -1 && r_idx != -1)
+		return (r_idx);
+	if (r_idx < p_idx)
+		min = r_idx;
+	else
+		min = p_idx;
+
+	return (min);
 }

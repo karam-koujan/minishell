@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 21:28:03 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/04/16 16:57:18 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/04/17 16:23:38 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,13 @@ int	has_misplaced_pipes(char *cmd)
 {
 	int	i;
 	int	pipe;
+	int	flag;
 
+	flag = 0;
 	pipe = 0;
-	if (check_edges(cmd, "|", 0) > 0)
-		return (check_edges(cmd, "|", 0));
-	i = -check_edges(cmd, "|", 0) - 1;
+	i = -check_edges(cmd, "|", 0, &flag) - 1;
+	if (flag == 1)
+		return (check_edges(cmd, "|", 0, &flag));
 	while (cmd[++i])
 	{
 		if (!in_quotes(cmd, i))
@@ -76,9 +78,9 @@ int	has_invalid_redir(char *cmd)
 
 	redirfor = 0;
 	redirback = 0;
-	if (check_edges(cmd, "<>", 2) > 0)
-		return (check_edges(cmd, "<>", 2));
-	i = -check_edges(cmd, "<>", 2) - 1;
+	if (check_edges(cmd, "<>", 2, NULL) > 0)
+		return (check_edges(cmd, "<>", 2, NULL));
+	i = -check_edges(cmd, "<>", 2, NULL) - 1;
 	while (cmd[++i])
 	{
 		if (!in_quotes(cmd, i))
@@ -105,7 +107,7 @@ int	has_logical_op(char	*cmd)
 	i = 0;
 	while (cmd[i])
 	{
-		if (!in_quotes(cmd,i))
+		if (!in_quotes(cmd, i))
 		{
 			if (ft_strnstr(cmd + i, "&&", 2))
 				return ((int)*ft_strnstr(cmd + i, "&&", ft_strlen(cmd + i)));
@@ -116,66 +118,8 @@ int	has_logical_op(char	*cmd)
 	}
 	return (0);
 }
-int	index_of(char *str, char c, int len)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-		while (str[i] && str[i] == c && len > 0)
-		{
-			len--;
-			i++;
-			if (len == 0)
-				return (i);
-		}
-		i++;
-	}
-	return (-1);
-}
 #include <stdio.h>
 
-int	err_idx_chr(char	*cmd)
-{
-	int		idx;
-	char	c;
-
-	idx = -1;
-	c = has_unclosed_quotes(cmd);
-	if (c > 0 && (idx > index_of(cmd, c, 1) || idx == -1))
-		idx = index_of(cmd, c, 1);
-	c = has_invalid_redir(cmd);
-	if (c > 0 && (idx > index_of(cmd, c, 1) || idx == -1))
-		idx = index_of(cmd, c, 1);
-	c = has_misplaced_pipes(cmd);
-	if (c > 0 && (idx > index_of(cmd, c, 1) || idx == -1))
-		idx = index_of(cmd, c, 1);
-	c = has_logical_op(cmd);
-	if (c > 0 && (idx > index_of(cmd, c, 2) || idx == -1))
-	{
-		idx = index_of(cmd, c, 2);
-		printf("idx is here: %i\n", idx);
-	}
-	return (idx);
-}
-int	check_err(int p_idx, int r_idx)
-{
-	int	min;
-
-	printf("pidx: %i  ridx: %i\n",p_idx, r_idx);
-	min = -1;
-	if (r_idx == -1 && p_idx != -1)
-		return (p_idx);
-	if (p_idx == -1 && r_idx != -1)
-		return (r_idx);
-	if (r_idx < p_idx)
-		min = r_idx;
-	else
-		min = p_idx;
-
-	return (min);
-}
 int	syntax_error(char	*cmd)
 {
 	char	*unclosed_quote_err;
@@ -186,8 +130,9 @@ int	syntax_error(char	*cmd)
 	unclosed_quote_err = "minishell: syntax error: unclosed quote\n";
 	operator_err = "minishell: syntax error near unexpected token ";
 	idx = check_err(has_misplaced_pipes(cmd), has_invalid_redir(cmd));
-	q_idx =  has_unclosed_quotes(cmd);
-	if (q_idx == -1 &&  idx == -1)
+	q_idx = has_unclosed_quotes(cmd);
+	printf("qidx:%i idx:%i\n",q_idx,idx);
+	if (q_idx == -1 && idx == -1)
 		return (1);
 	if (q_idx != -1 && (idx > q_idx || idx == -1))
 		return (write(2, unclosed_quote_err, ft_strlen(unclosed_quote_err)), 0);
