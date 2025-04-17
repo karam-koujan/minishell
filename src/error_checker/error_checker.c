@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 21:28:03 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/04/17 16:23:38 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/04/17 16:38:27 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,12 +75,14 @@ int	has_invalid_redir(char *cmd)
 	int	i;
 	int	redirfor;
 	int	redirback;
+	int	flag;
 
+	flag = 0;
 	redirfor = 0;
 	redirback = 0;
-	if (check_edges(cmd, "<>", 2, NULL) > 0)
-		return (check_edges(cmd, "<>", 2, NULL));
-	i = -check_edges(cmd, "<>", 2, NULL) - 1;
+	i = -check_edges(cmd, "<>", 2, &flag) - 1;
+	if (flag == 1)
+		return (check_edges(cmd, "<>", 2, &flag));
 	while (cmd[++i])
 	{
 		if (!in_quotes(cmd, i))
