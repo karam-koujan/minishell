@@ -6,14 +6,16 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 03:08:32 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/04/16 12:05:44 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/04/19 08:46:16 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSER_H
-#define PARSER_H
-#include <unistd.h>
-#include "./tokenizer.h"
+# define PARSER_H
+
+# include "./tokenizer.h"
+# include "./env.h"
+# include <unistd.h>
 
 typedef enum e_redir_type {
     REDIR_IN, 
@@ -39,9 +41,10 @@ typedef struct s_cmd_table {
     int cmd_count;
 } t_cmd_table;
 
-t_cmd_table *parse(t_token *tokenlst);
+
+t_cmd_table	*parse(t_token *tokenlst, t_env *env);
 t_token *parse_redir(t_simple_cmd **cmd,t_token *token);
-t_token *parse_word(t_simple_cmd **cmd,t_token *token);
+t_token *parse_word(t_simple_cmd **cmd,t_token *token, t_env *env);
 void	add_cmd_to_table(t_cmd_table *cmd_table, t_simple_cmd *cmd);
 void	add_arg_to_cmd(t_simple_cmd *cmd, char *arg);
 void	add_redir_to_cmd(t_simple_cmd *cmd, t_redirection *redir);
@@ -51,5 +54,6 @@ t_redirection *create_redirection(t_redir_type type, char *file_or_delimiter);
 void	free_table(t_cmd_table *cmd_table);
 void	free_simple_cmd(t_simple_cmd *cmd);
 void	free_redirections(t_redirection *redirs);
-
+t_token	*parse_token(t_cmd_table **cmd_table, \
+	t_simple_cmd **simple_cmd, t_token *token, t_env *env);
 #endif

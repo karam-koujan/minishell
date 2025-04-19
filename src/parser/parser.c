@@ -6,11 +6,12 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 03:09:20 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/04/10 10:40:02 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/04/19 08:54:43 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/parser.h"
+#include "../../includes/executor.h"
 
 void	add_cmd_to_table(t_cmd_table *cmd_table, t_simple_cmd *cmd)
 {
@@ -34,7 +35,18 @@ void	add_cmd_to_table(t_cmd_table *cmd_table, t_simple_cmd *cmd)
 	cmd_table->cmd_count = cmd_c + 1;
 }
 
-t_token	*parse_word(t_simple_cmd **cmd, t_token *token)
+// char	*ft_getenv(t_env *env, char *key)
+// {
+// 	while (env)
+// 	{
+// 		if (env->key == key)
+// 			return (ft_strdup(env->value));
+// 		env = env->next;
+// 	}
+// 	return (NULL);
+// }
+#include <stdio.h>
+t_token	*parse_word(t_simple_cmd **cmd, t_token *token, t_env *env)
 {
 	char	*value;
 	char	*prev;
@@ -48,7 +60,11 @@ t_token	*parse_word(t_simple_cmd **cmd, t_token *token)
 	while (token && (token->type == WORD_T || token->type == VAR_T))
 	{
 		if (token->type == VAR_T)
-			value = getenv(token->val);
+		{
+			printf("env val: %s\n", token->val);
+			value = ft_getenv(env, token->val);
+			printf("var val: %s\n", value);
+		}
 		else
 			value = token->val;
 		value = ft_strjoin(prev, value);
@@ -88,17 +104,17 @@ t_token	*parse_redir(t_simple_cmd **cmd, t_token *token)
 }
 
 t_token	*parse_token(t_cmd_table **cmd_table, \
-	t_simple_cmd **simple_cmd, t_token *token)
+	t_simple_cmd **simple_cmd, t_token *token, t_env *env)
 {
 	if (token->type == WORD_T)
 	{
-		token = parse_word(simple_cmd, token);
+		token = parse_word(simple_cmd, token, env);
 		if (!token)
 			return (NULL);
 	}
 	if (token->type == VAR_T)
 	{
-		token = parse_word(simple_cmd, token);
+		token = parse_word(simple_cmd, token, env);
 		if (!token)
 			return (NULL);
 	}
@@ -117,7 +133,7 @@ t_token	*parse_token(t_cmd_table **cmd_table, \
 	return (token->next);
 }
 
-t_cmd_table	*parse(t_token *tokenlst)
+t_cmd_table	*parse(t_token *tokenlst, t_env *env)
 {
 	t_token			*token;
 	t_cmd_table		*cmd_table;
@@ -129,7 +145,7 @@ t_cmd_table	*parse(t_token *tokenlst)
 		return (NULL);
 	simple_cmd = NULL;
 	while (token)
-		token = parse_token(&cmd_table, &simple_cmd, token);
+		token = parse_token(&cmd_table, &simple_cmd, token, env);
 	if (simple_cmd != NULL)
 		add_cmd_to_table(cmd_table, simple_cmd);
 	return (cmd_table);
