@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 03:09:20 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/04/19 08:54:43 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/04/19 10:09:24 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,17 +35,20 @@ void	add_cmd_to_table(t_cmd_table *cmd_table, t_simple_cmd *cmd)
 	cmd_table->cmd_count = cmd_c + 1;
 }
 
-// char	*ft_getenv(t_env *env, char *key)
-// {
-// 	while (env)
-// 	{
-// 		if (env->key == key)
-// 			return (ft_strdup(env->value));
-// 		env = env->next;
-// 	}
-// 	return (NULL);
-// }
-#include <stdio.h>
+char	*ft_getenv_val(t_env *env, char *key)
+{
+	if (!env || !key)
+		return (NULL);
+	while (env)
+	{
+		if (ft_strlen(env->key) - 1 == ft_strlen(key) && \
+		ft_strncmp(env->key, key, ft_strlen(env->key) - 1) == 0)
+			return (ft_strdup(env->value));
+		env = env->next;
+	}
+	return (ft_strdup(""));
+}
+
 t_token	*parse_word(t_simple_cmd **cmd, t_token *token, t_env *env)
 {
 	char	*value;
@@ -60,11 +63,7 @@ t_token	*parse_word(t_simple_cmd **cmd, t_token *token, t_env *env)
 	while (token && (token->type == WORD_T || token->type == VAR_T))
 	{
 		if (token->type == VAR_T)
-		{
-			printf("env val: %s\n", token->val);
-			value = ft_getenv(env, token->val);
-			printf("var val: %s\n", value);
-		}
+			value = ft_getenv_val(env, token->val);
 		else
 			value = token->val;
 		value = ft_strjoin(prev, value);
