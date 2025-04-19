@@ -27,6 +27,7 @@ int is_builtin(char *cmd)
 }
 void single_cmd(t_simple_cmd **data, t_env *env, char **env_arr)
 {
+    gl = 1;
     printf("im here %s\n" ,(*data)->args[0]);
     // if((*data)->redirs->type ==  REDIR_IN)
     //     printf("<<<<<<\n");

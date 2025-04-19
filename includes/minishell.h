@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 21:36:09 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/04/19 08:45:20 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/04/19 14:12:21 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,4 +24,7 @@
 # include "./parser.h"
 # include "./executor.h"
 # include "./env.h"
+
+extern int  gl;
+
 #endif
