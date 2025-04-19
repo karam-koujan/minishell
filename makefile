@@ -1,6 +1,6 @@
 Name = minishell
 CC = cc
-CFLAGS = #-g -Wall -Wextra -Werror
+CFLAGS = -g #-Wall -Wextra -Werror
 OBJ = main.o ./lib/libft/ft_strlen.o ./lib/libft/ft_strchr.o ./lib/libft/ft_strnstr.o  src/error_checker/error_checker.o \
 src/error_checker/error_checker_helper.o src/executor/executor.o  src/executor/cmd/exec_cmd.o src/executor/cmd/check_cmd.o src/executor/cmd/utils_check_cmd.o  src/executor/load_env.o src/executor/shlvl.o src/executor/pwd_init.o  src/executor/builtins/echo.o \
 src/executor/builtins/pwd.o src/executor/builtins/cd.o src/executor/builtins/env.o  src/executor/builtins/export.o src/executor/builtins/export2.o src/executor/builtins/export3.o src/executor/builtins/export4.o src/executor/builtins/exit.o src/executor/builtins/unset.o src/executor/redirection/inf_outf_single_cmd.o\

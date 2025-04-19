@@ -126,10 +126,10 @@ int main(int argc, char **argv, char **envp)
 	while (1337)
 	{
         cmd = readline("minishell$ ");
-		if (!cmd || !*cmd)
+		if (cmd == NULL)
+			return (printf("exit\n"), 0);
+		if (!*cmd)
 			return (free(cmd), rl_clear_history(), 0);
-		if (ft_strlen(cmd) == 1 && cmd[0] == 4)
-			return (free(cmd), 0);
 		add_history(cmd);
 		if (!syntax_error(cmd))
 		{
