@@ -129,7 +129,7 @@ int main(int argc, char **argv, char **envp)
 		if (cmd == NULL)
 			return (printf("exit\n"), 0);
 		if (!*cmd)
-			return (free(cmd), rl_clear_history(), 0);
+            continue ;
 		add_history(cmd);
 		if (!syntax_error(cmd))
 		{
