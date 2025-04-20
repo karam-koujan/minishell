@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 23:13:00 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/04/19 11:10:00 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/04/20 10:42:34 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,11 +89,11 @@ int	detect_invalid_redir(char *cmd, int *redirfor, int *redirback, int i)
 		return (i);
 	return (-1);
 }
-#include <stdio.h>
+
 int	check_err(int p_idx, int r_idx)
 {
 	int	min;
-	printf("pidx:%i r_idx:%i\n",p_idx,r_idx);
+
 	min = -1;
 	if (r_idx == -1 && p_idx != -1)
 		return (p_idx);

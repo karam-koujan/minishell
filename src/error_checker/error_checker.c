@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 21:28:03 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/04/17 16:38:27 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/04/20 10:42:14 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,6 @@ int	has_logical_op(char	*cmd)
 	}
 	return (0);
 }
-#include <stdio.h>
 
 int	syntax_error(char	*cmd)
 {
@@ -133,7 +132,6 @@ int	syntax_error(char	*cmd)
 	operator_err = "minishell: syntax error near unexpected token ";
 	idx = check_err(has_misplaced_pipes(cmd), has_invalid_redir(cmd));
 	q_idx = has_unclosed_quotes(cmd);
-	printf("qidx:%i idx:%i\n",q_idx,idx);
 	if (q_idx == -1 && idx == -1)
 		return (1);
 	if (q_idx != -1 && (idx > q_idx || idx == -1))
