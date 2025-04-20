@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 03:08:32 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/04/20 16:56:09 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/04/20 17:56:05 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ typedef struct s_cmd_table {
 
 
 t_cmd_table	*parse(t_token *tokenlst, t_env *env);
-t_token *parse_redir(t_simple_cmd **cmd,t_token *token);
+t_token *parse_redir(t_simple_cmd **cmd,t_token *token, t_env *env);
 t_token *parse_word(t_simple_cmd **cmd,t_token *token, t_env *env);
 void	add_cmd_to_table(t_cmd_table *cmd_table, t_simple_cmd *cmd);
 void	add_arg_to_cmd(t_simple_cmd *cmd, char *arg);
