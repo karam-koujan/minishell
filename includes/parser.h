@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 03:08:32 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/04/19 08:46:16 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/04/20 16:56:09 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ typedef enum e_redir_type {
 typedef struct s_redirection {
     t_redir_type type;
     char *file_or_delimiter;
+    int is_var;
     struct s_redirection *next;
 } t_redirection;
 
@@ -50,7 +51,7 @@ void	add_arg_to_cmd(t_simple_cmd *cmd, char *arg);
 void	add_redir_to_cmd(t_simple_cmd *cmd, t_redirection *redir);
 t_cmd_table *create_command_table();
 t_simple_cmd *create_simple_cmd();
-t_redirection *create_redirection(t_redir_type type, char *file_or_delimiter);
+t_redirection *create_redirection(t_redir_type type, char *file_or_delimiter, int is_var);
 void	free_table(t_cmd_table *cmd_table);
 void	free_simple_cmd(t_simple_cmd *cmd);
 void	free_redirections(t_redirection *redirs);

@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 03:09:20 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/04/19 10:09:24 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/04/20 17:00:57 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,9 +91,12 @@ t_token	*parse_redir(t_simple_cmd **cmd, t_token *token)
 		redir_type = REDIR_APPEND;
 	else
 		redir_type = REDIR_HEREDOC;
-	while (token && token->type != WORD_T)
+	while (token && (token->type != WORD_T && token->type != VAR_T))
 		token = token->next;
-	redir = create_redirection(redir_type, token->val);
+	if (token && token->type == WORD_T)
+		redir = create_redirection(redir_type, token->val, 0);
+	else if(token && token->type == VAR_T)
+		redir = create_redirection(redir_type, token->val, 1);
 	if (redir == NULL || cmd == NULL)
 		return (NULL);
 	if (*cmd == NULL)

@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:22:22 by achemlal          #+#    #+#             */
-/*   Updated: 2025/04/20 09:59:25 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/04/20 16:22:47 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,6 @@ void pipe_case(t_cmd_table *data, t_env *env, char ** env_arr)
 			fd_save =  mid_proc(fd_save, data->cmds[i + 1], env, env_arr);
 			if(fd_save == -1)
 			{
-				exit(1);
 				while ((wait(NULL) != -1))
 					;
 				return ;
