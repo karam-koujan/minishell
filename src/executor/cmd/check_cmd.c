@@ -1,3 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   check_cmd.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/19 18:21:41 by achemlal          #+#    #+#             */
+/*   Updated: 2025/04/19 18:22:41 by achemlal         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+
 #include "../../../includes/minishell.h"
 
 char	*fet_path(char **env)
@@ -36,23 +49,20 @@ char	*ft_found_cmd(char *cmd, char **path)
 	return (NULL);
 }
 
-int	check_exec_cmd(char *cmd, char **env)
+int	check_exec_cmd(char **cmd, char **env)
 {
-	char	**cmd_split;
 
-	cmd_split = ft_split(cmd, ' ');
-	if(pars_cmd_1(cmd) == -1)
+	if(pars_cmd_1(cmd[0]) == -1)
 		return -1;
-	else if (ft_check_path_cmd(cmd) == 1)
+	else if (ft_check_path_cmd(cmd[0]) == 1)
 	{
-		if (pars_cmd_2(cmd_split, env) == -1)
+		if (pars_cmd_2(cmd, env) == -1)
 			return (-1);
 	}
 	else
 	{
-		if (pars_cmd_3(cmd_split, env) == -1)
+		if (pars_cmd_3(cmd, env) == -1)
 			return (-1);
 	}
-	ft_double_free(cmd_split);
 	return (1);
 }

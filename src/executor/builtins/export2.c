@@ -1,3 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   export2.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/19 18:20:12 by achemlal          #+#    #+#             */
+/*   Updated: 2025/04/19 18:22:52 by achemlal         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+
 #include  "../../../includes/minishell.h"
 t_env *copy_env(t_env *env)
 {
@@ -61,7 +74,7 @@ void print_export(t_env *env)
 
 	sorted = sort_var(copy_env(env));
 	if(!sorted)
-		return ;
+		return ; // exit status is 1;
 	while(sorted)
 	{
 		if (!sorted->value)

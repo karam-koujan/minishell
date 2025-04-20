@@ -1,17 +1,21 @@
-#include "../../includes/minishell.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   executor.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/19 18:16:34 by achemlal          #+#    #+#             */
+/*   Updated: 2025/04/19 18:17:31 by achemlal         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
+#include "../../includes/minishell.h"
 
 void exec_builtin(t_simple_cmd **data, t_env *env, char **env_arr)
 {
-    (void)env_arr;
-    if(!ft_strcmp((*data)->args[0],"echo"))
-        builtin_echo(data);
-    else if(!ft_strcmp((*data)->args[0],"env"))
-        builtin_env(data, env);
-    else if(!ft_strcmp((*data)->args[0],"cd"))
+    if(!ft_strcmp((*data)->args[0],"cd"))
         builtin_cd(data, env);
-    else if(!ft_strcmp((*data)->args[0],"pwd"))
-        builtin_pwd();
     else if(!ft_strcmp((*data)->args[0], "export"))
         builtin_export(data, env);
     else if(!ft_strcmp((*data)->args[0], "exit"))
@@ -21,28 +25,28 @@ void exec_builtin(t_simple_cmd **data, t_env *env, char **env_arr)
 }
 int is_builtin(char *cmd)
 {
-    return (!ft_strcmp(cmd, "echo") || !ft_strcmp(cmd, "env") || !ft_strcmp(cmd, "cd")
-            ||!ft_strcmp(cmd, "pwd") || !ft_strcmp(cmd, "export") || !ft_strcmp(cmd, "exit")
-            ||!ft_strcmp(cmd, "unset"));
+    return ( !ft_strcmp(cmd, "cd") || !ft_strcmp(cmd, "export")
+        || !ft_strcmp(cmd, "exit") ||!ft_strcmp(cmd, "unset"));
 }
 void single_cmd(t_simple_cmd **data, t_env *env, char **env_arr)
 {
-    gl = 1;
-    printf("im here %s\n" ,(*data)->args[0]);
-    // if((*data)->redirs->type ==  REDIR_IN)
-    //     printf("<<<<<<\n");
    if(is_builtin((*data)->args[0]))
+   {
+       inf_outf_cmd(data, 0);
        exec_builtin(data, env, env_arr);
+   }
    else
-       exec_cmd(data, env_arr);
+       exec_cmd(data, env, env_arr);
 }
+
 void exec(t_cmd_table *data, t_env *env)
 {
     char **env_arr;
-
     env_arr = env_list_to_array(env);
     if(!env_arr)
          return ;
     if(data->cmd_count == 1)
         single_cmd(data->cmds, env, env_arr);
+    else
+         pipe_case(data, env, env_arr);
 }

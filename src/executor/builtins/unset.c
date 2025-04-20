@@ -1,3 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   unset.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/19 18:21:32 by achemlal          #+#    #+#             */
+/*   Updated: 2025/04/19 18:36:37 by achemlal         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+
 #include  "../../../includes/minishell.h"
 
 void unset_env(char *key, t_env **env)
@@ -18,7 +31,7 @@ void unset_env(char *key, t_env **env)
             else
                 *env = curr->next;
             return(free(curr->key), free(curr->value),
-                        free(curr));
+                        free(curr)); // exit status is 1;
         }
         prev = curr;
         curr = curr->next;
@@ -32,6 +45,11 @@ void  builtin_unset(t_simple_cmd **data, t_env *env)
     i = 1;
     while((*data)->args[i])
     {
+        // if(!valid_inset((*data)->args[i]))
+		// {
+		// 	i++;
+		// 	continue ;
+		// }
        unset_env((*data)->args[i], &env);
         i++;
     }

@@ -2,12 +2,12 @@
 # define EXECUTOR_H
 
 # include "./parser.h"
-# include "./env.h"
 #include <limits.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <fcntl.h>
-
+#include <sys/stat.h>
+#include "./env.h"
 
 t_env *init_env_list(char **envp);
 void handle_shlvl(t_env **env);
@@ -40,17 +40,21 @@ void builtin_exit(t_simple_cmd **data);
 
 void  builtin_unset(t_simple_cmd **data, t_env *env);
 
-void exec_cmd(t_simple_cmd **data, char **env_arr);
-int	check_exec_cmd(char *cmd, char **env);
+void exec_cmd(t_simple_cmd **data, t_env *env, char **env_arr);
+void exec_proc(t_simple_cmd **data, t_env *env, char **env_arr);
+int	check_exec_cmd(char **cmd, char **env);
 int	ft_check_path_cmd(char *cmd);
 char	*fet_path(char **env);
 char	*ft_found_cmd(char *cmd, char **path);
 int	pars_cmd_1(char *cmd);
-int	pars_cmd_2(char **cmd_split, char **env);
-int	pars_cmd_3(char **cmd_split, char **env);
-void	ft_double_free(char **str);
+int	pars_cmd_2(char **cmd, char **env);
+int	pars_cmd_3(char **cmd, char **env);
 
-void inf_outf_cmd(t_simple_cmd **data);
+int inf_outf_cmd(t_simple_cmd **data, int flag);
 int ft_strcmp(const char *s1, const char *s2);
+
+void pipe_case(t_cmd_table *data, t_env *env, char ** env_arr);
+void	ft_dup2(int fd_src, int fd_dest, int fd_close);
+void	ft_close(int fd);
 
 #endif

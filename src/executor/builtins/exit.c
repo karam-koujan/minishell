@@ -1,6 +1,36 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exit.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/19 18:19:12 by achemlal          #+#    #+#             */
+/*   Updated: 2025/04/19 19:21:33 by achemlal         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+
+
+
 #include  "../../../includes/minishell.h"
 
-int is_numeric(const char *str)
+
+// int  exit_status(int status, int flag)
+// {
+//     static int stat_exit = 0;
+//     if(flag != 0)
+//         stat_exit = status;
+//         return (stat_exit);
+// }
+// void exit_status(int status)
+// {
+//     if(WIFSIGNALED(status))
+//         exit_stat(128 + WTERMSIG(status), 1);
+//     else if (WIFEXITED(status), 1)
+//         exit_status(WEXITSTATUS(status), 1);
+// }
+int is_numeric( char *str)
 {
     int i = 0;
 
@@ -16,7 +46,7 @@ int is_numeric(const char *str)
     }
     return 1;
 }
-int ft_atoll(const char *str, long long *code)
+int ft_atoll(char *str, long long *code)
 {
     unsigned long long result = 0;
     int sign = 1;
@@ -54,17 +84,18 @@ void builtin_exit(t_simple_cmd **data)
     {
         if (!is_numeric((*data)->args[1]))
         {
-            printf("exit\nexit: %s: numeric argument required\n", (*data)->args[1]);
+            printf("exit\nexit: %s: numeric argument required\n",
+                (*data)->args[1]);
             exit(255);
         }
         if (!ft_atoll((*data)->args[1], &code))
         {
-            printf("exit\nexit: %s: numeric argument required\n", (*data)->args[1]);
+            printf("exit\nexit: %s: numeric argument required\n",
+                (*data)->args[1]);
             exit(255);
         }
     }
     else
-        return(printf("exit\nexit: too many arguments\n"),
-            exit(255));
+        return(printf("exit\nexit: too many arguments\n"), exit(255));
     return (printf("exit\n"), exit(code % 256));
 }

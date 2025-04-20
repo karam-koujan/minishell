@@ -1,3 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   echo.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/19 18:18:43 by achemlal          #+#    #+#             */
+/*   Updated: 2025/04/19 18:23:01 by achemlal         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+
 #include  "../../../includes/minishell.h"
 
 int is_n_flage(char *str)
@@ -21,18 +34,16 @@ int is_n_flage(char *str)
 
 void builtin_echo(t_simple_cmd **data)
 {
-    int i;          // Start from argv[1], since argv[0] is "echo"
-    int newline;    // Assume we want to print a newline at the end
+    int i;          
+    int newline;  
 
     i = 1;
     newline = 1;
-    /********Handle -n flags********/
     while((*data)->args[i] && is_n_flage((*data)->args[i]))
     {
-        newline = 0; // If we find any -n flag, we disable the newline
+        newline = 0; 
         i++;        
     }
-    /********Print all remaining arguments********/
     while((*data)->args[i])
     {
         ft_putstr_fd((*data)->args[i], 1);
@@ -40,6 +51,6 @@ void builtin_echo(t_simple_cmd **data)
             ft_putstr_fd(" ", 1);
         i++;
     }
-    if (newline)    // Only print a newline if we didn’t detect -n
+    if (newline)
         ft_putstr_fd("\n", 1);
 }

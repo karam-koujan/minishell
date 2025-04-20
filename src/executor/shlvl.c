@@ -1,3 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   shlvl.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/04/19 18:23:30 by achemlal          #+#    #+#             */
+/*   Updated: 2025/04/19 18:26:24 by achemlal         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+
 #include "../../includes/minishell.h"
 
 void update_shlvl(t_env **env, char *key, char *value)
@@ -47,7 +60,7 @@ void handle_shlvl(t_env **env)
     if (shlvl_str)
     {
         if(!is_valid_number(shlvl_str))
-             new_shlvl = "1";
+             new_shlvl = ft_strdup("1");
         else
         {
             shlvl = ft_atoi(shlvl_str);
