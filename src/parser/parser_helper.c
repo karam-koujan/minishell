@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_helper.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkoujan <kkoujan@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 10:43:34 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/04/04 13:01:49 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/04/21 10:29:01 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,4 +57,38 @@ void	free_table(t_cmd_table *cmd_table)
 	}
 	free(cmd_table->cmds);
 	free(cmd_table);
+}
+
+char	*ft_getenv_val(t_env *env, char *key)
+{
+	if (!env || !key)
+		return (NULL);
+	while (env)
+	{
+		if (ft_strlen(env->key) - 1 == ft_strlen(key) && \
+		ft_strncmp(env->key, key, ft_strlen(env->key) - 1) == 0)
+			return (ft_strdup(env->value));
+		env = env->next;
+	}
+	return (ft_strdup(""));
+}
+
+char	*get_word_val(t_token *token, t_env *env)
+{
+	char	*value;
+
+	value = NULL;
+	if (token->type == VAR_T)
+	{
+		value = ft_getenv_val(env, token->val);
+		if (!value)
+			return (NULL);
+	}
+	else
+	{
+		value = ft_strdup(token->val);
+		if (!value)
+			return (NULL);
+	}
+	return (value);
 }

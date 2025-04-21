@@ -6,12 +6,11 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 03:09:20 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/04/21 10:24:33 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/04/21 10:33:23 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/parser.h"
-#include "../../includes/executor.h"
 
 void	add_cmd_to_table(t_cmd_table *cmd_table, t_simple_cmd *cmd)
 {
@@ -33,40 +32,6 @@ void	add_cmd_to_table(t_cmd_table *cmd_table, t_simple_cmd *cmd)
 	free(cmd_table->cmds);
 	cmd_table->cmds = new_cmds;
 	cmd_table->cmd_count = cmd_c + 1;
-}
-
-char	*ft_getenv_val(t_env *env, char *key)
-{
-	if (!env || !key)
-		return (NULL);
-	while (env)
-	{
-		if (ft_strlen(env->key) - 1 == ft_strlen(key) && \
-		ft_strncmp(env->key, key, ft_strlen(env->key) - 1) == 0)
-			return (ft_strdup(env->value));
-		env = env->next;
-	}
-	return (ft_strdup(""));
-}
-
-char	*get_word_val(t_token *token, t_env *env)
-{
-	char	*value;
-
-	value = NULL;
-	if (token->type == VAR_T)
-	{
-		value = ft_getenv_val(env, token->val);
-		if (!value)
-			return (NULL);
-	}
-	else
-	{
-		value = ft_strdup(token->val);
-		if (!value)
-			return (NULL);
-	}
-	return (value);
 }
 
 char	*join_expnd(t_token *token, t_env *env)
@@ -109,51 +74,6 @@ t_token	*parse_word(t_simple_cmd **cmd, t_token *token, t_env *env)
 		token = token->next;
 	add_arg_to_cmd(*cmd, value);
 	free(value);
-	return (token);
-}
-
-t_redirection	*redir_file(t_token *token, t_env *env, t_redir_type type)
-{
-	t_redirection	*redir;
-	char			*val;
-	int				in_quote;
-
-	in_quote = 0;
-	while (token && (token->type != WORD_T && token->type != VAR_T))
-	{
-		if (token->type == QT_T)
-			in_quote = 1;
-		token = token->next;
-	}
-	val = join_expnd(token, env);
-	if (token && token->type == WORD_T)
-		redir = create_redirection(type, val, 0);
-	else if (token && token->type == VAR_T)
-		redir = create_redirection(type, val, !in_quote);
-	free(val);
-	return (redir);
-}
-
-t_token	*parse_redir(t_simple_cmd **cmd, t_token *token, t_env *env)
-{
-	t_redirection	*redir;
-	t_redir_type	redir_type;
-	char			*val;
-
-	if (token->type == REDIR_B_T)
-		redir_type = REDIR_IN;
-	else if (token->type == REDIR_F_T)
-		redir_type = REDIR_OUT;
-	else if (token->type == APPEND_T)
-		redir_type = REDIR_APPEND;
-	else
-		redir_type = REDIR_HEREDOC;
-	redir = redir_file(token, env, redir_type);
-	if (redir == NULL || cmd == NULL)
-		return (NULL);
-	if (*cmd == NULL)
-		*cmd = create_simple_cmd();
-	add_redir_to_cmd(*cmd, redir);
 	return (token);
 }
 

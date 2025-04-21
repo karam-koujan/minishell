@@ -1,7 +1,6 @@
 #include "./includes/minishell.h"
-#include <stdio.h>
 
-int	gl;
+int	g_gl;
 
 void print_cmd_table(t_cmd_table *cmd_table)
 {
@@ -93,24 +92,23 @@ void print_cmd_table(t_cmd_table *cmd_table)
 				redir = redir->next;
 			}
 		}
-		
 		i++;
 	}
 }
 
 void	handler(int signum)
 {
-	if (signum == SIGINT && gl == 0)
+	if (signum == SIGINT && g_gl == 0)
 	{
 		write(1, "\n", 1);
 		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();
 	}
-	if (signum == SIGINT && gl == 1)
+	if (signum == SIGINT && g_gl == 1)
 	{
 		printf("\n");
-		gl = 0;
+		g_gl = 0;
 	}
 }
 
@@ -133,7 +131,7 @@ int main(int argc, char **argv, char **envp)
 	while (1337)
 	{
 		cmd = readline("minishell$ ");
-		gl = 0;
+		g_gl = 0;
 		if (cmd == NULL)
 			return (printf("exit\n"), 0);
 		if (!*cmd)
