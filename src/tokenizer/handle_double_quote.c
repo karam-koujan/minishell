@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_double_quote.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkoujan <kkoujan@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 19:59:35 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/04/04 14:02:49 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/04/21 09:30:48 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ int	handle_double_quote(char *cmd, t_token **head)
 	char	*start;
 	int		offset;
 
+	ft_token_add_back(head, init_token(QT_T, NULL));
 	len = 0;
 	offset = double_quote_len(cmd);
 	start = cmd;

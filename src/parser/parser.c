@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 03:09:20 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/04/20 17:56:19 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/04/21 09:36:02 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,18 +53,23 @@ char	*join_expnd(t_token *token, t_env *env)
 {
 	char	*value;
 	char	*prev;
+	char	*tmp;
 
+	tmp = NULL;
 	prev = NULL;
-	value = ft_strdup(token->val);
-	if (!value)
-		return (NULL);
+	value = token->val;
 	while (token && (token->type == WORD_T || token->type == VAR_T))
 	{
 		if (token->type == VAR_T)
+		{
 			value = ft_getenv_val(env, token->val);
+			tmp = value;
+		}
 		else
 			value = token->val;
 		value = ft_strjoin(prev, value);
+		free(tmp);
+		tmp = NULL;
 		if (value == NULL)
 			return (free(prev), NULL);
 		free(prev);
@@ -97,7 +102,9 @@ t_token	*parse_redir(t_simple_cmd **cmd, t_token *token, t_env *env)
 	t_redirection	*redir;
 	t_redir_type	redir_type;
 	char			*val;
+	int				in_quote;
 
+	in_quote = 0;
 	if (token->type == REDIR_B_T)
 		redir_type = REDIR_IN;
 	else if (token->type == REDIR_F_T)
@@ -107,12 +114,16 @@ t_token	*parse_redir(t_simple_cmd **cmd, t_token *token, t_env *env)
 	else
 		redir_type = REDIR_HEREDOC;
 	while (token && (token->type != WORD_T && token->type != VAR_T))
+	{
+		if (token->type == QT_T)
+			in_quote = 1;
 		token = token->next;
+	}
 	val = join_expnd(token, env);
 	if (token && token->type == WORD_T)
 		redir = create_redirection(redir_type, val, 0);
-	else if(token && token->type == VAR_T)
-		redir = create_redirection(redir_type, val, 1);
+	else if (token && token->type == VAR_T)
+		redir = create_redirection(redir_type, val, !in_quote);
 	free(val);
 	if (redir == NULL || cmd == NULL)
 		return (NULL);

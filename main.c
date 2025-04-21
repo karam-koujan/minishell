@@ -78,7 +78,7 @@ void print_cmd_table(t_cmd_table *cmd_table)
 					printf(">> ");
 				else if (redir->type == REDIR_HEREDOC)
 					printf("<< ");
-				
+				printf("is var : %i", redir->is_var);
 				// Print file or delimiter
 				if (!redir)
 				{
