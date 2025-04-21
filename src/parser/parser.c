@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 03:09:20 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/04/21 09:36:02 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/04/21 10:24:33 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,26 @@ char	*ft_getenv_val(t_env *env, char *key)
 	return (ft_strdup(""));
 }
 
+char	*get_word_val(t_token *token, t_env *env)
+{
+	char	*value;
+
+	value = NULL;
+	if (token->type == VAR_T)
+	{
+		value = ft_getenv_val(env, token->val);
+		if (!value)
+			return (NULL);
+	}
+	else
+	{
+		value = ft_strdup(token->val);
+		if (!value)
+			return (NULL);
+	}
+	return (value);
+}
+
 char	*join_expnd(t_token *token, t_env *env)
 {
 	char	*value;
@@ -60,18 +80,13 @@ char	*join_expnd(t_token *token, t_env *env)
 	value = token->val;
 	while (token && (token->type == WORD_T || token->type == VAR_T))
 	{
-		if (token->type == VAR_T)
-		{
-			value = ft_getenv_val(env, token->val);
-			tmp = value;
-		}
-		else
-			value = token->val;
+		value = get_word_val(token, env);
+		tmp = value;
 		value = ft_strjoin(prev, value);
+		if (value == NULL)
+			return (free(tmp), free(prev), NULL);
 		free(tmp);
 		tmp = NULL;
-		if (value == NULL)
-			return (free(prev), NULL);
 		free(prev);
 		prev = value;
 		token = token->next;
@@ -97,22 +112,13 @@ t_token	*parse_word(t_simple_cmd **cmd, t_token *token, t_env *env)
 	return (token);
 }
 
-t_token	*parse_redir(t_simple_cmd **cmd, t_token *token, t_env *env)
+t_redirection	*redir_file(t_token *token, t_env *env, t_redir_type type)
 {
 	t_redirection	*redir;
-	t_redir_type	redir_type;
 	char			*val;
 	int				in_quote;
 
 	in_quote = 0;
-	if (token->type == REDIR_B_T)
-		redir_type = REDIR_IN;
-	else if (token->type == REDIR_F_T)
-		redir_type = REDIR_OUT;
-	else if (token->type == APPEND_T)
-		redir_type = REDIR_APPEND;
-	else
-		redir_type = REDIR_HEREDOC;
 	while (token && (token->type != WORD_T && token->type != VAR_T))
 	{
 		if (token->type == QT_T)
@@ -121,10 +127,28 @@ t_token	*parse_redir(t_simple_cmd **cmd, t_token *token, t_env *env)
 	}
 	val = join_expnd(token, env);
 	if (token && token->type == WORD_T)
-		redir = create_redirection(redir_type, val, 0);
+		redir = create_redirection(type, val, 0);
 	else if (token && token->type == VAR_T)
-		redir = create_redirection(redir_type, val, !in_quote);
+		redir = create_redirection(type, val, !in_quote);
 	free(val);
+	return (redir);
+}
+
+t_token	*parse_redir(t_simple_cmd **cmd, t_token *token, t_env *env)
+{
+	t_redirection	*redir;
+	t_redir_type	redir_type;
+	char			*val;
+
+	if (token->type == REDIR_B_T)
+		redir_type = REDIR_IN;
+	else if (token->type == REDIR_F_T)
+		redir_type = REDIR_OUT;
+	else if (token->type == APPEND_T)
+		redir_type = REDIR_APPEND;
+	else
+		redir_type = REDIR_HEREDOC;
+	redir = redir_file(token, env, redir_type);
 	if (redir == NULL || cmd == NULL)
 		return (NULL);
 	if (*cmd == NULL)
