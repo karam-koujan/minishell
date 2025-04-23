@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:17:43 by achemlal          #+#    #+#             */
-/*   Updated: 2025/04/20 09:47:36 by achemlal         ###   ########.fr       */
+/*   Updated: 2025/04/22 15:46:17 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ void update_pwd(t_env **env, char *key, char *value)
     {
         if (ft_strcmp(current->key, key) == 0)
         {
+            // you should free the previous current->value;
+            free(current->value);
             current->value = ft_strdup(value);
             if(!current->value)
                     return ;// exit status is 0;

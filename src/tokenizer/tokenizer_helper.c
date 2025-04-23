@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_helper.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkoujan <kkoujan@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 20:14:14 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/04/04 15:12:08 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/04/23 15:13:28 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,9 @@ void	join_cmd(t_token **tokenlst)
 	next_token = NULL;
 	while (lst)
 	{
-		if (lst->type == WORD_T)
+		if (lst->type == QT_T)
+			lst = lst->next;
+		if (lst && lst->type == WORD_T)
 		{
 			handle_word_token(lst, &next_token);
 			lst = next_token;

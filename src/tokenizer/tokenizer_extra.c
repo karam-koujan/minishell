@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_extra.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkoujan <kkoujan@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 03:07:06 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/04/04 15:17:43 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/04/23 15:34:58 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,8 +96,13 @@ char	*process_word_tokens(t_token *lst, t_token **next_ptr)
 	val = ft_strdup(lst->val);
 	if (!val)
 		return (NULL);
-	while (curr && curr->type == WORD_T)
+	while (curr && (curr->type == WORD_T || curr->type == QT_T))
 	{
+		if (curr && curr->type == QT_T)
+		{
+			curr = curr->next;
+			continue ;
+		}
 		tmp = val;
 		val = ft_strjoin(tmp, curr->val);
 		free(tmp);
@@ -108,8 +113,7 @@ char	*process_word_tokens(t_token *lst, t_token **next_ptr)
 		free(next_node->val);
 		free(next_node);
 	}
-	*next_ptr = curr;
-	return (val);
+	return (*next_ptr = curr, val);
 }
 
 void	handle_word_token(t_token *lst, t_token **next_ptr)
