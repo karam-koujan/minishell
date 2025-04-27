@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:22:22 by achemlal          #+#    #+#             */
-/*   Updated: 2025/04/20 16:22:47 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/04/20 16:34:43 by achemlal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ int mid_proc(int fd_save, t_simple_cmd *cmd, t_env *env, char **env_arr)
 void last_proc(int fd_save, t_simple_cmd *cmd, t_env *env, char **env_arr)
 {
 	int child;
+	int status;
 
 	child = fork();
 	if (child == -1)
@@ -72,7 +73,8 @@ void last_proc(int fd_save, t_simple_cmd *cmd, t_env *env, char **env_arr)
 		exec_proc(&cmd, env, env_arr);
 	}
 	ft_close(fd_save);
-	waitpid(child, NULL, 0);
+	waitpid(child, &status, 0);
+	exit_stat(status, 1);
 }
 
 void pipe_case(t_cmd_table *data, t_env *env, char ** env_arr)
@@ -91,8 +93,9 @@ void pipe_case(t_cmd_table *data, t_env *env, char ** env_arr)
 			fd_save =  mid_proc(fd_save, data->cmds[i + 1], env, env_arr);
 			if(fd_save == -1)
 			{
+				exit_stat(1, 1);
 				while ((wait(NULL) != -1))
-					;
+				      ;
 				return ;
 			}
 			i++;

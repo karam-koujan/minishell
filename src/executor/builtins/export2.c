@@ -23,9 +23,9 @@ t_env *copy_env(t_env *env)
 		new_node = malloc(sizeof(t_env));
 		if (!new_node)
 			return (NULL);
-		new_node->key = strdup(env->key);
+		new_node->key = ft_strdup(env->key);
 		if(env->value)
-			new_node->value = strdup(env->value);
+			new_node->value = ft_strdup(env->value);
 		else
 			new_node->value = NULL;
 		new_node->next = NULL;
@@ -72,9 +72,10 @@ void print_export(t_env *env)
 {
 	t_env *sorted;
 
+    exit_stat(0, 1);
 	sorted = sort_var(copy_env(env));
 	if(!sorted)
-		return ; // exit status is 1;
+		return ;
 	while(sorted)
 	{
 		if (!sorted->value)

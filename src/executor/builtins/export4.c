@@ -24,7 +24,7 @@ void handle_plus(t_env **env, char **key, char **value, int flag)
     *key = ft_strjoin(*key, "=");
     str = *value;
     if(!*key)
-        return ;// exit status is 1;
+        return ;
     if(flag == 1)
     {
         while(curr)
@@ -32,7 +32,7 @@ void handle_plus(t_env **env, char **key, char **value, int flag)
             if(ft_strcmp(curr->key, *key) == 0)
             {
                 curr->value = ft_strjoin(curr->value, *value);
-                return ;// exit status is 0;
+                return ;
             }
             curr =  curr->next;
         }
@@ -49,16 +49,16 @@ int update_var(t_env **env, char *key, char *value)
     t_env *curr = *env;
     
     if(ft_strchr(key, '+'))
-        return (handle_plus(env, &key, &value, 1), 1);// exit status is 0;
+        return (handle_plus(env, &key, &value, 1), 1);
     if(!ft_strchr(key, '='))
     {
         while(curr)
         {
             str = ft_strtrim(curr->key, "=");
             if(!str)
-                return 0;// exit status is 1;
+                return 0;
             if(ft_strcmp(str, key) == 0)
-                return 1;// exit status is 0;
+                return 1;
             curr =  curr->next;
         }
     }
@@ -70,12 +70,12 @@ int update_var(t_env **env, char *key, char *value)
             str = ft_strtrim(curr->key, "=");
             new = ft_strtrim(key, "=");
             if(!str || !new)
-                return 0;// exit status is 1;
+                return 0;
             if(ft_strcmp(str, new) == 0)
             {
                 curr->key = key;
                 curr->value = value;
-                return 1;// exit status is 0;
+                return 1;
             }
             curr =  curr->next;
         }
@@ -108,7 +108,7 @@ void add_var(t_env **env, char *key, char *value)
     t_env *new_node;
 
     if(update_var(env, key, value) == 1)
-        return ;// exit status is 1;
+        return ;
     else
     {
         if(ft_strchr(key, '+'))
@@ -132,16 +132,16 @@ void var_set(char *str, t_env *env)
         size = ft_strchr(str, '=') - str + 1;
         key = ft_substr(str, 0, size);
         if(!key)
-            return ;// exit status is 1;
+            return ;
         value = ft_substr(str, size , ft_strlen(str) - 1);
         if(!value)
-            return ;// exit status is 1;
+            return ;
     }
     else
     {
         key = ft_strdup(str);
         if(!key)
-            return ;// exit status is 1;
+            return ;
     }
     add_var(&env, key, value);
 }

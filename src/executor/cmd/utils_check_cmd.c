@@ -6,7 +6,7 @@
 /*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:21:54 by achemlal          #+#    #+#             */
-/*   Updated: 2025/04/19 19:21:29 by achemlal         ###   ########.fr       */
+/*   Updated: 2025/04/20 16:45:25 by achemlal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,9 +32,10 @@ int	pars_cmd_1(char *cmd)
 
 	if ( cmd[0] == '.' && ft_check_path_cmd(cmd) == 0)
 	{
+		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(cmd, 2);
 		ft_putstr_fd(": Command not found\n", 2);
-		return (-1);
+		return (exit_stat(2, 1), -1);
 	}
 	return (0);
 }
@@ -48,15 +49,17 @@ int	pars_cmd_2(char **cmd, char **env)
 	}
 	if (access(cmd[0], X_OK) == -1)
 	{
+		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(cmd[0], 2);
-		ft_putstr_fd(": Permission Denied\n", 2);//exit status 126 
-		return (-1);
+		ft_putstr_fd(": Permission Denied\n", 2);
+		return (exit_stat(126, 1), -1);
 	}
 	if (execve(cmd[0], cmd, env) == -1)
 	{
+		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(cmd[0], 2);
 		ft_putstr_fd(": Command not found\n", 2);
-		return (-1);
+		return (exit_stat(127, 1), -1);
 	}
 	return (0);
 }
@@ -68,14 +71,15 @@ int	pars_cmd_3(char **cmd, char **env)
 
 	path = ft_split(fet_path(env), ':');
 	if (!path)
-		return (ft_putstr_fd("Error\n", 2), -1);
+		return (ft_putstr_fd("minishell: ", 2), ft_putstr_fd(": Error\n", 2), -1);
 	path_cmd = ft_found_cmd(cmd[0], path);
 	if (!path_cmd)
 	{
+		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(cmd[0], 1);
 		ft_putstr_fd(": Command not found\n", 2);
 	}
 	if (execve(path_cmd, cmd, env) == -1)
-		return (ft_putstr_fd("Execve Failed\n", 2), -1);
+		return (exit_stat(127, 1), -1);
 	return (0);
 }

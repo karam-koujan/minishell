@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:16:34 by achemlal          #+#    #+#             */
-/*   Updated: 2025/04/20 15:06:39 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/04/20 15:15:32 by achemlal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,18 +30,22 @@ int is_builtin(char *cmd)
 }
 void single_cmd(t_simple_cmd **data, t_env *env, char **env_arr)
 {
-   if((*data)->argc > 0 && is_builtin((*data)->args[0]))
-   {
+    if((*data)->argc == 0)
+        inf_outf_cmd(data, 0);
+    else if(is_builtin((*data)->args[0]))
+    {
        inf_outf_cmd(data, 0);
        exec_builtin(data, env, env_arr);
-   }
-   else
+    }
+    else
        exec_cmd(data, env, env_arr);
 }
 
 void exec(t_cmd_table *data, t_env *env)
 {
+
     char **env_arr;
+    
     env_arr = env_list_to_array(env);
     if(!env_arr)
          return ;

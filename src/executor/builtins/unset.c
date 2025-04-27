@@ -43,13 +43,9 @@ void  builtin_unset(t_simple_cmd **data, t_env *env)
     int i;
  
     i = 1;
+    exit_stat(0, 1);
     while((*data)->args[i])
     {
-        // if(!valid_inset((*data)->args[i]))
-		// {
-		// 	i++;
-		// 	continue ;
-		// }
        unset_env((*data)->args[i], &env);
         i++;
     }

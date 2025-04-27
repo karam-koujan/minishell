@@ -9,6 +9,8 @@
 #include <sys/stat.h>
 #include "./env.h"
 
+# define PATH "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+
 t_env *init_env_list(char **envp);
 void handle_shlvl(t_env **env);
 void init_pwd(t_env **env);
@@ -51,10 +53,18 @@ int	pars_cmd_2(char **cmd, char **env);
 int	pars_cmd_3(char **cmd, char **env);
 
 int inf_outf_cmd(t_simple_cmd **data, int flag);
+void  in_cas(t_redirection *in);
+void ou_cas(t_redirection *ou);
+int in_cas_p(t_redirection *in);
+int	ou_cas_p(t_redirection *ou);
+int is_directory(char *path);
 int ft_strcmp(const char *s1, const char *s2);
 
 void pipe_case(t_cmd_table *data, t_env *env, char ** env_arr);
 void	ft_dup2(int fd_src, int fd_dest, int fd_close);
 void	ft_close(int fd);
 
+int	here_doc(char *delimiter);
+
+int  exit_stat(int value, int action);
 #endif

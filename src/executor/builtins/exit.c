@@ -16,13 +16,15 @@
 #include  "../../../includes/minishell.h"
 
 
-// int  exit_status(int status, int flag)
-// {
-//     static int stat_exit = 0;
-//     if(flag != 0)
-//         stat_exit = status;
-//         return (stat_exit);
-// }
+int exit_stat(int value, int action)
+{
+    static int status = 0;
+
+    if (action == 1) 
+        status = value;
+
+    return status; 
+}
 // void exit_status(int status)
 // {
 //     if(WIFSIGNALED(status))
