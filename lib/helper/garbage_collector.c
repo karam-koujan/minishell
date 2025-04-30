@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 09:02:08 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/04/30 12:09:21 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/04/30 13:00:46 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_gc	*init_addr(void	*addr)
 {
 	t_gc	*gc;
 
-	gc = malloc(sizeof(gc));
+	gc = malloc(sizeof(t_gc));
 	if (gc == NULL)
 		return (NULL);
 	gc->addr = addr;
@@ -55,6 +55,7 @@ void	free_all(t_gc **head)
 	if (!(*head))
 		return ;
 	l = *head;
+	tmp = NULL;
 	while (l != NULL)
 	{
 		free(l->addr);
@@ -68,7 +69,6 @@ void	free_all(t_gc **head)
 void	add_token_to_gc(t_gc **head, t_token **st)
 {
 	t_token	*tl;
-	t_gc	*gc;
 
 	tl = *st;
 	while (tl != NULL)
@@ -87,21 +87,36 @@ void	add_cmd_to_gc(t_gc **head, t_simple_cmd *cmd)
 	i = -1;
 	redir = cmd->redirs;
 	while (++i < cmd->argc)
-	gc_add_back(head, init_addr(cmd->args[i]));
+		gc_add_back(head, init_addr(cmd->args[i]));
 	if (cmd->argc > 0)
-		gc_add_back(head, init_addr(cmd));
+		gc_add_back(head, init_addr(cmd->args));
 	while (redir != NULL)
 	{
 		gc_add_back(head, init_addr(redir->file_or_delimiter));
 		gc_add_back(head, init_addr(redir));
 		redir = redir->next;
 	}
+	gc_add_back(head, init_addr(cmd));
+}
+
+void	add_env_to_gc(t_gc **head, t_env **st)
+{
+	t_env	*tl;
+
+	tl = *st;
+	while (tl != NULL)
+	{
+		printf("%s %s\n",tl->key, tl->value);
+		gc_add_back(head, init_addr(tl->key));
+		gc_add_back(head, init_addr(tl->value));
+		gc_add_back(head, init_addr(tl));
+		tl = tl->next;
+	}
 }
 
 void	add_parser_to_gc(t_gc **head, t_cmd_table **st)
 {
 	t_cmd_table	*tl;
-	t_gc	*gc;
 	int		i;
 
 	tl = *st;
@@ -109,7 +124,10 @@ void	add_parser_to_gc(t_gc **head, t_cmd_table **st)
 	while (++i < tl->cmd_count)
 		add_cmd_to_gc(head, tl->cmds[i]);
 	gc_add_back(head, init_addr(tl->cmds));
+	gc_add_back(head, init_addr(tl));
 }
+
+
 
 void	add_to_gc(t_gc **head, void	**st, int type)
 {
@@ -121,6 +139,8 @@ void	add_to_gc(t_gc **head, void	**st, int type)
 		add_token_to_gc(head, (t_token **)st);
 	else if (type == 1)
 		add_parser_to_gc(head, (t_cmd_table **)st);
+	else if (type == 2)
+		add_env_to_gc(head, (t_env **)st);
 }
 
 void	*ft_malloc(size_t size, t_gc **head, int enable_free)

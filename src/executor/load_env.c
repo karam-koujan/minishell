@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   load_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:23:12 by achemlal          #+#    #+#             */
-/*   Updated: 2025/04/19 19:21:19 by achemlal         ###   ########.fr       */
+/*   Updated: 2025/04/30 12:56:36 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ t_env *init_env_list(char **envp)
     char *key;
     char *value;
     size_t equal_signe;
+    char    *eq_ptr;
     int i;
 
     head = NULL;

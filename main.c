@@ -155,6 +155,8 @@ int main(int argc, char **argv, char **envp)
 		print_cmd_table(cmd_table);
 		add_to_gc(&gc, (void **)(&token_head), 0);
 		add_to_gc(&gc, (void **)(&cmd_table), 1);
+		add_to_gc(&gc, (void **)(&env), 2);
+
 		// exec(cmd_table, env);
 		free(cmd);
 		// ft_token_lstclear(&token_head, free);
@@ -162,5 +164,7 @@ int main(int argc, char **argv, char **envp)
 		// free_table(cmd_table);
 		token_head = NULL;
 		cmd_table = NULL;
+		gc = NULL;
+		env = NULL;
 	}
 }
