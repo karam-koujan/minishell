@@ -118,9 +118,11 @@ int main(int argc, char **argv, char **envp)
 	t_token		*token_head;
 	t_cmd_table	*cmd_table;
 	t_env		*env;
+	t_gc		*gc;
 
 	(void)argc;
 	(void)argv;
+	gc = NULL;
 	if (signal(SIGINT, handler) == SIG_ERR)
 		return (perror("SIGINT ERROR"), 1);
 	if (signal(SIGQUIT, SIG_IGN) == SIG_ERR)
@@ -151,10 +153,13 @@ int main(int argc, char **argv, char **envp)
 			return (free(cmd), rl_clear_history(), \
 			ft_token_lstclear(&token_head, free), 1);
 		print_cmd_table(cmd_table);
-		exec(cmd_table, env);
+		add_to_gc(&gc, (void **)(&token_head), 0);
+		add_to_gc(&gc, (void **)(&cmd_table), 1);
+		// exec(cmd_table, env);
 		free(cmd);
-		ft_token_lstclear(&token_head, free);
-		free_table(cmd_table);
+		// ft_token_lstclear(&token_head, free);
+		ft_malloc(0, &gc, 1);
+		// free_table(cmd_table);
 		token_head = NULL;
 		cmd_table = NULL;
 	}

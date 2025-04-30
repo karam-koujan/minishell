@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 03:08:32 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/04/22 14:41:15 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/04/30 12:02:03 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ typedef struct s_cmd_table {
 	int				cmd_count;
 }				t_cmd_table;
 
-
 t_cmd_table		*parse(t_token *tokenlst, t_env *env);
 t_token			*parse_redir(t_simple_cmd **cmd, t_token *token, t_env *env);
 t_token			*parse_word(t_simple_cmd **cmd, t_token *token, t_env *env);
@@ -64,3 +63,12 @@ t_redirection	*redir_file(t_token **token, t_env *env, t_redir_type type);
 char			*join_expnd(t_token *token, t_env *env);
 
 #endif
+
+
+/*
+    definitely lost: 634 bytes in 5 blocks
+==425287==    indirectly lost: 10,174 bytes in 280 blocks
+==425287==      possibly lost: 0 bytes in 0 blocks
+==425287==    still reachable: 208,227 bytes in 225 blocks
+==425287==         suppressed: 0 bytes in 0 blocks
+*/
