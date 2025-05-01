@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 23:42:20 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/01 14:18:20 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/01 14:55:36 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,9 +87,9 @@ int	handle_cmd(char *cmd, t_token **head, int *in_herdoc)
 	if (*cmd == '"' )
 		return (*in_herdoc = 0, handle_double_quote(cmd, head));
 	if (*cmd && !is_whitespace(*cmd))
-		return (*in_herdoc = 0, handle_word(cmd, head));
+		return (handle_word(cmd, head, in_herdoc));
 	if (*cmd && is_whitespace(*cmd))
-		return (*in_herdoc = 0, handle_whitespace(cmd, head));
+		return (handle_whitespace(cmd, head));
 	*in_herdoc = 0;
 	return (0);
 }
@@ -106,7 +106,6 @@ t_token	*tokenize(char *cmd)
 	while (*cmd)
 	{
 		idx = handle_cmd(cmd, &head, &in_herdoc);
-		printf("in_herdoc %i\n", in_herdoc);
 		if (idx < 0)
 			return (NULL);
 		else if (idx > 0)

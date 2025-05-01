@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 23:42:33 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/04/30 10:54:32 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/01 14:54:21 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int		is_var_spchar(char c);
 int		handle_var(char *cmd, t_token **head);
 void	ft_token_lstclear(t_token **lst, void (*del)(void*));
 int		handle_whitespace(char *cmd, t_token **head);
-int		handle_word(char *cmd, t_token **head);
+int		handle_word(char *cmd, t_token **head, int *in_herdoc);
 char	*remove_quotes(char *cmd);
 t_token	*handle_tokenizer(t_token **tokenlst);
 
