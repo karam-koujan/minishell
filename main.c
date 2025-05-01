@@ -52,7 +52,7 @@ void print_cmd_table(t_cmd_table *cmd_table)
 			}
 			printf("\n");
 		}
-		
+
 		// Print redirections
 		printf("  Redirections: ");
 		if (!cmd_table->cmds[i]->redirs)
@@ -156,12 +156,9 @@ int main(int argc, char **argv, char **envp)
 		add_to_gc(&gc, (void **)(&token_head), 0);
 		add_to_gc(&gc, (void **)(&cmd_table), 1);
 		add_to_gc(&gc, (void **)(&env), 2);
-
 		// exec(cmd_table, env);
 		free(cmd);
-		// ft_token_lstclear(&token_head, free);
 		ft_malloc(0, &gc, 1);
-		// free_table(cmd_table);
 		token_head = NULL;
 		cmd_table = NULL;
 		gc = NULL;
