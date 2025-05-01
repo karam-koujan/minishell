@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 23:42:33 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/01 15:38:55 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/01 16:04:12 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ typedef struct s_token
 	struct s_token	*next;
 }			t_token;
 
-typedef struct	s_double_quote
+typedef struct s_double_quote
 {
 	char	*start;
 	int		len;
