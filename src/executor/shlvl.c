@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:23:30 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/01 10:03:36 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/01 12:18:38 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,7 @@ void handle_shlvl(t_env **env)
     {
         if(!is_valid_number(shlvl_str))
         {
+            // I think the value of newshlvl pointer in any case does not get added in the shl level
             free(shlvl_str);
              new_shlvl = ft_strdup("1");
         }
