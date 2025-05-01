@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 20:14:14 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/01 14:54:06 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/01 16:01:44 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,19 +40,19 @@ int	handle_word(char *cmd, t_token **head, int *in_herdoc)
 			break ;
 		offset++;
 	}
-	if (*in_herdoc)
-		*in_herdoc = 0;
 	if (add_token(head, start, offset, WORD_T) == 0)
 		return (-1);
 	return (offset);
 }
 
-int	handle_whitespace(char *cmd, t_token **head)
+int	handle_whitespace(char *cmd, t_token **head, int *in_herdoc)
 {
 	int		len;
 	char	*start;
 	int		offset;
+	t_token	*curr;
 
+	curr = *head;
 	len = 0;
 	start = cmd;
 	offset = 0;
@@ -63,6 +63,10 @@ int	handle_whitespace(char *cmd, t_token **head)
 		if (!is_whitespace(cmd[len]))
 			break ;
 	}
+	while (curr->next)
+		curr = curr->next;
+	if (curr->type != HERDOC_T)
+		*in_herdoc = 0;
 	if (add_token(head, start, len, SP_T) == 0)
 		return (-1);
 	return (offset);
