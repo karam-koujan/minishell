@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shlvl.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:23:30 by achemlal          #+#    #+#             */
-/*   Updated: 2025/04/19 18:26:24 by achemlal         ###   ########.fr       */
+/*   Updated: 2025/05/01 10:03:36 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,10 @@ void handle_shlvl(t_env **env)
     if (shlvl_str)
     {
         if(!is_valid_number(shlvl_str))
+        {
+            free(shlvl_str);
              new_shlvl = ft_strdup("1");
+        }
         else
         {
             shlvl = ft_atoi(shlvl_str);
@@ -72,13 +75,15 @@ void handle_shlvl(t_env **env)
                 printf("warning: shell level (1000) too high, resetting to 1\n");
                 shlvl = 1;
             }
+            free(shlvl_str);
             new_shlvl = ft_itoa(shlvl);
             update_shlvl(env, "SHLVL=", new_shlvl);
         }
     }
     else
     {
-        new_shlvl = "1";
+        free(shlvl_str);
+        new_shlvl = ft_strdup("1");
         new_node = create_env_node("SHLVL=", new_shlvl);
         add_node(env, new_node);
     }

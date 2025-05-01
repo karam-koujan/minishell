@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/30 09:02:08 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/04/30 13:00:46 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/01 09:30:35 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,6 @@ void	add_env_to_gc(t_gc **head, t_env **st)
 	tl = *st;
 	while (tl != NULL)
 	{
-		printf("%s %s\n",tl->key, tl->value);
 		gc_add_back(head, init_addr(tl->key));
 		gc_add_back(head, init_addr(tl->value));
 		gc_add_back(head, init_addr(tl));
@@ -126,8 +125,6 @@ void	add_parser_to_gc(t_gc **head, t_cmd_table **st)
 	gc_add_back(head, init_addr(tl->cmds));
 	gc_add_back(head, init_addr(tl));
 }
-
-
 
 void	add_to_gc(t_gc **head, void	**st, int type)
 {
