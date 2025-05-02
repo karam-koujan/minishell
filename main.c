@@ -141,6 +141,7 @@ int main(int argc, char **argv, char **envp)
 		add_history(cmd);
 		if (!syntax_error(cmd))
 		{
+			exit_stat(2, 1);
 			free(cmd);
 			continue ;
 		}
