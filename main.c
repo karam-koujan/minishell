@@ -108,7 +108,12 @@ void	handler(int signum)
 	if (signum == SIGINT && g_gl == 1)
 	{
 		printf("\n");
-		g_gl = 0;
+		// g_gl = 0;
+	}
+	if (signum == SIGINT && g_gl == 2)
+	{
+		printf("^C\n");
+		// g_gl = 0;
 	}
 }
 
@@ -123,6 +128,7 @@ int main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	gc = NULL;
+	g_gl = 0;
 	if (signal(SIGTERM, SIG_IGN) == SIG_ERR)
 		return (perror("SIGTERM ERROR"), 1);
 	if (signal(SIGINT, handler) == SIG_ERR)
@@ -160,8 +166,9 @@ int main(int argc, char **argv, char **envp)
 		add_to_gc(&gc, (void **)(&cmd_table), 1);
 		// add_to_gc(&gc, (void **)(&env), 2);
 		exec(cmd_table, env);
+		g_gl = 0;
 		free(cmd);
-		ft_malloc(0, &gc, 1);
+		ft_malloc(NULL, &gc, 1);
 		token_head = NULL;
 		cmd_table = NULL;
 		gc = NULL;

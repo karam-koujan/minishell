@@ -37,6 +37,7 @@ int	here_doc(char *delimiter)
 	pid_t	pid;
 	int		status;
 
+	g_gl = 2;
 	fd = open("/tmp/.here_doc", O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd < 0)
 		return (-1);

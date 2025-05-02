@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:16:34 by achemlal          #+#    #+#             */
-/*   Updated: 2025/04/20 15:15:32 by achemlal         ###   ########.fr       */
+/*   Updated: 2025/05/02 11:40:49 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,13 @@ void exec(t_cmd_table *data, t_env *env)
     if(!env_arr)
          return ;
     if(data->cmd_count == 1)
+    {
+        g_gl = 1;
         single_cmd(data->cmds, env, env_arr);
+    }
     else if(data->cmd_count > 1)
-         pipe_case(data, env, env_arr);
+    {
+        g_gl = 1;
+        pipe_case(data, env, env_arr);
+    }
 }

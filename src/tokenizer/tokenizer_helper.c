@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 20:14:14 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/01 16:01:44 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/02 10:58:57 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,9 @@ int	handle_whitespace(char *cmd, t_token **head, int *in_herdoc)
 		if (!is_whitespace(cmd[len]))
 			break ;
 	}
-	while (curr->next)
+	while (curr && curr->next)
 		curr = curr->next;
-	if (curr->type != HERDOC_T)
+	if (curr && curr->type != HERDOC_T)
 		*in_herdoc = 0;
 	if (add_token(head, start, len, SP_T) == 0)
 		return (-1);

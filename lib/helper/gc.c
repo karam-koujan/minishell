@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 10:15:54 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/01 10:19:59 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/02 12:06:38 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,14 +66,12 @@ void	free_all(t_gc **head)
 	}
 }
 
-void	*ft_malloc(size_t size, t_gc **head, int enable_free)
+void	*ft_malloc(void *ptr, t_gc **head, int enable_free)
 {
-	void	*ptr;
 	t_gc	*gc;
 
 	if (enable_free)
 		return (free_all(head), NULL);
-	ptr = malloc(size);
 	if (ptr == NULL)
 		return (NULL);
 	gc = init_addr(ptr);
