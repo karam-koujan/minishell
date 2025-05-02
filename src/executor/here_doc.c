@@ -23,6 +23,7 @@ static int read_in_stdin(int fd, char *delimiter)
 		// Optional: expand variables if delimiter is unquoted
 		// if (!replace_dollar(&line))
 		//     return false;
+
 		write(fd, line, ft_strlen(line));
 		write(fd, "\n", 1);
 		free(line);

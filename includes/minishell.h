@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 21:36:09 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/04/21 10:44:58 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/02 20:33:04 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,4 +27,5 @@
 
 extern int  g_gl;
 
+typedef struct sigaction   t_sigaction;
 #endif

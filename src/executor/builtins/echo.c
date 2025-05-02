@@ -35,7 +35,7 @@ int is_n_flage(char *str)
 void builtin_echo(t_simple_cmd **data)
 {
     int i;          
-    int newline;  
+    int newline;
 
     i = 1;
     newline = 1;
@@ -46,11 +46,11 @@ void builtin_echo(t_simple_cmd **data)
     }
     while((*data)->args[i])
     {
-        ft_putstr_fd((*data)->args[i], 1);
+        printf("%s",(*data)->args[i]);
         if((*data)->args[i + 1])
-            ft_putstr_fd(" ", 1);
+            printf(" ");
         i++;
     }
     if (newline)
-        ft_putstr_fd("\n", 1);
+        printf("\n");
 }

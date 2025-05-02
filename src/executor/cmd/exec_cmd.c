@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:21:45 by achemlal          #+#    #+#             */
-/*   Updated: 2025/04/20 12:41:20 by achemlal         ###   ########.fr       */
+/*   Updated: 2025/05/02 18:24:33 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,7 @@ void exec_proc(t_simple_cmd **data, t_env *env, char **env_arr)
     exit_stat(0, 1);
     inf_outf_cmd(data, 1);
     check_is_building(data, env,  env_arr);
-    if (check_exec_cmd((*data)->args, env_arr) == -1)
-        return ;
+    check_exec_cmd((*data)->args, env_arr);
 }
 
 void exec_cmd(t_simple_cmd **data,t_env *env, char **env_arr)
@@ -63,11 +62,13 @@ void exec_cmd(t_simple_cmd **data,t_env *env, char **env_arr)
 
     if (pid == 0)
     {
+        signal(SIGINT, SIG_DFL);
+        signal(SIGQUIT, SIG_DFL);
         exec_proc(data, env, env_arr);
     }
     else
     {
         waitpid(pid, &status, 0);
-        exit_stat(status, 1);
+        exit_status(status);
     }
 }

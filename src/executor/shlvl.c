@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shlvl.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:23:30 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/01 12:18:38 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/04/19 18:26:24 by achemlal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,11 +60,7 @@ void handle_shlvl(t_env **env)
     if (shlvl_str)
     {
         if(!is_valid_number(shlvl_str))
-        {
-            // I think the value of newshlvl pointer in any case does not get added in the shl level
-            free(shlvl_str);
              new_shlvl = ft_strdup("1");
-        }
         else
         {
             shlvl = ft_atoi(shlvl_str);
@@ -76,16 +72,14 @@ void handle_shlvl(t_env **env)
                 printf("warning: shell level (1000) too high, resetting to 1\n");
                 shlvl = 1;
             }
-            free(shlvl_str);
-            new_shlvl = ft_itoa(shlvl);
+            new_shlvl = ft_strdup(ft_itoa(shlvl));
             update_shlvl(env, "SHLVL=", new_shlvl);
         }
     }
     else
     {
-        free(shlvl_str);
         new_shlvl = ft_strdup("1");
-        new_node = create_env_node("SHLVL=", new_shlvl);
+        new_node = create_env_node(ft_strdup("SHLVL="), new_shlvl);
         add_node(env, new_node);
     }
 }

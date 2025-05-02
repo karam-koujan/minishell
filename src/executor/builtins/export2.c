@@ -71,17 +71,26 @@ t_env *sort_var(t_env *head)
 void print_export(t_env *env)
 {
 	t_env *sorted;
+	int i = 0;
 
-    exit_stat(0, 1);
 	sorted = sort_var(copy_env(env));
-	if(!sorted)
+	if (!sorted)
 		return ;
-	while(sorted)
+
+	while (sorted)
 	{
-		if (!sorted->value)
+		if (i == 1 && sorted->key && ft_strcmp(sorted->key, "PATH=") == 0)
+		{
+			sorted = sorted->next;
+			i++;
+			continue;
+		}
+		else if (!sorted->value)
 			printf("declare -x %s\n", sorted->key);
 		else
 			printf("declare -x %s\"%s\"\n", sorted->key, sorted->value);
 		sorted = sorted->next;
+		i++;
 	}
 }
+

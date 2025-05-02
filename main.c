@@ -52,7 +52,7 @@ void print_cmd_table(t_cmd_table *cmd_table)
 			}
 			printf("\n");
 		}
-
+		
 		// Print redirections
 		printf("  Redirections: ");
 		if (!cmd_table->cmds[i]->redirs)
@@ -96,8 +96,11 @@ void print_cmd_table(t_cmd_table *cmd_table)
 	}
 }
 
-void	handler(int signum)
+void	handler(int signum, siginfo_t *info, void	*context)
 {
+	(void)info;
+	(void)context;
+	// printf("%i\n", g_gl);
 	if (signum == SIGINT && g_gl == 0)
 	{
 		write(1, "\n", 1);
@@ -106,15 +109,9 @@ void	handler(int signum)
 		rl_redisplay();
 	}
 	if (signum == SIGINT && g_gl == 1)
-	{
-		printf("\n");
-		// g_gl = 0;
-	}
+		write(1, "\n", 1);
 	if (signum == SIGINT && g_gl == 2)
-	{
 		printf("^C\n");
-		// g_gl = 0;
-	}
 }
 
 int main(int argc, char **argv, char **envp)
@@ -123,25 +120,26 @@ int main(int argc, char **argv, char **envp)
 	t_token		*token_head;
 	t_cmd_table	*cmd_table;
 	t_env		*env;
-	t_gc		*gc;
+	t_sigaction	sa;
 
 	(void)argc;
 	(void)argv;
-	gc = NULL;
+	env = NULL;
 	g_gl = 0;
-	if (signal(SIGTERM, SIG_IGN) == SIG_ERR)
-		return (perror("SIGTERM ERROR"), 1);
-	if (signal(SIGINT, handler) == SIG_ERR)
+	sa.sa_sigaction = handler;
+	sa.sa_flags = SA_RESTART;
+	if (sigaction(SIGINT, &sa, NULL) == SIG_ERR)
 		return (perror("SIGINT ERROR"), 1);
 	if (signal(SIGQUIT, SIG_IGN) == SIG_ERR)
 		return (perror("SIGQUIT ERROR"), 1);
 	env = init_env_list(envp);
+	if (!env)
+		init_empty_env(&env);
 	handle_shlvl(&env);
 	init_pwd(&env);
 	while (1337)
 	{
 		cmd = readline("minishell$ ");
-		g_gl = 0;
 		if (cmd == NULL)
 			return (printf("exit\n"), 0);
 		if (!*cmd)
@@ -149,28 +147,25 @@ int main(int argc, char **argv, char **envp)
 		add_history(cmd);
 		if (!syntax_error(cmd))
 		{
-			exit_stat(2, 1);
 			free(cmd);
 			continue ;
 		}
 		token_head = tokenize(cmd);
 		if (!token_head)
 			return (free(cmd), rl_clear_history(), 1);
-		print_token_list(token_head);
+		//print_token_list(token_head);
 		cmd_table = parse(token_head, env);
 		if (!cmd_table)
 			return (free(cmd), rl_clear_history(), \
 			ft_token_lstclear(&token_head, free), 1);
-		print_cmd_table(cmd_table);
-		add_to_gc(&gc, (void **)(&token_head), 0);
-		add_to_gc(&gc, (void **)(&cmd_table), 1);
-		// add_to_gc(&gc, (void **)(&env), 2);
-		exec(cmd_table, env);
+		//print_cmd_table(cmd_table);
+		exec(cmd_table, &env);
 		g_gl = 0;
+		printf("exit_stat : %d\n", exit_stat(0, 0));
 		free(cmd);
-		ft_malloc(NULL, &gc, 1);
+		ft_token_lstclear(&token_head, free);
+		free_table(cmd_table);
 		token_head = NULL;
 		cmd_table = NULL;
-		gc = NULL;
 	}
 }

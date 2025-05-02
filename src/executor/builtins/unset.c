@@ -31,14 +31,14 @@ void unset_env(char *key, t_env **env)
             else
                 *env = curr->next;
             return(free(curr->key), free(curr->value),
-                        free(curr)); // exit status is 1;
+                       free(curr)); // exit status is 1;
         }
         prev = curr;
         curr = curr->next;
     }
 }
 
-void  builtin_unset(t_simple_cmd **data, t_env *env)
+void  builtin_unset(t_simple_cmd **data, t_env **env)
 {
     int i;
  
@@ -46,7 +46,7 @@ void  builtin_unset(t_simple_cmd **data, t_env *env)
     exit_stat(0, 1);
     while((*data)->args[i])
     {
-       unset_env((*data)->args[i], &env);
+       unset_env((*data)->args[i], env);
         i++;
     }
 }

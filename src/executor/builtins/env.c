@@ -17,8 +17,11 @@ void builtin_env(t_simple_cmd **data, t_env *env)
     if((*data)->args[1])
     {
         printf("env: ‘%s’: No such file or directory\n", (*data)->args[1]);
-            return ;// exit status is 127;
+        exit(127);
+        return ;
     }
+    if (env && ft_strcmp(env->key, "PATH=") == 0)
+		env = env->next;
     while (env)
     {
         if (env->value)

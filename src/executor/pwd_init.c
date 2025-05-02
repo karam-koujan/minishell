@@ -32,11 +32,11 @@ void init_pwd(t_env **env)
         curr = curr->next;
     }
     pwd = getcwd(NULL, 0);
-    new_node = create_env_node("PWD=", pwd);
+    new_node = create_env_node(ft_strdup("PWD="), pwd);
     add_node(env, new_node);
     if(flag == 0)
     {
-        new_node = create_env_node("OLDPWD", NULL);
+        new_node = create_env_node(ft_strdup("OLDPWD"), NULL);
         add_node(env, new_node);
     }
 }

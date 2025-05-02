@@ -6,13 +6,19 @@
 /*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:21:54 by achemlal          #+#    #+#             */
-/*   Updated: 2025/04/20 16:45:25 by achemlal         ###   ########.fr       */
+/*   Updated: 2025/04/30 16:30:07 by achemlal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../../../includes/minishell.h"
+#include <errno.h>
 
+static void	error_exit(const char *msg, int code)
+{
+	perror(msg);
+	exit(code);
+}
 int	ft_check_path_cmd(char *cmd)
 {
 	int	i;
@@ -27,59 +33,46 @@ int	ft_check_path_cmd(char *cmd)
 	return (0);
 }
 
-int	pars_cmd_1(char *cmd)
+void	pars_cmd_1(char *cmd)
 {
-
-	if ( cmd[0] == '.' && ft_check_path_cmd(cmd) == 0)
+	if (cmd[0] == '.' && ft_check_path_cmd(cmd) == 0)
 	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(cmd, 2);
-		ft_putstr_fd(": Command not found\n", 2);
-		return (exit_stat(2, 1), -1);
+		printf("minishell: %s: Command not found\n", cmd);
+		exit(2);
 	}
-	return (0);
 }
 
-int	pars_cmd_2(char **cmd, char **env)
+void	pars_cmd_2(char **cmd, char **env)
 {
 	if (access(cmd[0], F_OK) == -1)
-	{
-		perror(cmd[0]);
-		return (-1);
-	}
+		error_exit(cmd[0], 127);
 	if (access(cmd[0], X_OK) == -1)
 	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(cmd[0], 2);
-		ft_putstr_fd(": Permission Denied\n", 2);
-		return (exit_stat(126, 1), -1);
+		printf("minishell: %s: Permission Denied\n", cmd[0]);
+		exit(126);
 	}
-	if (execve(cmd[0], cmd, env) == -1)
-	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(cmd[0], 2);
-		ft_putstr_fd(": Command not found\n", 2);
-		return (exit_stat(127, 1), -1);
-	}
-	return (0);
+	execve(cmd[0], cmd, env);
+	printf("minishell: %s: Command not found\n", cmd[0]);
+	exit(127);
 }
 
-int	pars_cmd_3(char **cmd, char **env)
+void	pars_cmd_3(char **cmd, char **env)
 {
 	char	**path;
 	char	*path_cmd;
 
 	path = ft_split(fet_path(env), ':');
-	if (!path)
-		return (ft_putstr_fd("minishell: ", 2), ft_putstr_fd(": Error\n", 2), -1);
+	if (!path || !path[0])
+	{
+		errno = ENOENT; 
+		error_exit(cmd[0], 127);
+	}
 	path_cmd = ft_found_cmd(cmd[0], path);
 	if (!path_cmd)
 	{
-		ft_putstr_fd("minishell: ", 2);
-		ft_putstr_fd(cmd[0], 1);
-		ft_putstr_fd(": Command not found\n", 2);
+		printf("minishell: %s: Command not found\n", cmd[0]);
+		exit(1);
 	}
-	if (execve(path_cmd, cmd, env) == -1)
-		return (exit_stat(127, 1), -1);
-	return (0);
+	execve(path_cmd, cmd, env);
+	error_exit(cmd[0], 127);
 }

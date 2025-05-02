@@ -49,20 +49,10 @@ char	*ft_found_cmd(char *cmd, char **path)
 	return (NULL);
 }
 
-int	check_exec_cmd(char **cmd, char **env)
+void	check_exec_cmd(char **cmd, char **env)
 {
-
-	if(pars_cmd_1(cmd[0]) == -1)
-		return -1;
-	else if (ft_check_path_cmd(cmd[0]) == 1)
-	{
-		if (pars_cmd_2(cmd, env) == -1)
-			return (-1);
-	}
-	else
-	{
-		if (pars_cmd_3(cmd, env) == -1)
-			return (-1);
-	}
-	return (1);
+	pars_cmd_1(cmd[0]);
+	if (ft_check_path_cmd(cmd[0]) == 1)
+		pars_cmd_2(cmd, env);
+	pars_cmd_3(cmd, env);
 }

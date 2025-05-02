@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:22:22 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/01 11:10:24 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/04/30 18:03:20 by achemlal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int first_proc(t_simple_cmd *cmd, t_env *env, char **env_arr)
 		exec_proc(&cmd, env, env_arr);
 	}
 	ft_close(fd[1]);
-	return (fd[0]);
+	return (fd[0]); 
 }
 
 int mid_proc(int fd_save, t_simple_cmd *cmd, t_env *env, char **env_arr)
@@ -93,9 +93,9 @@ void pipe_case(t_cmd_table *data, t_env *env, char ** env_arr)
 			fd_save =  mid_proc(fd_save, data->cmds[i + 1], env, env_arr);
 			if(fd_save == -1)
 			{
-				exit_stat(1, 1);
+				exit_stat(1, 1);   
 				while ((wait(NULL) != -1))
-					  ;
+				      ;
 				return ;
 			}
 			i++;

@@ -25,13 +25,13 @@ int exit_stat(int value, int action)
 
     return status; 
 }
-// void exit_status(int status)
-// {
-//     if(WIFSIGNALED(status))
-//         exit_stat(128 + WTERMSIG(status), 1);
-//     else if (WIFEXITED(status), 1)
-//         exit_status(WEXITSTATUS(status), 1);
-// }
+void exit_status(int status)
+ {
+    // if(WIFSIGNALED(status))
+       //  exit_stat(128 + WTERMSIG(status), 1);
+    if (WIFEXITED(status), 1)
+         exit_stat(WEXITSTATUS(status), 1);
+ }
 int is_numeric( char *str)
 {
     int i = 0;
@@ -88,16 +88,16 @@ void builtin_exit(t_simple_cmd **data)
         {
             printf("exit\nexit: %s: numeric argument required\n",
                 (*data)->args[1]);
-            exit(255);
+            exit(exit_stat(255, 1));
         }
         if (!ft_atoll((*data)->args[1], &code))
         {
             printf("exit\nexit: %s: numeric argument required\n",
                 (*data)->args[1]);
-            exit(255);
+            exit(exit_stat(255, 1));
         }
     }
     else
         return(printf("exit\nexit: too many arguments\n"), exit(255));
-    return (printf("exit\n"), exit(code % 256));
+    return (printf("exit\n"), exit(exit_stat(code % 256, 1)));
 }

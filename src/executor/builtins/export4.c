@@ -6,7 +6,7 @@
 /*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:21:17 by achemlal          #+#    #+#             */
-/*   Updated: 2025/04/19 18:22:45 by achemlal         ###   ########.fr       */
+/*   Updated: 2025/05/02 11:24:58 by achemlal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,25 +83,6 @@ int update_var(t_env **env, char *key, char *value)
     return 0;
 }
 
-void	add_node(t_env **env, t_env *new)
-{
-	t_env	*l;
-	if (!env || !new)
-		return ;
-	if (*env == NULL)
-	{
-		*env = new;
-	}
-	else
-	{
-		l = *env;
-		while (l->next != NULL)
-		{
-			l = l->next;
-		}
-		l->next = new;
-	}
-}
 
 void add_var(t_env **env, char *key, char *value)
 {
@@ -118,7 +99,7 @@ void add_var(t_env **env, char *key, char *value)
     }
 }
 
-void var_set(char *str, t_env *env)
+void var_set(char *str, t_env **env)
 {
     char *key;
     char *value;
@@ -133,7 +114,7 @@ void var_set(char *str, t_env *env)
         key = ft_substr(str, 0, size);
         if(!key)
             return ;
-        value = ft_substr(str, size , ft_strlen(str) - 1);
+        value = ft_substr(str, size , ft_strlen(str) - size); // notice size correction
         if(!value)
             return ;
     }
@@ -143,5 +124,5 @@ void var_set(char *str, t_env *env)
         if(!key)
             return ;
     }
-    add_var(&env, key, value);
+    add_var(env, key, value);
 }
