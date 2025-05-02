@@ -6,11 +6,11 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 10:43:34 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/04/21 10:29:01 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/02 10:22:25 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/parser.h"
+#include "../../includes/minishell.h"
 
 void	free_redirections(t_redirection *redirs)
 {
@@ -80,7 +80,10 @@ char	*get_word_val(t_token *token, t_env *env)
 	value = NULL;
 	if (token->type == VAR_T)
 	{
-		value = ft_getenv_val(env, token->val);
+		if (token->val && ft_strcmp(token->val, "?") == 0)
+			value = ft_itoa(exit_stat(0, 0));
+		else
+			value = ft_getenv_val(env, token->val);
 		if (!value)
 			return (NULL);
 	}
