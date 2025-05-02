@@ -108,10 +108,12 @@ void	handler(int signum, siginfo_t *info, void	*context)
 		rl_on_new_line();
 		rl_redisplay();
 	}
-	if (signum == SIGINT && g_gl == 1)
-		write(1, "\n", 1);
+	// if (signum == SIGINT && g_gl == 1)
+	// 	write(1, "\n", 1);
 	if (signum == SIGINT && g_gl == 2)
-		printf("^C\n");
+	{
+		printf("^C");
+	}
 }
 
 int main(int argc, char **argv, char **envp)
@@ -128,7 +130,8 @@ int main(int argc, char **argv, char **envp)
 	g_gl = 0;
 	sa.sa_sigaction = handler;
 	sa.sa_flags = SA_RESTART;
-	if (sigaction(SIGINT, &sa, NULL) == SIG_ERR)
+	// sigemptyset(&sa.sa_mask);
+	if (sigaction(SIGINT, &sa, NULL) == -1)
 		return (perror("SIGINT ERROR"), 1);
 	if (signal(SIGQUIT, SIG_IGN) == SIG_ERR)
 		return (perror("SIGQUIT ERROR"), 1);
