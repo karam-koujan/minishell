@@ -123,6 +123,8 @@ int main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	gc = NULL;
+	if (signal(SIGTERM, SIG_IGN) == SIG_ERR)
+		return (perror("SIGTERM ERROR"), 1);
 	if (signal(SIGINT, handler) == SIG_ERR)
 		return (perror("SIGINT ERROR"), 1);
 	if (signal(SIGQUIT, SIG_IGN) == SIG_ERR)
