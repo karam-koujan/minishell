@@ -161,8 +161,8 @@ int main(int argc, char **argv, char **envp)
 		if (!cmd_table)
 			return (free(cmd), rl_clear_history(), \
 			ft_token_lstclear(&token_head, free), 1);
-		print_cmd_table(cmd_table);
-		exec(cmd_table, &env, &gc);
+		// print_cmd_table(cmd_table);
+		// exec(cmd_table, &env, &gc);
 		g_gl = 0;
 		printf("exit_stat : %d\n", exit_stat(0, 0));
 		free(cmd);

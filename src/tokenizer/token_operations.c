@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 20:07:49 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/03 17:48:54 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/03 20:02:35 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,19 @@ t_token	*handle_expand_var(t_token *tokenlst, t_env *env, int in_quote)
 	int		i;
 	t_token	*next;
 	t_token *curr;
+	t_token	*prev;
 
+	prev = NULL;
 	curr = tokenlst;
 	i = -1;
 	val = get_word_val(tokenlst, env);
+	if (in_quote)
+	{
+		free(tokenlst->val);
+		tokenlst->type = WORD_T;
+		tokenlst->val = val;
+		return (tokenlst->next);
+	}
 	arr = ft_split(val, ' ');
 	if (arr && arr[1] == NULL)
 	{
@@ -68,23 +77,56 @@ t_token	*handle_expand_var(t_token *tokenlst, t_env *env, int in_quote)
 	}
 	while (arr[++i])
 	{
-		curr->type = WORD_T;
-		free(curr->val);
-		curr->val = arr[i];
-		next = curr->next;
-		if (!in_quote)
-		{
-			curr->next = init_token(SP_T, NULL);
-			if (curr->next)
-			{
-					curr->next->next = next;
-			}
-		}
-		if (next != NULL)
-			curr = next;
+		if (curr)
+			next = curr->next;
 		else
-			curr = init_token(WORD_T, NULL);
+			next = NULL;
+		if (curr)
+		{
+			curr->type = WORD_T;
+			curr->val = arr[i];
+			curr->next = init_token(SP_T, NULL);
+			if (!curr->next)
+				return (NULL);
+			curr->next->next = next;
+			curr = next;
+		}
+		else
+		{
+			curr = init_token(WORD_T, arr[i]);
+		}
 	}
+	// if (curr)
+	// {
+	// 	curr->type = WORD_T;
+	// 	free(curr->val);
+	// 	curr->val = arr[i];
+	// }
+	// else
+	// {
+	// 	curr = init_token(WORD_T, arr[i]);
+	// 	if (prev)
+	// 		prev->next = curr;
+	// }
+	// next = curr->next;
+	// if (!in_quote)
+	// {
+	// 	curr->next = init_token(SP_T, NULL);
+	// 	if (curr->next)
+	// 	{
+	// 		curr->next->next = next;
+	// 		prev = curr->next;
+	// 	}
+	// }
+	// if (next)
+	// {
+	// 	curr = next;
+	// }
+	// else
+	// {
+	// 	prev = curr;
+	// 	curr = next;
+	// }
 	return (curr);
 }
 
