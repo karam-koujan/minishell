@@ -6,7 +6,6 @@ static int read_in_stdin(int fd, char *delimiter)
 
 	while (1)
 	{
-
 		line = readline("> ");
 		if (!line)
 		{
@@ -24,6 +23,7 @@ static int read_in_stdin(int fd, char *delimiter)
 		// Optional: expand variables if delimiter is unquoted
 		// if (!replace_dollar(&line))
 		//     return false;
+
 		write(fd, line, ft_strlen(line));
 		write(fd, "\n", 1);
 		free(line);
@@ -38,7 +38,6 @@ int	here_doc(char *delimiter)
 	pid_t	pid;
 	int		status;
 
-	g_gl = 2;
 	fd = open("/tmp/.here_doc", O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd < 0)
 		return (-1);

@@ -6,7 +6,7 @@
 /*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:20:33 by achemlal          #+#    #+#             */
-/*   Updated: 2025/04/19 18:22:50 by achemlal         ###   ########.fr       */
+/*   Updated: 2025/05/02 15:30:08 by achemlal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ int not_equal(char *str)
 	{
 		if(!ft_isalnum(str[i]))
 		{
-			
 			if(str[i] != '_')
 				return (printf("export: '%s': not a valid identifier\n", str),
 					exit_stat(1, 1), 0);
@@ -64,7 +63,7 @@ int not_equal(char *str)
 	}
 	return (1);
 }
-int valid_export(char *str)
+int valid_export(char *str, t_gc **gc)
 {
 	char *key;
 	size_t size;
@@ -72,7 +71,7 @@ int valid_export(char *str)
 	if(ft_strchr(str, '='))
 	{
 		size = ft_strchr(str, '=') - str + 1;
-		key = ft_substr(str, 0, size);
+		key = ft_malloc(ft_substr(str, 0, size), gc, 0);
 		if(!key)
 			return 0;
 		if(!equal_char(str, key))

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:21:45 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/02 18:24:33 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/04/20 12:41:20 by achemlal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,8 +62,6 @@ void exec_cmd(t_simple_cmd **data,t_env *env, char **env_arr)
 
     if (pid == 0)
     {
-        signal(SIGINT, SIG_DFL);
-        signal(SIGQUIT, SIG_DFL);
         exec_proc(data, env, env_arr);
     }
     else

@@ -1,5 +1,17 @@
 #include "../../../includes/minishell.h"
 
+char *ft_getenv(t_env *env, char *key)
+{
+    if(!env || !key)
+        return NULL;
+    while(env)
+    {
+        if(ft_strcmp(env->key, key) == 0)
+            return (env->value);
+        env = env->next;
+    }
+    return NULL;
+}
 char *join_env_var(t_env *env)
 {
     char *env_var;

@@ -6,55 +6,64 @@
 /*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:23:12 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/02 11:57:59 by achemlal         ###   ########.fr       */
+/*   Updated: 2025/05/02 14:46:03 by achemlal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../../includes/minishell.h"
 
-int *init_empty_env(t_env **env)
+void *init_empty_env(t_env **env, t_gc **gc)
 {
     char *path;
     char *value;
     t_env *new_node;
 
-    path = ft_strdup("PATH=");
-    value = ft_strdup(PATH);
-    new_node = create_env_node(path, value);
-    add_node(env, new_node);
+    path = ft_malloc(ft_strdup("PATH="), gc, 0);
+	if (!path)
+		return (NULL);
+	value = ft_malloc(ft_strdup(PATH), gc, 0);
+	if (!value)
+		return (NULL);
+	new_node = create_env_node(path, value);
+	if (!new_node)
+		return (NULL);
+	add_node(env, new_node);
 }
-static void get_key_value(char *envp, char **key, char **value)
+static int	get_key_value(char *envp, char **key, char **value, t_gc **gc)
 {
-    size_t equal_signe;
-    
-    equal_signe = ft_strchr(envp, '=') - envp + 1;
-    (*key) = ft_substr(envp, 0, equal_signe);
-    (*value) = ft_substr(envp, equal_signe, ft_strlen(envp) - 1);
-}
-t_env *init_env_list(char **envp)
-{
-    t_env *head;
-    t_env *new_node;
-    t_env *current;
-    char *key;
-    char *value;
-    int i;
+	size_t	equal_sign;
 
-    head = NULL;
-    current = NULL;
-    new_node = NULL;
-    i = 0;
-    while(envp[i])
-    {
-        get_key_value(envp[i], &key, &value);
-        if(!key || !value)
-            return(free(key), free(value), NULL);
-        new_node = create_env_node(key , value);
-        if(!new_node)
-            return (free(key), free(value), NULL);
-        add_node(&head, new_node);
-        i++;
-    }
-    return(head);
+	if (!envp  || !key || !value)
+		return (0);
+	equal_sign = ft_strchr(envp, '=') - envp + 1;
+	*key = ft_malloc(ft_substr(envp, 0, equal_sign), gc, 0);
+	*value = ft_malloc(ft_substr(envp, equal_sign,
+				ft_strlen(envp) - equal_sign), gc, 0);
+	if (!*key || !*value)
+		return (0);
+	return (1);
+}
+
+t_env	*init_env_list(char **envp, t_gc **gc)
+{
+	t_env	*head;
+	t_env	*new_node;
+	char	*key;
+	char	*value;
+	int		i;
+
+	head = NULL;
+	i = 0;
+	while (envp[i])
+	{
+		if (!get_key_value(envp[i], &key, &value, gc))
+			return (NULL);
+		new_node = create_env_node(key, value);
+		if (!new_node)
+			return (NULL);
+		add_node(&head, new_node);
+		i++;
+	}
+	return (head);
 }

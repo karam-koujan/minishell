@@ -108,8 +108,8 @@ void	handler(int signum, siginfo_t *info, void	*context)
 		rl_on_new_line();
 		rl_redisplay();
 	}
-	// if (signum == SIGINT && g_gl == 1)
-	// 	write(1, "\n", 1);
+	if (signum == SIGINT && g_gl == 1)
+		write(1, "\n", 1);
 	if (signum == SIGINT && g_gl == 2)
 	{
 		printf("^C");
@@ -123,7 +123,7 @@ int main(int argc, char **argv, char **envp)
 	t_cmd_table	*cmd_table;
 	t_env		*env;
 	t_sigaction	sa;
-
+	t_gc		*gc;
 	(void)argc;
 	(void)argv;
 	env = NULL;
@@ -135,11 +135,11 @@ int main(int argc, char **argv, char **envp)
 		return (perror("SIGINT ERROR"), 1);
 	if (signal(SIGQUIT, SIG_IGN) == SIG_ERR)
 		return (perror("SIGQUIT ERROR"), 1);
-	env = init_env_list(envp);
+	env = init_env_list(envp, &gc);
 	if (!env)
-		init_empty_env(&env);
-	handle_shlvl(&env);
-	init_pwd(&env);
+		init_empty_env(&env, &gc);
+	handle_shlvl(&env, &gc);
+	init_pwd(&env, &gc);
 	while (1337)
 	{
 		cmd = readline("minishell$ ");
@@ -162,7 +162,7 @@ int main(int argc, char **argv, char **envp)
 			return (free(cmd), rl_clear_history(), \
 			ft_token_lstclear(&token_head, free), 1);
 		//print_cmd_table(cmd_table);
-		exec(cmd_table, &env);
+		exec(cmd_table, &env, &gc);
 		g_gl = 0;
 		printf("exit_stat : %d\n", exit_stat(0, 0));
 		free(cmd);
