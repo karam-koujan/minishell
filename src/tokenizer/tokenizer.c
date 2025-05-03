@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 23:42:20 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/01 15:39:11 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/03 17:15:55 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ int	handle_cmd(char *cmd, t_token **head, int *in_herdoc)
 	return (0);
 }
 
-t_token	*tokenize(char *cmd)
+t_token	*tokenize(char *cmd, t_env *env)
 {
 	t_token	*head;
 	int		idx;
@@ -112,6 +112,6 @@ t_token	*tokenize(char *cmd)
 		else
 			cmd++;
 	}
-	return (handle_tokenizer(&head));
+	return (handle_tokenizer(&head, env));
 	// return (head);
 }

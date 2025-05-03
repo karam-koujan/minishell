@@ -3,14 +3,15 @@
 /*                                                        :::      ::::::::   */
 /*   token_operations.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkoujan <kkoujan@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 20:07:49 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/04/04 15:32:02 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/03 17:48:54 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/tokenizer.h"
+#include "../../includes/minishell.h"
+
 
 t_token	*init_token(t_token_type type, char *val)
 {
@@ -46,9 +47,77 @@ void	ft_token_add_back(t_token **lst, t_token *new)
 	}
 }
 
-t_token	*handle_tokenizer(t_token **tokenlst)
+t_token	*handle_expand_var(t_token *tokenlst, t_env *env, int in_quote)
+{
+	char	*val;
+	char	**arr;
+	int		i;
+	t_token	*next;
+	t_token *curr;
+
+	curr = tokenlst;
+	i = -1;
+	val = get_word_val(tokenlst, env);
+	arr = ft_split(val, ' ');
+	if (arr && arr[1] == NULL)
+	{
+		tokenlst->type = WORD_T;
+		free(tokenlst->val);
+		tokenlst->val = arr[0];
+		return (tokenlst->next);
+	}
+	while (arr[++i])
+	{
+		curr->type = WORD_T;
+		free(curr->val);
+		curr->val = arr[i];
+		next = curr->next;
+		if (!in_quote)
+		{
+			curr->next = init_token(SP_T, NULL);
+			if (curr->next)
+			{
+					curr->next->next = next;
+			}
+		}
+		if (next != NULL)
+			curr = next;
+		else
+			curr = init_token(WORD_T, NULL);
+	}
+	return (curr);
+}
+
+void	join_var(t_token **tokenlst, t_env *env)
+{
+	t_token	*lst;
+	int		in_quote;
+
+	lst = *tokenlst;
+	in_quote = 0;
+	while (lst)
+	{
+		if (lst->type == QT_T)
+		{
+			in_quote = 1;
+			lst = lst->next;
+			continue ;
+		}
+		if (lst->type == VAR_T)
+		{
+			lst = handle_expand_var(lst, env, in_quote);
+			continue ;
+		}
+		else if (in_quote && lst->type == SP_T)
+			in_quote = 0;
+		lst = lst->next;
+	}
+}
+
+t_token	*handle_tokenizer(t_token **tokenlst, t_env *env)
 {
 	join_cmd(tokenlst);
+	join_var(tokenlst, env);
 	return (*tokenlst);
 }
 

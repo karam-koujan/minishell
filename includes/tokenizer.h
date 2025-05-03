@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 23:42:33 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/01 16:04:12 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/03 17:16:21 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "../lib/libft/libft.h"
 # include "../includes/helper.h"
+# include "../includes/env.h"
 # include <stdlib.h>
 # include <stdio.h>
 
@@ -46,7 +47,7 @@ typedef struct s_double_quote
 
 char	*quote_token(char **cmd, char end_char);
 t_token	*init_token(t_token_type type, char *val);
-t_token	*tokenize(char *cmd);
+t_token	*tokenize(char *cmd, t_env *env);
 void	print_token_list(t_token *head);
 void	ft_token_add_back(t_token **lst, t_token *new);
 int		handle_double_quote(char *cmd, t_token **head, int *in_herdoc);
@@ -62,7 +63,7 @@ void	ft_token_lstclear(t_token **lst, void (*del)(void*));
 int		handle_whitespace(char *cmd, t_token **head, int *in_herdoc);
 int		handle_word(char *cmd, t_token **head, int *in_herdoc);
 char	*remove_quotes(char *cmd);
-t_token	*handle_tokenizer(t_token **tokenlst);
+t_token	*handle_tokenizer(t_token **tokenlst, t_env *env);
 
 void	join_cmd(t_token **tokenlst);
 void	handle_word_token(t_token *lst, t_token **next_ptr);
