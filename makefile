@@ -8,7 +8,7 @@ src/executor/builtins/pwd.o src/executor/builtins/cd.o src/executor/builtins/env
 ./lib/libft/ft_putstr_fd.o ./lib/libft/ft_atoi.o ./lib/libft/ft_itoa.o \
 ./lib/libft/ft_isalpha.o src/tokenizer/handle_double_quote.o src/tokenizer/token_operations.o src/tokenizer/tokenizer_helper.o ./lib/helper/helper.o \
 src/parser/parser.o src/parser/parser_operations.o src/parser/parser_helper.o ./lib/libft/ft_strjoin.o ./lib/libft/ft_strlcat.o src/tokenizer/tokenizer_extra.o \
-src/parser/parse_redir.o
+src/parser/parse_redir.o src/tokenizer/handle_var_expansion.o
 
 all : $(Name)
 
