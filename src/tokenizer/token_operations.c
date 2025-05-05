@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   token_operations.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkoujan <kkoujan@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 20:07:49 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/04 21:45:52 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/05 09:33:43 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ t_token	*handle_expand_var(t_token *tokenlst, t_env *env, int in_quote)
 	if (!curr)
 		return (NULL);	
 	i = -1;
-	val = ft_getenv_val(env, curr->val);	
+	val = ft_getenv_val(env, curr->val);
 	if (in_quote || ft_strlen(val) == 0)
 	{
 		free(tokenlst->val);
@@ -78,57 +78,36 @@ t_token	*handle_expand_var(t_token *tokenlst, t_env *env, int in_quote)
 		tokenlst->val = ft_strdup(arr[0]);
 		i++;
 		if (arr[1] == NULL)
-		{
-			// Free the array but keep the first string which was duplicated
-			free(arr[0]);
-			free(arr);
-			return (tokenlst->next);
-		}
+			return (free_arr(arr), tokenlst->next);
 		next = init_token(SP_T, NULL);
 		if (!next)
-		{
-			// Clean up allocated memory
-			// free_string_array(arr);
-			return (NULL);
-		}
+			return (free_arr(arr), NULL);
 		next->next = tokenlst->next;
 		curr->next = next;
 		curr = next;
 	}
 	else
-	{
-		free(val);
-		return (tokenlst->next);
-	}
-	
+		return (free(val), tokenlst->next);
 	while (arr[++i])
 	{
-		if (i == 0)  // Skip the first element as it's already handled
-			continue;
-			
+		if (i == 0)
+			continue ;
+		prev = curr->next;
 		next = init_token(WORD_T, ft_strdup(arr[i]));
 		if (!next)
-		{
-			// free_string_array(arr);
-			return (NULL);
-		}
-		
+			return (free_arr(arr), NULL);
 		curr->next = next;
 		curr = next;
-		
-		if (arr[i + 1] != NULL)  // Only add space if not the last element
+		if (arr[i + 1] != NULL)
 		{
 			next = init_token(SP_T, NULL);
 			if (!next)
-			{
-				// free_string_array(arr);
-				return (NULL);
-			}
+				return (free_arr(arr), NULL);
 			curr->next = next;
 			curr = next;
 		}
+		curr->next = prev;
 	}
-	
 	// Connect the end of our new tokens to the original next token
 	// and free the array
 	// free_string_array(arr);
