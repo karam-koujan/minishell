@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 12:31:27 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/04/20 16:56:41 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/05 12:44:11 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_redirection	*create_redirection(t_redir_type type, char *file_or_delimiter, \
 		return (NULL);
 	result->type = type;
 	result->file_or_delimiter = ft_strdup(file_or_delimiter);
-	result->is_var = is_var;
+	result->is_ambigous = is_var;
 	if (!result->file_or_delimiter)
 		return (NULL);
 	result->next = NULL;

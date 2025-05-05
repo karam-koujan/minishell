@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 10:31:06 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/05 12:33:20 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/05 12:40:17 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,12 +39,10 @@ t_redirection	*redir_file(t_token **token, t_env *env, t_redir_type type)
 		*token = (*token)->next;
 	}
 	val = join_expnd(*token, env);
-	if (*token && (*token)->type == WORD_T && is_var && !in_quote)
+	if (is_var && !in_quote)
 		redir = create_redirection(type, val, 1);
-	else if (*token && (*token)->type == WORD_T)
+	else
 		redir = create_redirection(type, val, 0);
-	else if (*token && (*token)->type == VAR_T)
-		redir = create_redirection(type, val, !in_quote);
 	free(val);
 	return (redir);
 }

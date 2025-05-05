@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 03:08:32 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/04/30 12:02:03 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/05 12:43:51 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ typedef enum e_redir_type {
 typedef struct s_redirection {
 	t_redir_type			type;
 	char					*file_or_delimiter;
-	int						is_var;
+	int						is_ambigous;
 	struct s_redirection	*next;
 }				t_redirection;
 

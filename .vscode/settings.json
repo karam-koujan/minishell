@@ -2,6 +2,7 @@
   "files.associations": {
     "parser.h": "c",
     "minishell.h": "c",
-    "stdlib.h": "c"
+    "stdlib.h": "c",
+    "tokenizer.h": "c"
   }
 }
