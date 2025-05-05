@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 11:19:41 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/05 11:30:56 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/05 12:02:03 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,9 +89,11 @@ void	join_var(t_token **tokenlst, t_env *env)
 {
 	t_token	*lst;
 	int		in_quote;
+	int     in_redir;
 
 	lst = *tokenlst;
 	in_quote = 0;
+	in_redir = 0;
 	while (lst)
 	{
 		if (lst->type == QT_T)
@@ -102,11 +104,20 @@ void	join_var(t_token **tokenlst, t_env *env)
 		}
 		if (lst->type == VAR_T)
 		{
-			lst = handle_expand_var(lst, env, in_quote);
+			if (!in_redir)
+				lst = handle_expand_var(lst, env, in_quote);
+			else
+				lst = lst->next;
+			in_redir = 0;
 			continue ;
 		}
-		else if (in_quote && lst->type == SP_T)
+		if (in_quote && lst->type == SP_T)
 			in_quote = 0;
+		if (lst->type == REDIR_APPEND || lst->type == REDIR_B_T \
+				|| lst->type == REDIR_F_T)
+			in_redir = 1;
+		else if (lst->type != SP_T && in_redir)
+			in_redir = 0;
 		lst = lst->next;
 	}
 }
