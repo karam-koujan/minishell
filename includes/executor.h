@@ -12,7 +12,7 @@
 # define PATH "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
 t_env *init_env_list(char **envp, t_gc **gc);
-void *init_empty_env(t_env **env, t_gc **gc);
+void init_empty_env(t_env **env, t_gc **gc);
 void handle_shlvl(t_env **env, t_gc **gc);
 void init_pwd(t_env **env, t_gc **gc);
 t_env *create_env_node(char *key, char *value);
@@ -39,9 +39,9 @@ int  valid_export(char *str, t_gc **gc);
 void var_set(char *str, t_env **env, t_gc **gc);
 void	handle_plus(t_env **env, char **key, char **value, t_gc **gc);
 
-void builtin_exit(t_simple_cmd **data);
+void builtin_exit(t_simple_cmd **data, t_gc **gc);
 
-void  builtin_unset(t_simple_cmd **data, t_env **env);
+void  builtin_unset(t_simple_cmd **data, t_env **env, t_gc **gc);
 
 void exec_cmd(t_simple_cmd **data, t_env *env, char **env_arr);
 void exec_proc(t_simple_cmd **data, t_env *env, char **env_arr);

@@ -13,17 +13,21 @@
 
 #include  "../../../includes/minishell.h"
 
-void unset_env(char *key, t_env **env)
+void unset_env(char *key, t_env **env, t_gc **gc)
 {
-    t_env *prev = NULL;
-    t_env *curr = *env;
+    t_env *prev;
+    t_env *curr;
     char *key_env;
 
+    prev = NULL;
+    curr = *env;
     if(ft_strchr(key, '='))
         return ;
     while (curr) 
     {
-        key_env = ft_strtrim(curr->key, "=");
+        key_env = ft_malloc(ft_strtrim(curr->key, "="), gc, 0);
+        if(!key_env)
+            return ;
         if (ft_strcmp(key_env, key) == 0) 
         {
             if (prev)
@@ -31,22 +35,21 @@ void unset_env(char *key, t_env **env)
             else
                 *env = curr->next;
             return(free(curr->key), free(curr->value),
-                       free(curr)); // exit status is 1;
+                       free(curr));
         }
         prev = curr;
         curr = curr->next;
     }
 }
 
-void  builtin_unset(t_simple_cmd **data, t_env **env)
+void  builtin_unset(t_simple_cmd **data, t_env **env, t_gc **gc)
 {
     int i;
  
     i = 1;
-    exit_stat(0, 1);
     while((*data)->args[i])
     {
-       unset_env((*data)->args[i], env);
+       unset_env((*data)->args[i], env, gc);
         i++;
     }
 }

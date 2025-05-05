@@ -41,7 +41,6 @@ int	here_doc(char *delimiter)
 	fd = open("/tmp/.here_doc", O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd < 0)
 		return (-1);
-
 	pid = fork();
 	if (pid == 0)
 	{
@@ -54,11 +53,11 @@ int	here_doc(char *delimiter)
 	{
 		close(fd);
 		waitpid(pid, &status, 0);
+		exit_status(status);
 		if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
 			return (-1);
 		fd = open("/tmp/.here_doc", O_RDONLY);
 		unlink("/tmp/.here_doc");
-		exit_stat(status, 1);
 		return (fd);
 	}
 }

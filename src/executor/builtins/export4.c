@@ -70,7 +70,7 @@ int	update_var(t_env **env, char *key, char *value, t_gc **gc)
 	if (ft_strchr(key, '+'))
 	{
 		handle_plus(env, &key, &value, gc);
-		return (1);
+			return (1);
 	}
 	if (!ft_strchr(key, '='))
 		return (check_key_only(*env, key));

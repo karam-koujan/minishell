@@ -3,14 +3,12 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kkoujan <kkoujan@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:16:34 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/02 15:23:40 by achemlal         ###   ########.fr       */
+/*   Updated: 2025/05/05 20:21:18 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
-#include "../../includes/minishell.h"
 
 #include "../../includes/minishell.h"
 
@@ -21,9 +19,9 @@ void exec_builtin(t_simple_cmd **data, t_env **env, char **env_arr, t_gc **gc)
     else if (!ft_strcmp((*data)->args[0], "export"))
         builtin_export(data, env, gc);
     else if (!ft_strcmp((*data)->args[0], "exit"))
-        builtin_exit(data);
+        builtin_exit(data, gc);
     else if (!ft_strcmp((*data)->args[0], "unset"))
-        builtin_unset(data, env);
+        builtin_unset(data, env, gc);
 }
 
 int is_builtin(char *cmd)

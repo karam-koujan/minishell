@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kkoujan <kkoujan@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:19:12 by achemlal          #+#    #+#             */
-/*   Updated: 2025/04/19 19:21:33 by achemlal         ###   ########.fr       */
+/*   Updated: 2025/05/05 20:25:44 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,10 @@ int exit_stat(int value, int action)
 }
 void exit_status(int status)
  {
-    // if(WIFSIGNALED(status))
-       //  exit_stat(128 + WTERMSIG(status), 1);
+    if(WIFSIGNALED(status))
+	{
+        exit_stat(128 + WTERMSIG(status), 1);
+	}
     if (WIFEXITED(status), 1)
          exit_stat(WEXITSTATUS(status), 1);
  }
@@ -73,31 +75,28 @@ int ft_atoll(char *str, long long *code)
     *code = sign * result;
     return 1;
 }
-void builtin_exit(t_simple_cmd **data)
+void builtin_exit(t_simple_cmd **data, t_gc **gc)
 {
     long long code;
 
     if((*data)->argc == 1)
-    {
-        printf("exit\n");
-        exit(0);
-    }
+        return(printf("exit\n"), free_all(gc), exit(0));
     if((*data)->argc == 2)
     {
         if (!is_numeric((*data)->args[1]))
         {
             printf("exit\nexit: %s: numeric argument required\n",
                 (*data)->args[1]);
-            exit(exit_stat(255, 1));
+            return (free_all(gc), exit(exit_stat(255, 1)));
         }
         if (!ft_atoll((*data)->args[1], &code))
         {
             printf("exit\nexit: %s: numeric argument required\n",
                 (*data)->args[1]);
-            exit(exit_stat(255, 1));
+            return (free_all(gc) ,exit(exit_stat(255, 1)));
         }
     }
     else
         return(printf("exit\nexit: too many arguments\n"), exit(255));
-    return (printf("exit\n"), exit(exit_stat(code % 256, 1)));
+    return (printf("exit\n"), free_all(gc), exit(exit_stat(code % 256, 1)));
 }

@@ -74,13 +74,14 @@ void last_proc(int fd_save, t_simple_cmd *cmd, t_env *env, char **env_arr)
 	}
 	ft_close(fd_save);
 	waitpid(child, &status, 0);
-	exit_stat(status, 1);
+	exit_status(status);
 }
 
 void pipe_case(t_cmd_table *data, t_env *env, char ** env_arr)
 {
 	int fd_save;
 	int i;
+	int status;
 
 	i = 0;
 	fd_save = first_proc(data->cmds[0], env, env_arr);
@@ -94,8 +95,8 @@ void pipe_case(t_cmd_table *data, t_env *env, char ** env_arr)
 			if(fd_save == -1)
 			{
 				exit_stat(1, 1);   
-				while ((wait(NULL) != -1))
-				      ;
+				while ((wait(&status) != -1))
+					;	
 				return ;
 			}
 			i++;

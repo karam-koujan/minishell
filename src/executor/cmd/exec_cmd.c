@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kkoujan <kkoujan@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:21:45 by achemlal          #+#    #+#             */
-/*   Updated: 2025/04/20 12:41:20 by achemlal         ###   ########.fr       */
+/*   Updated: 2025/05/05 20:27:07 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ void exec_cmd(t_simple_cmd **data,t_env *env, char **env_arr)
     else
     {
         waitpid(pid, &status, 0);
+		// printf("%i", status);
         exit_status(status);
     }
 }

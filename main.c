@@ -100,7 +100,7 @@ void	handler(int signum, siginfo_t *info, void	*context)
 {
 	(void)info;
 	(void)context;
-	// printf("%i\n", g_gl);
+	printf("%i\n", g_gl);
 	if (signum == SIGINT && g_gl == 0)
 	{
 		write(1, "\n", 1);

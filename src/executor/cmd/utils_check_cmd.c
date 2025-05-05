@@ -38,7 +38,7 @@ void	pars_cmd_1(char *cmd)
 	if (cmd[0] == '.' && ft_check_path_cmd(cmd) == 0)
 	{
 		printf("minishell: %s: Command not found\n", cmd);
-		exit(2);
+		exit(exit_stat(2, 1));
 	}
 }
 
@@ -49,11 +49,11 @@ void	pars_cmd_2(char **cmd, char **env)
 	if (access(cmd[0], X_OK) == -1)
 	{
 		printf("minishell: %s: Permission Denied\n", cmd[0]);
-		exit(126);
+		exit(exit_stat(126, 1));
 	}
 	execve(cmd[0], cmd, env);
 	printf("minishell: %s: Command not found\n", cmd[0]);
-	exit(127);
+	exit(exit_stat(127, 1));
 }
 
 void	pars_cmd_3(char **cmd, char **env)
@@ -71,7 +71,7 @@ void	pars_cmd_3(char **cmd, char **env)
 	if (!path_cmd)
 	{
 		printf("minishell: %s: Command not found\n", cmd[0]);
-		exit(1);
+		exit(exit_stat(127, 1));
 	}
 	execve(path_cmd, cmd, env);
 	error_exit(cmd[0], 127);

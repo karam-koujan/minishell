@@ -13,7 +13,7 @@
 
 #include "../../includes/minishell.h"
 
-void *init_empty_env(t_env **env, t_gc **gc)
+void init_empty_env(t_env **env, t_gc **gc)
 {
     char *path;
     char *value;
@@ -21,13 +21,13 @@ void *init_empty_env(t_env **env, t_gc **gc)
 
     path = ft_malloc(ft_strdup("PATH="), gc, 0);
 	if (!path)
-		return (NULL);
+		return (free_all(gc));
 	value = ft_malloc(ft_strdup(PATH), gc, 0);
 	if (!value)
-		return (NULL);
+		return ;
 	new_node = create_env_node(path, value);
 	if (!new_node)
-		return (NULL);
+		return free_all(gc);
 	add_node(env, new_node);
 }
 static int	get_key_value(char *envp, char **key, char **value, t_gc **gc)
