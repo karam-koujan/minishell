@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 20:07:49 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/05 09:33:43 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/05 10:05:03 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,10 +108,7 @@ t_token	*handle_expand_var(t_token *tokenlst, t_env *env, int in_quote)
 		}
 		curr->next = prev;
 	}
-	// Connect the end of our new tokens to the original next token
-	// and free the array
-	// free_string_array(arr);
-	return (tokenlst->next);
+	return (free_arr(arr), tokenlst->next);
 }
 void	join_var(t_token **tokenlst, t_env *env)
 {
@@ -141,8 +138,8 @@ void	join_var(t_token **tokenlst, t_env *env)
 
 t_token	*handle_tokenizer(t_token **tokenlst, t_env *env)
 {
-	join_cmd(tokenlst);
 	join_var(tokenlst, env);
+	join_cmd(tokenlst);
 	return (*tokenlst);
 }
 

@@ -6,9 +6,11 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 20:21:40 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/05 09:22:03 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/05 09:49:56 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "../../includes/helper.h"
 
 int	is_whitespace(char c)
 {

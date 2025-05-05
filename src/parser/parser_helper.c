@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 10:43:34 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/02 10:22:25 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/05 10:16:44 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,6 +63,8 @@ char	*ft_getenv_val(t_env *env, char *key)
 {
 	if (!env || !key)
 		return (NULL);
+	if (ft_strcmp(key, "?") == 0)
+		return (ft_itoa(exit_stat(0, 0)));
 	while (env)
 	{
 		if (ft_strlen(env->key) - 1 == ft_strlen(key) && \
