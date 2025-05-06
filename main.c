@@ -102,8 +102,6 @@ void	handler(int signum, siginfo_t *info, void	*context)
 	(void)context;
 	if (signum == SIGINT)
 		exit_stat(130, 1);
-	if (signum == SIGQUIT && g_gl == 1)
-			exit_stat(131, 1);
 	if (signum == SIGINT && g_gl == 0)
 	{
 		write(1, "\n", 1);
