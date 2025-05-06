@@ -6,18 +6,37 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 10:31:06 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/05 12:52:00 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/06 15:21:46 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/parser.h"
 
-int	detect_var(t_token *token)
+int	is_imbigious(char	*var)
+{
+	char	**arr;
+
+	arr = NULL;
+	if (var == NULL)
+		return (-1);
+	if (*var == 0)
+		return (free(var), 1);
+	arr = ft_split(var, ' ');
+	if (!arr)
+		return (free(var), -1);
+	if (arr[1] == NULL)
+		return (free_arr(arr), free(var), 0);
+	else
+		return (free_arr(arr), free(var), 1);
+	return (free_arr(arr), free(var), 0);
+}
+
+int	detect_ambigious_redir(t_token *token, t_env *env)
 {
 	while (token)
 	{
 		if (token->type == VAR_T)
-			return (1);
+			return (is_imbigious(ft_getenv_val(env, token->val)));
 		token = token->next;
 	}
 	return (0);
@@ -28,10 +47,12 @@ t_redirection	*redir_file(t_token **token, t_env *env, t_redir_type type)
 	t_redirection	*redir;
 	char			*val;
 	int				in_quote;
-	int				is_var;
+	int				is_ambigious;
 
 	in_quote = 0;
-	is_var = detect_var(*token);
+	is_ambigious = detect_ambigious_redir(*token, env);
+	if (is_ambigious == -1)
+		return (NULL);
 	while (*token && ((*token)->type != WORD_T && (*token)->type != VAR_T))
 	{
 		if ((*token)->type == QT_T)
@@ -39,7 +60,7 @@ t_redirection	*redir_file(t_token **token, t_env *env, t_redir_type type)
 		*token = (*token)->next;
 	}
 	val = join_expnd(*token, env);
-	if (is_var && !in_quote)
+	if (is_ambigious && !in_quote)
 		redir = create_redirection(type, val, 1);
 	else
 		redir = create_redirection(type, val, 0);
