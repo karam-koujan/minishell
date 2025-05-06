@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:22:22 by achemlal          #+#    #+#             */
-/*   Updated: 2025/04/30 18:03:20 by achemlal         ###   ########.fr       */
+/*   Updated: 2025/05/06 11:15:34 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ int first_proc(t_simple_cmd *cmd, t_env *env, char **env_arr)
 		return (perror("fork"), close(fd[0]), close(fd[1]), -1);
 	if (child == 0)
 	{
+		signal(SIGQUIT, SIG_DFL);
 		ft_close(fd[0]);
 		ft_dup2(fd[1], STDOUT_FILENO, fd[1]);
 		ft_close(fd[1]);
@@ -46,6 +47,7 @@ int mid_proc(int fd_save, t_simple_cmd *cmd, t_env *env, char **env_arr)
 		return (perror("fork"), close(fd[0]), close(fd[1]), -1);
 	if (child == 0)
 	{
+		signal(SIGQUIT, SIG_DFL);
 		ft_close(fd[0]);
 		ft_dup2(fd_save, STDIN_FILENO, fd[1]);
 		ft_close(fd_save);
@@ -68,13 +70,17 @@ void last_proc(int fd_save, t_simple_cmd *cmd, t_env *env, char **env_arr)
 		return (perror("fork"), close(fd_save), (void)0);
 	if (child == 0)
 	{
+		signal(SIGQUIT, SIG_DFL);
 		ft_dup2(fd_save, STDIN_FILENO, -1);
 		ft_close(fd_save);
 		exec_proc(&cmd, env, env_arr);
 	}
 	ft_close(fd_save);
 	waitpid(child, &status, 0);
-	exit_status(status);
+	if (exit_stat(0, 0) == 130 || status == 131)
+		printf("\n");
+	if (status == 131)
+		exit_stat(status, 1);
 }
 
 void pipe_case(t_cmd_table *data, t_env *env, char ** env_arr)
