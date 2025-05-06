@@ -100,7 +100,10 @@ void	handler(int signum, siginfo_t *info, void	*context)
 {
 	(void)info;
 	(void)context;
-	printf("%i\n", g_gl);
+	if (signum == SIGINT)
+		exit_stat(130, 1);
+	if (signum == SIGQUIT && g_gl == 1)
+			exit_stat(131, 1);
 	if (signum == SIGINT && g_gl == 0)
 	{
 		write(1, "\n", 1);
@@ -109,11 +112,13 @@ void	handler(int signum, siginfo_t *info, void	*context)
 		rl_redisplay();
 	}
 	if (signum == SIGINT && g_gl == 1)
-		write(1, "\n", 1);
-	if (signum == SIGINT && g_gl == 2)
 	{
-		printf("^C");
+		rl_replace_line("", 0);
+		rl_on_new_line();
 	}
+
+	if (signum == SIGINT && g_gl == 2)
+		printf("^C");
 }
 
 int main(int argc, char **argv, char **envp)
@@ -131,7 +136,7 @@ int main(int argc, char **argv, char **envp)
 	gc = NULL;
 	sa.sa_sigaction = handler;
 	sa.sa_flags = SA_RESTART;
-	// sigemptyset(&sa.sa_mask);
+	sigemptyset(&sa.sa_mask);
 	if (sigaction(SIGINT, &sa, NULL) == -1)
 		return (perror("SIGINT ERROR"), 1);
 	if (signal(SIGQUIT, SIG_IGN) == SIG_ERR)
@@ -145,7 +150,7 @@ int main(int argc, char **argv, char **envp)
 	{
 		cmd = readline("minishell$ ");
 		if (cmd == NULL)
-			return (printf("exit\n"), 0);
+			return (printf("exit\n"), exit_stat(0, 0));
 		if (!*cmd)
 			continue ;
 		add_history(cmd);
