@@ -115,8 +115,8 @@ void	handler(int signum, siginfo_t *info, void	*context)
 		rl_on_new_line();
 	}
 
-	if (signum == SIGINT && g_gl == 2)
-		printf("^C");
+	// if (signum == SIGINT && g_gl == 2)
+	// 	printf("^C");
 }
 
 int main(int argc, char **argv, char **envp)
@@ -168,7 +168,6 @@ int main(int argc, char **argv, char **envp)
 		print_cmd_table(cmd_table);
 		exec(cmd_table, &env, &gc);
 		g_gl = 0;
-		// printf("exit_stat : %d\n", exit_stat(0, 0));
 		free(cmd);
 		ft_token_lstclear(&token_head, free);
 		free_table(cmd_table);

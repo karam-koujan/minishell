@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:21:45 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/06 11:10:10 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/06 12:43:38 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,9 @@ void exec_cmd(t_simple_cmd **data,t_env *env, char **env_arr)
 		waitpid(pid, &status, 0);
 		if (exit_stat(0,0) == 130 || status == 131)
 			printf("\n");
-		if (status == 131)
+		else if (status == 131)
 			exit_stat(status, 1);
+		else
+			exit_status(status);
 	}
 }

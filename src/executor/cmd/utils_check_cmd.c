@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_check_cmd.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:21:54 by achemlal          #+#    #+#             */
-/*   Updated: 2025/04/30 16:30:07 by achemlal         ###   ########.fr       */
+/*   Updated: 2025/05/06 12:56:05 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@
 static void	error_exit(const char *msg, int code)
 {
 	perror(msg);
-	exit(code);
+	exit(exit_stat(code, 1));
 }
 int	ft_check_path_cmd(char *cmd)
 {
@@ -44,8 +44,12 @@ void	pars_cmd_1(char *cmd)
 
 void	pars_cmd_2(char **cmd, char **env)
 {
+	printf("cmd:%i\n", access(cmd[0], F_OK));
 	if (access(cmd[0], F_OK) == -1)
+	{
+		printf("pass\n");
 		error_exit(cmd[0], 127);
+	}
 	if (access(cmd[0], X_OK) == -1)
 	{
 		printf("minishell: %s: Permission Denied\n", cmd[0]);

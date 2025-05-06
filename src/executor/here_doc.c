@@ -20,10 +20,6 @@ static int read_in_stdin(int fd, char *delimiter)
 			free(line);
 			break ;
 		}
-		// Optional: expand variables if delimiter is unquoted
-		// if (!replace_dollar(&line))
-		//     return false;
-
 		write(fd, line, ft_strlen(line));
 		write(fd, "\n", 1);
 		free(line);
@@ -39,6 +35,7 @@ int	here_doc(char *delimiter)
 	int		status;
 
 	fd = open("/tmp/.here_doc", O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	g_gl = 2;
 	if (fd < 0)
 		return (-1);
 	pid = fork();
@@ -53,9 +50,9 @@ int	here_doc(char *delimiter)
 	{
 		close(fd);
 		waitpid(pid, &status, 0);
-		exit_status(status);
 		if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
-			return (-1);
+			return (printf("\n"), exit_status(status), -1);
+		exit_status(status);
 		fd = open("/tmp/.here_doc", O_RDONLY);
 		unlink("/tmp/.here_doc");
 		return (fd);
