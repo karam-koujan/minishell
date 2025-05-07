@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 10:31:06 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/06 15:21:46 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/07 09:56:00 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int	is_imbigious(char	*var)
 
 int	detect_ambigious_redir(t_token *token, t_env *env)
 {
+
 	while (token)
 	{
 		if (token->type == VAR_T)

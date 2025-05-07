@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 20:14:14 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/02 10:58:57 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/07 11:14:16 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ void print_token_list(t_token *head)
         printf("Token %d:\n", count++);
         printf("  Type: %d\n", current->type);
         printf("  Value: %s\n", current->val ? current->val : "(null)");
+		printf("  in_var: %i\n", current->v_in_qt);
         current = current->next;
     }
     printf("End of token list. Total tokens: %d\n", count);

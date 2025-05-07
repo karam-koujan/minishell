@@ -6,19 +6,22 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 23:42:20 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/03 17:15:55 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/07 11:10:04 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/tokenizer.h"
 
 
-int	handle_var(char *cmd, t_token **head)
+int	handle_var(char *cmd, t_token **head, int in_quote)
 {
-	int		i;
-	char	*start;
+	int				i;
+	char			*start;
+	t_token_data	vr_data;
 
 	i = 0;
+	vr_data.type = VAR_T;
+	vr_data.v_in_qt = in_quote;
 	start = cmd + 1;
 	while (cmd[++i])
 	{
@@ -29,7 +32,7 @@ int	handle_var(char *cmd, t_token **head)
 	}
 	if (i == 1)
 		i++;
-	if (add_token(head, start, i - 1, VAR_T) == 0)
+	if (add_vr_token(head, start, i - 1, &vr_data) == 0)
 		return (-1);
 	return (i);
 }
@@ -42,17 +45,17 @@ int	handle_operation(char *cmd, t_token **head, int *in_herdoc)
 	node_token = NULL;
 	idx = 1;
 	if (*cmd == '|')
-		node_token = init_token(PIPE_T, NULL);
+		node_token = init_token(PIPE_T, NULL, 0);
 	else if (*cmd == '>' && ft_strncmp(cmd, ">>", 2) != 0)
-		node_token = init_token(REDIR_F_T, NULL);
+		node_token = init_token(REDIR_F_T, NULL, 0);
 	else if (*cmd == '<' && ft_strncmp(cmd, "<<", 2) != 0)
-		node_token = init_token(REDIR_B_T, NULL);
+		node_token = init_token(REDIR_B_T, NULL, 0);
 	else if (*cmd == '>' && ft_strncmp(cmd, ">>", 2) == 0 && (++idx))
-		node_token = init_token(APPEND_T, NULL);
+		node_token = init_token(APPEND_T, NULL, 0);
 	else if (*cmd == '<' && ft_strncmp(cmd, "<<", 2) == 0 && (++idx))
 	{
 		*in_herdoc = 1;
-		node_token = init_token(HERDOC_T, NULL);
+		node_token = init_token(HERDOC_T, NULL, 0);
 	}
 	if (!node_token)
 		return (-1);
@@ -79,7 +82,7 @@ int	handle_cmd(char *cmd, t_token **head, int *in_herdoc)
 {
 	if (!(*in_herdoc) && *cmd == '$' && (is_var_spchar(cmd[1]) \
 	|| ft_isalpha(cmd[1])))
-		return (handle_var(cmd, head));
+		return (handle_var(cmd, head, 0));
 	if (*cmd == '|' || *cmd == '>' || *cmd == '<')
 		return (handle_operation(cmd, head, in_herdoc));
 	if (*cmd == '\'')

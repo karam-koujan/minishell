@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 11:19:41 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/05 12:54:26 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/07 11:05:51 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,14 +16,14 @@ void	loop_over_var(t_token **prev, t_token **curr, t_token **next, \
 	char **arr)
 {
 	*prev = (*curr)->next;
-	*next = init_token(WORD_T, ft_strdup(*arr));
+	*next = init_token(WORD_T, ft_strdup(*arr), 0);
 	if (!(*next))
 		return ;
 	(*curr)->next = *next;
 	*curr = *next;
 	if (*(arr + 1) != NULL)
 	{
-		*next = init_token(SP_T, NULL);
+		*next = init_token(SP_T, NULL, 0);
 		if (!(*next))
 			return ;
 		(*curr)->next = *next;
@@ -50,7 +50,7 @@ void	insert_var(t_token **tokenlst, char **arr)
 		return ;
 	if (arr[1] == NULL)
 		return ;
-	next = init_token(SP_T, NULL);
+	next = init_token(SP_T, NULL, 0);
 	if (!next)
 		return ;
 	next->next = curr->next;
@@ -60,7 +60,7 @@ void	insert_var(t_token **tokenlst, char **arr)
 		loop_over_var(&prev, &curr, &next, arr + i);
 }
 
-t_token	*handle_expand_var(t_token *tokenlst, t_env *env, int in_quote)
+t_token	*handle_expand_var(t_token *tokenlst, t_env *env)
 {
 	char	*val;
 	char	**arr;
@@ -70,7 +70,7 @@ t_token	*handle_expand_var(t_token *tokenlst, t_env *env, int in_quote)
 	if (!curr)
 		return (NULL);
 	val = ft_getenv_val(env, curr->val);
-	if (in_quote || ft_strlen(val) == 0)
+	if (tokenlst->v_in_qt || ft_strlen(val) == 0)
 	{
 		free(tokenlst->val);
 		tokenlst->type = WORD_T;
@@ -88,33 +88,23 @@ t_token	*handle_expand_var(t_token *tokenlst, t_env *env, int in_quote)
 void	join_var(t_token **tokenlst, t_env *env)
 {
 	t_token	*lst;
-	int		in_quote;
 	int     in_redir;
 
 	lst = *tokenlst;
-	in_quote = 0;
 	in_redir = 0;
 	while (lst)
 	{
 		if (lst->type == SP_T && in_redir)
 			in_redir = 1;
-		if (lst->type == QT_T)
-		{
-			in_quote = 1;
-			lst = lst->next;
-			continue ;
-		}
 		if (lst->type == VAR_T)
 		{
 			if (!in_redir)
-				lst = handle_expand_var(lst, env, in_quote);
+				lst = handle_expand_var(lst, env);
 			else
 				lst = lst->next;
 			in_redir = 0;
 			continue ;
 		}
-		if (in_quote && lst->type == SP_T)
-			in_quote = 0;
 		if (lst->type == REDIR_APPEND || lst->type == REDIR_B_T \
 				|| lst->type == REDIR_F_T)
 			in_redir = 1;
