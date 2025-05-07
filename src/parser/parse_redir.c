@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 10:31:06 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/07 12:24:24 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/07 12:27:51 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,6 @@ t_redirection	*redir_file(t_token **token, t_env *env, t_redir_type type)
 	while (*token && ((*token)->type != WORD_T && (*token)->type != VAR_T))
 		*token = (*token)->next;
 	is_ambigious = detect_ambigious_redir(*token, env);
-	printf("is_ambigious : %i\n", is_ambigious);
 	if (is_ambigious == -1)
 		return (NULL);
 	val = join_expnd(*token, env);
