@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 10:31:06 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/07 17:36:26 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/07 17:53:15 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ int	is_imbigious(char	*var, t_token *token)
 	arr = NULL;
 	if (var == NULL)
 		return (-1);
-	if (*var == 0 && token->next && token->next->type == WORD_T)
+	
+	if (*var == 0 && token->next && (token->next->type == QT_T || token->next->type == WORD_T))
 		return (0);
 	if (*var == 0)
 		return (1);
