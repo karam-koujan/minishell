@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 10:31:06 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/07 17:53:15 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/07 18:20:12 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,10 @@ int	is_imbigious(char	*var, t_token *token)
 	if (var == NULL)
 		return (-1);
 	
-	if (*var == 0 && token->next && (token->next->type == QT_T || token->next->type == WORD_T))
-		return (0);
-	if (*var == 0)
+	if (*var == 0 && (token->next == NULL && token->next->type != WORD_T && token->next->type != QT_T ))
 		return (1);
+	if (*var == 0)
+		return (0);
 	arr = ft_split(var, ' ');
 	if (!arr)
 		return (free(var), -1);
@@ -58,7 +58,6 @@ t_redirection	*redir_file(t_token **token, t_env *env, t_redir_type type)
 	if (is_ambigious == -1)
 		return (NULL);
 	val = join_expnd(*token, env);
-	printf("val : %s", val);
 	redir = create_redirection(type, val, is_ambigious);
 	free(val);
 	while (*token && ((*token)->type == WORD_T || (*token)->type == VAR_T || (*token)->type == QT_T))
