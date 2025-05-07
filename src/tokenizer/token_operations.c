@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 20:07:49 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/07 11:13:05 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/07 12:02:26 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ t_token	*init_token(t_token_type type, char *val, int vr_in_qt)
 		return (NULL);
 	token->type = type;
 	token->val = val;
-	token->v_in_qt = 0;
+	token->v_in_qt = vr_in_qt;
 	token->next = NULL;
 	return (token);
 }

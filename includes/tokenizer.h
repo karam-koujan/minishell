@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 23:42:33 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/07 10:59:13 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/07 11:44:21 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ typedef enum e_token_type
 	VAR_T,
 	SP_T,
 	QT_T,
-	CQT_T
 }			t_token_type;
 
 typedef struct s_token

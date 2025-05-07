@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 10:31:06 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/07 09:56:00 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/07 12:24:24 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	detect_ambigious_redir(t_token *token, t_env *env)
 
 	while (token)
 	{
-		if (token->type == VAR_T)
+		if (token->type == VAR_T && !token->v_in_qt)
 			return (is_imbigious(ft_getenv_val(env, token->val)));
 		token = token->next;
 	}
@@ -50,22 +50,17 @@ t_redirection	*redir_file(t_token **token, t_env *env, t_redir_type type)
 	int				in_quote;
 	int				is_ambigious;
 
-	in_quote = 0;
+	while (*token && ((*token)->type != WORD_T && (*token)->type != VAR_T))
+		*token = (*token)->next;
 	is_ambigious = detect_ambigious_redir(*token, env);
+	printf("is_ambigious : %i\n", is_ambigious);
 	if (is_ambigious == -1)
 		return (NULL);
-	while (*token && ((*token)->type != WORD_T && (*token)->type != VAR_T))
-	{
-		if ((*token)->type == QT_T)
-			in_quote = 1;
-		*token = (*token)->next;
-	}
 	val = join_expnd(*token, env);
-	if (is_ambigious && !in_quote)
-		redir = create_redirection(type, val, 1);
-	else
-		redir = create_redirection(type, val, 0);
+	redir = create_redirection(type, val, is_ambigious);
 	free(val);
+	while (*token && ((*token)->type == WORD_T || (*token)->type == VAR_T))
+		*token = (*token)->next;
 	return (redir);
 }
 
