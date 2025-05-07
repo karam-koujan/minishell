@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 10:31:06 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/07 16:35:32 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/07 16:58:11 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,6 @@ int	is_imbigious(char	*var)
 	arr = NULL;
 	if (var == NULL)
 		return (-1);
-	if (*var == 0)
-		return (free(var), 1);
 	arr = ft_split(var, ' ');
 	if (!arr)
 		return (free(var), -1);
