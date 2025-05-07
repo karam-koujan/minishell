@@ -3,22 +3,26 @@
 /*                                                        :::      ::::::::   */
 /*   parse_redir.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kkoujan <kkoujan@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 10:31:06 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/07 16:58:11 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/07 17:36:26 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/parser.h"
 
-int	is_imbigious(char	*var)
+int	is_imbigious(char	*var, t_token *token)
 {
 	char	**arr;
 
 	arr = NULL;
 	if (var == NULL)
 		return (-1);
+	if (*var == 0 && token->next && token->next->type == WORD_T)
+		return (0);
+	if (*var == 0)
+		return (1);
 	arr = ft_split(var, ' ');
 	if (!arr)
 		return (free(var), -1);
@@ -34,7 +38,7 @@ int	detect_ambigious_redir(t_token *token, t_env *env)
 	while (token)
 	{
 		if (token->type == VAR_T && !token->v_in_qt)
-			return (is_imbigious(ft_getenv_val(env, token->val)));
+			return (is_imbigious(ft_getenv_val(env, token->val), token));
 		token = token->next;
 	}
 	return (0);
