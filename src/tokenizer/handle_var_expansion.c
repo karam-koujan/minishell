@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 11:19:41 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/07 16:55:53 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/07 19:25:30 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ t_token	*handle_expand_var(t_token *tokenlst, t_env *env)
 		tokenlst->val = val;
 		return (tokenlst->next);
 	}
+	else if (!tokenlst->v_in_qt && ft_strlen(val) == 0)
+		return (tokenlst->next);
 	arr = ft_split(val, ' ');
 	if (arr == NULL)
 		return (NULL);

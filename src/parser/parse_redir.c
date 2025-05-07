@@ -3,25 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   parse_redir.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkoujan <kkoujan@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 10:31:06 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/07 18:20:12 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/07 19:43:48 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/parser.h"
 
-int	is_imbigious(char	*var, t_token *token)
+int	is_imbigious(char	*var, t_token *curr, t_token *prev)
 {
 	char	**arr;
 
 	arr = NULL;
-	if (var == NULL)
-		return (-1);
-	
-	if (*var == 0 && (token->next == NULL && token->next->type != WORD_T && token->next->type != QT_T ))
-		return (1);
 	if (*var == 0)
 		return (0);
 	arr = ft_split(var, ' ');
@@ -36,13 +31,23 @@ int	is_imbigious(char	*var, t_token *token)
 
 int	detect_ambigious_redir(t_token *token, t_env *env)
 {
-	while (token)
+	int		is_imbig;
+	t_token	*prev;
+	int		is_quote;
+
+	prev = NULL;
+	is_imbig = 0;
+	is_quote = 0;
+	while (token && (token->type == VAR_T || token->type == WORD_T)) 
 	{
+		if (token->type == WORD_T)
+			is_quote = 1;
 		if (token->type == VAR_T && !token->v_in_qt)
-			return (is_imbigious(ft_getenv_val(env, token->val), token));
+			is_imbig = is_imbigious(ft_getenv_val(env, token->val), token, prev) || is_imbig;
+		prev = token;
 		token = token->next;
 	}
-	return (0);
+	return (is_imbig && !is_quote);
 }
 
 t_redirection	*redir_file(t_token **token, t_env *env, t_redir_type type)
