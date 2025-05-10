@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_redir.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kkoujan <kkoujan@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 10:31:06 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/07 21:23:18 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/10 11:02:01 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	is_imbigious(char	*var)
 	if (arr[1] == NULL)
 		return (free_arr(arr), free(var), 0);
 	else
-		return (free_arr(arr), free(var), 1);
+		return (free_arr(arr), free(var), 2);
 	return (free_arr(arr), free(var), 0);
 }
 
@@ -47,6 +47,8 @@ int	detect_ambigious_redir(t_token *token, t_env *env)
 		{
 			if (is_imbigious(ft_getenv_val(env, token->val)) == 0)
 				is_quote = 1;
+			if (is_imbigious(ft_getenv_val(env, token->val)) == 2)
+				return (1);
 			else
 				is_imbig = (is_imbigious(ft_getenv_val(env, token->val)) \
 				|| is_imbig);
