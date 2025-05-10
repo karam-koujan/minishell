@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_var_expansion.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kkoujan <kkoujan@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 11:19:41 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/07 19:25:30 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/10 11:12:14 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ void	join_var(t_token **tokenlst, t_env *env)
 				lst = handle_expand_var(lst, env);
 			else
 				lst = lst->next;
-			in_redir = 0;
+			// in_redir = 0;
 			continue ;
 		}
 		if (lst->type == REDIR_APPEND || lst->type == REDIR_B_T \
