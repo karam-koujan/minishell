@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:19:12 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/06 10:59:44 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/12 10:15:50 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void exit_status(int status)
 	{
         exit_stat(128 + WTERMSIG(status), 1);
 	}
-    if (WIFEXITED(status), 1)
+    else if (WIFEXITED(status), 1)
          exit_stat(WEXITSTATUS(status), 1);
  }
 int is_numeric( char *str)

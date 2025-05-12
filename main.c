@@ -100,8 +100,10 @@ void	handler(int signum, siginfo_t *info, void	*context)
 {
 	(void)info;
 	(void)context;
-	if (signum == SIGINT)
+	if (signum == SIGINT && g_gl != 2)
 		exit_stat(130, 1);
+	if (signum == SIGINT && g_gl == 2)
+		printf("\n");
 	if (signum == SIGINT && g_gl == 0)
 	{
 		write(1, "\n", 1);
@@ -166,11 +168,14 @@ int main(int argc, char **argv, char **envp)
 			return (free(cmd), rl_clear_history(), \
 			ft_token_lstclear(&token_head, free), 1);
 		print_cmd_table(cmd_table);
+		// add_to_gc(&gc, (t_token **)&token_head, 0);
+		// add_to_gc(&gc, (t_cmd_table **)&cmd_table, 1);
 		exec(cmd_table, &env, &gc);
 		g_gl = 0;
 		free(cmd);
-		ft_token_lstclear(&token_head, free);
-		free_table(cmd_table);
+		// ft_malloc(NULL, &gc, 1);
+		// ft_token_lstclear(&token_head, free);
+		// free_table(cmd_table);
 		token_head = NULL;
 		cmd_table = NULL;
 	}

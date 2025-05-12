@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 10:15:54 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/02 12:06:38 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/12 09:40:47 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	gc_add_back(t_gc **head, t_gc *new)
 	else
 	{
 		l = *head;
-		while (l->next != NULL)
+		while (l && l->next != NULL)
 		{
 			l = l->next;
 		}

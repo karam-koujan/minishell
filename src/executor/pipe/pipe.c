@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:22:22 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/06 11:17:34 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/12 10:17:34 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,10 +77,11 @@ void last_proc(int fd_save, t_simple_cmd *cmd, t_env *env, char **env_arr)
 	}
 	ft_close(fd_save);
 	waitpid(child, &status, 0);
+	if (status == 0)
+		g_gl = 2;
 	if (exit_stat(0, 0) == 130 || status == 131)
 		printf("\n");
-	if (status == 131)
-		exit_stat(status, 1);
+	exit_status(status);
 }
 
 void pipe_case(t_cmd_table *data, t_env *env, char ** env_arr)
@@ -102,7 +103,7 @@ void pipe_case(t_cmd_table *data, t_env *env, char ** env_arr)
 			{
 				exit_stat(1, 1);   
 				while ((wait(&status) != -1))
-					;	
+					;
 				return ;
 			}
 			i++;
