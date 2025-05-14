@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:21:54 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/06 12:56:05 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/12 17:21:56 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,9 @@ void	pars_cmd_1(char *cmd)
 
 void	pars_cmd_2(char **cmd, char **env)
 {
-	printf("cmd:%i\n", access(cmd[0], F_OK));
+	char	*str;
+	char	*tmp;
+	
 	if (access(cmd[0], F_OK) == -1)
 	{
 		printf("pass\n");
@@ -55,8 +57,12 @@ void	pars_cmd_2(char **cmd, char **env)
 		printf("minishell: %s: Permission Denied\n", cmd[0]);
 		exit(exit_stat(126, 1));
 	}
-	execve(cmd[0], cmd, env);
-	printf("minishell: %s: Command not found\n", cmd[0]);
+	if (execve(cmd[0], cmd, env) == -1)
+	{
+		if(access(cmd[0], F_OK | X_OK) == 0)
+			exit(exit_stat(0, 1));
+		printf("minishell: %s: Command not found\n", cmd[0]);
+	}
 	exit(exit_stat(127, 1));
 }
 

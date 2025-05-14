@@ -3,6 +3,7 @@
     "parser.h": "c",
     "minishell.h": "c",
     "stdlib.h": "c",
-    "tokenizer.h": "c"
+    "tokenizer.h": "c",
+    "sstream": "c"
   }
 }
