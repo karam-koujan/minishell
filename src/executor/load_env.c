@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   load_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:23:12 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/02 14:46:03 by achemlal         ###   ########.fr       */
+/*   Updated: 2025/05/15 14:46:47 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,11 @@ static int	get_key_value(char *envp, char **key, char **value, t_gc **gc)
 {
 	size_t	equal_sign;
 
-	if (!envp  || !key || !value)
+	if (!envp || !key || !value)
 		return (0);
 	equal_sign = ft_strchr(envp, '=') - envp + 1;
-	*key = ft_malloc(ft_substr(envp, 0, equal_sign), gc, 0);
-	*value = ft_malloc(ft_substr(envp, equal_sign,
-				ft_strlen(envp) - equal_sign), gc, 0);
+	*key = ft_substr(envp, 0, equal_sign);
+	*value = ft_substr(envp, equal_sign, ft_strlen(envp) - equal_sign);
 	if (!*key || !*value)
 		return (0);
 	return (1);
@@ -54,6 +53,9 @@ t_env	*init_env_list(char **envp, t_gc **gc)
 	int		i;
 
 	head = NULL;
+	value = NULL;
+	key = NULL;
+	new_node = NULL;
 	i = 0;
 	while (envp[i])
 	{
@@ -61,7 +63,7 @@ t_env	*init_env_list(char **envp, t_gc **gc)
 			return (NULL);
 		new_node = create_env_node(key, value);
 		if (!new_node)
-			return (NULL);
+			return (free_env(&head, free), NULL);
 		add_node(&head, new_node);
 		i++;
 	}

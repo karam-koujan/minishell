@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shlvl.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:23:30 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/02 14:31:13 by achemlal         ###   ########.fr       */
+/*   Updated: 2025/05/15 14:21:32 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ void update_shlvl(t_env **env, char *key, char *value)
     {
         if(ft_strcmp(curr->key, key) == 0)
         {
+			free(curr->value);
             curr->value = value;
             return ;
         }
@@ -52,7 +53,7 @@ static char	*get_new_shlvl(char *shlvl_str, t_gc **gc)
 	int		shlvl;
 
 	if (!is_valid_number(shlvl_str))
-		return (ft_malloc(ft_strdup("1"), gc, 0));
+		return (ft_strdup("1"));
 	shlvl = ft_atoi(shlvl_str) + 1;
 	if (shlvl < 0)
 		shlvl = 0;
@@ -61,7 +62,7 @@ static char	*get_new_shlvl(char *shlvl_str, t_gc **gc)
 		printf("warning: shell level (1000) too high, resetting to 1\n");
 		shlvl = 1;
 	}
-	return (ft_malloc(ft_itoa(shlvl), gc, 0));
+	return (ft_itoa(shlvl));
 }
 
 void	handle_shlvl(t_env **env, t_gc **gc)
@@ -75,12 +76,14 @@ void	handle_shlvl(t_env **env, t_gc **gc)
 	if (shlvl_str)
 	{
 		new_shlvl = get_new_shlvl(shlvl_str, gc);
+		if (!new_shlvl)
+			return ;
 		update_shlvl(env, "SHLVL=", new_shlvl);
 	}
 	else
 	{
-		key = ft_malloc(ft_strdup("SHLVL="), gc, 0);
-		new_shlvl = ft_malloc(ft_strdup("1"), gc, 0);
+		key = ft_strdup("SHLVL=");
+		new_shlvl = ft_strdup("1");
 		new_node = create_env_node(key, new_shlvl);
 		add_node(env, new_node);
 	}

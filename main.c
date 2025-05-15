@@ -120,7 +120,14 @@ void	handler(int signum, siginfo_t *info, void	*context)
 	// if (signum == SIGINT && g_gl == 2)
 	// 	printf("^C");
 }
+void	free_in_exit(t_token *token_head, t_cmd_table *cmd_table, \
+	t_env *env)
+{
+	ft_token_lstclear(&token_head, free);
+	free_table(cmd_table);
+	free_env(&env, free);
 
+}
 int main(int argc, char **argv, char **envp)
 {
 	char		*cmd;
@@ -150,7 +157,7 @@ int main(int argc, char **argv, char **envp)
 	{
 		cmd = readline("minishell$ ");
 		if (cmd == NULL)
-			return (printf("exit\n"), exit_stat(0, 0));
+			return (printf("exit\n"), free_in_exit(token_head, cmd_table, env), exit_stat(0, 0));
 		if (!*cmd)
 			continue ;
 		add_history(cmd);
@@ -174,8 +181,8 @@ int main(int argc, char **argv, char **envp)
 		g_gl = 0;
 		free(cmd);
 		// ft_malloc(NULL, &gc, 1);
-		// ft_token_lstclear(&token_head, free);
-		// free_table(cmd_table);
+		ft_token_lstclear(&token_head, free);
+		free_table(cmd_table);
 		token_head = NULL;
 		cmd_table = NULL;
 	}

@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:16:34 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/06 09:03:02 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/15 14:45:46 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,5 +65,5 @@ void exec(t_cmd_table *data, t_env **env, t_gc **gc)
         g_gl = 1;
         pipe_case(data, *env, env_arr);
     }
-    //free env_arr:
+    free_arr(env_arr);
 }

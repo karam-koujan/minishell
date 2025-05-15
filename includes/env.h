@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 08:41:44 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/04/22 14:09:22 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/15 14:10:27 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,5 +19,7 @@ typedef struct s_env
 	char			*value;
 	struct s_env	*next;
 }				t_env;
+
+void	free_env(t_env **lst, void (*del)(void*));
 
 #endif
