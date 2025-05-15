@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:21:54 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/15 13:42:11 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/15 14:57:50 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,11 +42,11 @@ void	pars_cmd_1(char *cmd)
 	}
 }
 
-void	pars_cmd_2(char **cmd, char **env)
+void	pars_cmd_2(char **cmd, char **env, t_gc **gc)
 {
 	char	*str;
 	char	*tmp;
-	
+
 	if (access(cmd[0], F_OK) == -1)
 	{
 		printf("pass\n");
@@ -55,7 +55,7 @@ void	pars_cmd_2(char **cmd, char **env)
 	if (access(cmd[0], X_OK) == -1)
 	{
 		printf("minishell: %s: Permission Denied\n", cmd[0]);
-		exit(exit_stat(126, 1));
+		return (exit(exit_stat(126, 1)));
 	}
 	if (execve(cmd[0], cmd, env) == -1)
 	{
@@ -63,7 +63,7 @@ void	pars_cmd_2(char **cmd, char **env)
 			exit(exit_stat(0, 1));
 		printf("minishell: %s: Command not found\n", cmd[0]);
 	}
-	exit(exit_stat(127, 1));
+	return (free_all(gc), free_arr(env), exit(exit_stat(127, 1)));
 }
 
 void	pars_cmd_3(char **cmd, char **env)

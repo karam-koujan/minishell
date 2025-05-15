@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:19:12 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/12 10:15:50 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/15 15:02:30 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,14 @@
 
 #include  "../../../includes/minishell.h"
 
+
+void free_exit(t_gc **gc, char   **env)
+{
+    if (gc)
+        free_all(&gc);
+    if (env)
+        free_arr(env);
+}
 
 int exit_stat(int value, int action)
 {
