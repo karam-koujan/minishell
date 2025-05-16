@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 10:31:06 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/14 14:47:17 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/16 11:57:57 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,8 @@ int	detect_ambigious_redir(t_token *token, t_env *env)
 				is_quote = 1;
 			if (is_imbigious(ft_getenv_val(env, token->val)) == 2)
 				return (1);
+			else if (is_imbigious(ft_getenv_val(env, token->val)) == -1)
+				return (-1);
 			else
 				is_imbig = (is_imbigious(ft_getenv_val(env, token->val)) \
 				|| is_imbig);
