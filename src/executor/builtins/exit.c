@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:19:12 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/15 15:07:32 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/16 11:45:01 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,13 @@
 void free_exit(t_gc **gc, char   **env)
 {
     if (gc)
-        free_all(&gc);
+        free_all(gc);
     if (env)
         free_arr(env);
 }
 
-int exit_stat(int value, int action, t_gc **gc, char   **env)
+int exit_stat(int value, int action)
 {
-    free_exit(gc, env);
     static int status = 0;
 
     if (action == 1) 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:21:41 by achemlal          #+#    #+#             */
-/*   Updated: 2025/04/19 18:22:41 by achemlal         ###   ########.fr       */
+/*   Updated: 2025/05/16 11:32:30 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ char	*ft_found_cmd(char *cmd, char **path)
 void	check_exec_cmd(char **cmd, char **env)
 {
 	pars_cmd_1(cmd[0]);
-	if (ft_check_path_cmd(cmd[0]) == 1)
-		pars_cmd_2(cmd, env);
+	// if (ft_check_path_cmd(cmd[0]) == 1)
+	// 	pars_cmd_2(cmd, env);
 	pars_cmd_3(cmd, env);
 }

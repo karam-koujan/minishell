@@ -50,7 +50,7 @@ int	ft_check_path_cmd(char *cmd);
 char	*fet_path(char **env);
 char	*ft_found_cmd(char *cmd, char **path);
 void	pars_cmd_1(char *cmd);
-void	pars_cmd_2(char **cmd, char **env);
+void	pars_cmd_2(char **cmd, char **env, t_gc **gc);
 void	pars_cmd_3(char **cmd, char **env);
 
 int inf_outf_cmd(t_simple_cmd **data, int flag);
