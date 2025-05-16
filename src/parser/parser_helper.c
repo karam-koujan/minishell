@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 10:43:34 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/14 15:14:08 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/16 16:52:19 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ char	*ft_getenv_val(t_env *env, char *key)
 	if (!env || !key)
 		return (NULL);
 	if (ft_strcmp(key, "?") == 0)
-		return (ft_itoa(exit_stat(0, 0)));
+		return (ft_itoa(exit_stat(0, 0, NULL, NULL)));
 	while (env)
 	{
 		if (ft_strlen(env->key) - 1 == ft_strlen(key) && \
@@ -97,7 +97,7 @@ char	*get_word_val(t_token *token, t_env *env)
 	if (token->type == VAR_T)
 	{
 		if (token->val && ft_strcmp(token->val, "?") == 0)
-			value = ft_itoa(exit_stat(0, 0));
+			value = ft_itoa(exit_stat(0, 0, NULL, NULL));
 		else if (token->v_in_qt)
 			value = ft_getenv_val(env, token->val);
 		else if (!token->v_in_qt)

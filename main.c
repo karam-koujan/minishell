@@ -179,8 +179,10 @@ int main(int argc, char **argv, char **envp)
 			return (free(cmd), rl_clear_history(), \
 			free_in_exit(token_head, cmd_table, env), 1);
 		print_cmd_table(cmd_table);
-		// add_to_gc(&gc, (t_token **)&token_head, 0);
-		// add_to_gc(&gc, (t_cmd_table **)&cmd_table, 1);
+		add_to_gc(&gc, (void **)&token_head, 0);
+		add_to_gc(&gc, (void **)&cmd_table, 1);
+		add_to_gc(&gc, (void **)&env, 2);
+
 		exec(cmd_table, &env, &gc);
 		g_gl = 0;
 		free(cmd);

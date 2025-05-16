@@ -15,7 +15,7 @@
 #include "../../../includes/minishell.h"
 
 
-int handle_redir_in_child(t_simple_cmd *cmd, t_elem **elem, t_gc **gc)
+void handle_redir_in_child(t_simple_cmd *cmd, t_elem **elem, t_gc **gc)
 {
 	t_redirection *files = cmd->redirs;
 
@@ -27,10 +27,9 @@ int handle_redir_in_child(t_simple_cmd *cmd, t_elem **elem, t_gc **gc)
 			ou_cas(files, elem, gc);
 		files = files->next;
 	}
-	return (0);
 }
 
-int check_redir_in_parent(t_simple_cmd *cmd,  t_elem **elem, t_gc **gc)
+void check_redir_in_parent(t_simple_cmd *cmd,  t_elem **elem, t_gc **gc)
 {
 	t_redirection *files = cmd->redirs;
 
@@ -39,18 +38,17 @@ int check_redir_in_parent(t_simple_cmd *cmd,  t_elem **elem, t_gc **gc)
 		if (files->type == REDIR_IN || files->type == REDIR_HEREDOC)
 		{
 			if (in_cas_p(files, elem, gc) == 0)
-				return (exit_stat(1, 1, NULL, NULL), 1);
+				exit_stat(1, 1, NULL, NULL);
 		}
 		else if (files->type == REDIR_OUT || files->type == REDIR_APPEND)
 		{
-			if (ou_cas_p(files) == 0)
-				return (exit_stat(1, 1, NULL, NULL), 1);
+			if (ou_cas_p(files, elem, gc) == 0)
+				exit_stat(1, 1, NULL, (*elem)->env);
 		}
 		files = files->next;
 	}
-	return (0);
 }
-int inf_outf_cmd(t_simple_cmd **data, int flag, t_elem **elem, t_gc *gc)
+void inf_outf_cmd(t_simple_cmd **data, int flag, t_elem **elem, t_gc **gc)
 {
 	if (flag == 1)
 		return handle_redir_in_child(*data, elem, gc);

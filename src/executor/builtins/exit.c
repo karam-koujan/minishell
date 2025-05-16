@@ -19,7 +19,7 @@
 void free_exit(t_gc **gc, char   **env)
 {
     if (gc)
-        free_all(&gc);
+        free_all(gc);
     if (env)
         free_arr(env);
 }

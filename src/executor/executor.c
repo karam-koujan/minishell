@@ -16,8 +16,6 @@ void exec_builtin(t_simple_cmd **data, t_env **env, t_elem **elem, t_gc **gc)
 {
     if (!ft_strcmp((*data)->args[0], "cd"))
         builtin_cd(data, env, gc, elem);
-    else if (!ft_strcmp((*data)->args[0], "export"))
-        builtin_export(data, env, gc);
     else if (!ft_strcmp((*data)->args[0], "exit"))
         builtin_exit(data, gc, elem);
     else if (!ft_strcmp((*data)->args[0], "unset"))
@@ -26,8 +24,8 @@ void exec_builtin(t_simple_cmd **data, t_env **env, t_elem **elem, t_gc **gc)
 
 int is_builtin(char *cmd)
 {
-    return (!ft_strcmp(cmd, "cd") || !ft_strcmp(cmd, "export")
-            || !ft_strcmp(cmd, "exit") || !ft_strcmp(cmd, "unset"));
+    return (!ft_strcmp(cmd, "cd") || !ft_strcmp(cmd, "exit")
+        || !ft_strcmp(cmd, "unset"));
 }
 
 void single_cmd(t_simple_cmd **data, t_env **env, t_elem *elem, t_gc **gc)
@@ -51,7 +49,7 @@ void exec(t_cmd_table *data, t_env **env, t_gc **gc)
     if (!data || !env || !(*env))
         return; 
 
-    elem.env = env_list_to_array(*env);  
+    elem.env = env_list_to_array(*env);
     if (!elem.env)
         return; 
 

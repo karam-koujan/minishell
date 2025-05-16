@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:21:45 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/16 13:22:02 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/15 19:28:25 by achemlal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,10 @@ void check_is_building(t_simple_cmd **data, t_env *env, t_elem **elem, t_gc **gc
 		exit(exit_stat(0, 1, gc,(*elem)->env));
 	}
 	if(ft_strcmp((*data)->args[0], "export") == 0)
+	{
+		builtin_export(data, &env, gc);
 		exit(exit_stat(0, 1, gc, (*elem)->env));
+	}
 	if(ft_strcmp((*data)->args[0], "unset") == 0)
 		exit(exit_stat(0, 1, gc, (*elem)->env));
 	if(ft_strcmp((*data)->args[0], "exit") == 0)
@@ -66,10 +69,10 @@ void exec_cmd(t_simple_cmd **data,t_env *env, t_elem **elem, t_gc **gc)
 	else
 	{
 		waitpid(pid, &status, 0);
-		if (exit_stat(0, 0, gc, env) == 130 || status == 131)
+		if (exit_stat(0,0, NULL, NULL) == 130 || status == 131)
 			printf("\n");
 		else if (status == 131)
-			exit_stat(status, 1, gc, env);
+			exit_stat(status, 1, NULL, NULL);
 		else
 			exit_status(status);
 	}

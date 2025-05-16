@@ -58,11 +58,11 @@ void	pars_cmd_1(char *cmd, t_elem **elem, t_gc **gc);
 void	pars_cmd_2(char **cmd, t_elem **elem, t_gc **gc);
 void	pars_cmd_3(char **cmd, t_elem **elem, t_gc **gc);
 
-int inf_outf_cmd(t_simple_cmd **data, int flag, t_elem **elem, t_gc **gc);
+void inf_outf_cmd(t_simple_cmd **data, int flag, t_elem **elem, t_gc **gc);
 void  in_cas(t_redirection *in, t_elem **elem, t_gc **gc);
 void ou_cas(t_redirection *ou, t_elem **elem, t_gc **gc);
 int in_cas_p(t_redirection *in,  t_elem **elem, t_gc **gc);
-int	ou_cas_p(t_redirection *ou);
+int	ou_cas_p(t_redirection *ou, t_elem **elem, t_gc **gc);
 int is_directory(char *path);
 int ft_strcmp(const char *s1, const char *s2);
 
@@ -72,6 +72,6 @@ void	ft_close(int fd);
 
 int	here_doc(char *delimiter,  t_elem **elem, t_gc **gc);
 
-int  exit_stat(int value, int action, t_gc **gc, t_elem **elem);
+int  exit_stat(int value, int action, t_gc **gc, char **env);
 void exit_status(int status);
 #endif

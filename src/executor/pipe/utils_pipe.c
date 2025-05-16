@@ -22,7 +22,7 @@ void	ft_dup2(int fd_src, int fd_dest, int fd_close)
 		if(fd_close >= 0)
 			ft_close (fd_close);
 		ft_putstr_fd("Dup2 Failed\n", 2);
-		exit(1);
+		exit_stat(1, 1, NULL, NULL);
 	}
 }
 
@@ -31,7 +31,7 @@ void	ft_close(int fd)
 	if (close(fd) == -1)
 	{
 		ft_putstr_fd("Error closing file descriptor\n", 2);
-		exit(1);
+		exit_stat(1, 1, NULL, NULL);
 	}
 }
 

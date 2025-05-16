@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:21:54 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/16 13:30:57 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/16 17:05:28 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 #include "../../../includes/minishell.h"
 #include <errno.h>
 
-static void	error_exit(const char *msg, int code, t_elem **elem, t_gc **gc)
+static void	error_exit(const char *msg, int code, char **env, t_gc **gc)
 {
 	perror(msg);
-	exit(exit_stat(code, 1, gc, (*elem)->env));
+	exit(exit_stat(code, 1, NULL, env));
 }
 int	ft_check_path_cmd(char *cmd)
 {
@@ -78,6 +78,7 @@ void	pars_cmd_3(char **cmd, t_elem **elem, t_gc **gc)
 		error_exit(cmd[0], 127, (*elem)->env, gc);
 	}
 	path_cmd = ft_found_cmd(cmd[0], path);
+	free_arr(path);
 	if (!path_cmd)
 	{
 		printf("minishell: %s: Command not found\n", cmd[0]);
