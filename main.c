@@ -143,6 +143,8 @@ int main(int argc, char **argv, char **envp)
 	gc = NULL;
 	sa.sa_sigaction = handler;
 	sa.sa_flags = SA_RESTART;
+	cmd_table = NULL;
+	token_head = NULL;
 	sigemptyset(&sa.sa_mask);
 	if (sigaction(SIGINT, &sa, NULL) == -1)
 		return (perror("SIGINT ERROR"), 1);
@@ -157,7 +159,8 @@ int main(int argc, char **argv, char **envp)
 	{
 		cmd = readline("minishell$ ");
 		if (cmd == NULL)
-			return (printf("exit\n"), free_in_exit(token_head, cmd_table, env), exit_stat(0, 0));
+			return (printf("exit\n"), free_in_exit(token_head, cmd_table, env), \
+			exit_stat(0, 0));
 		if (!*cmd)
 			continue ;
 		add_history(cmd);
@@ -168,12 +171,13 @@ int main(int argc, char **argv, char **envp)
 		}
 		token_head = tokenize(cmd, env);
 		if (!token_head)
-			return (free(cmd), rl_clear_history(), 1);
+			return (free(cmd), rl_clear_history(), \
+			free_in_exit(token_head, cmd_table, env), 1);
 		print_token_list(token_head);
 		cmd_table = parse(token_head, env);
 		if (!cmd_table)
 			return (free(cmd), rl_clear_history(), \
-			ft_token_lstclear(&token_head, free), 1);
+			free_in_exit(token_head, cmd_table, env), 1);
 		print_cmd_table(cmd_table);
 		// add_to_gc(&gc, (t_token **)&token_head, 0);
 		// add_to_gc(&gc, (t_cmd_table **)&cmd_table, 1);
