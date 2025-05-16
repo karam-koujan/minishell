@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 11:19:41 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/16 11:43:32 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/16 17:44:23 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,10 +81,10 @@ t_token	*handle_expand_var(t_token *tokenlst, t_env *env)
 	// 	return (tokenlst->next);		
 	arr = ft_split(val, ' ');
 	if (arr == NULL)
-		return (NULL);
+		return (free(val), NULL);
 	if (curr)
 		insert_var(&curr, arr);
-	return (free_arr(arr), tokenlst->next);
+	return (free(val), free_arr(arr), tokenlst->next);
 }
 
 void	join_var(t_token **tokenlst, t_env *env)

@@ -160,8 +160,7 @@ int main(int argc, char **argv, char **envp)
 		add_to_gc(&gc, (void **)&env, 2);
 		cmd = readline("minishell$ ");
 		if (cmd == NULL)
-			return (printf("exit\n"), free_all(&gc), \
-			exit_stat(0, 0, NULL, NULL));
+			return (printf("exit\n"), exit_stat(0, 0, &gc, NULL));
 		if (!*cmd)
 			continue ;
 		add_history(cmd);
