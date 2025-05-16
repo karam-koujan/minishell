@@ -6,7 +6,7 @@
 /*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:20:33 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/02 15:30:08 by achemlal         ###   ########.fr       */
+/*   Updated: 2025/05/15 19:30:08 by achemlal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int equal_char(char *str, char *key)
 		{
 			if(key[i] != '_')
 				return (printf("export: '%s': not a valid identifier\n", str),
-					exit_stat(1, 1), 0);
+					exit_stat(1, 1, NULL, NULL), 0);
 		}
 		i++;
 	}
@@ -49,7 +49,7 @@ int not_equal(char *str)
 		{
 			if(str[0] != '_')
 				return (printf("export: '%s': not a valid identifier\n", str),
-					exit_stat(1, 1), 0);
+					exit_stat(1, 1, NULL, NULL), 0);
 		}
 	while(str[i])
 	{

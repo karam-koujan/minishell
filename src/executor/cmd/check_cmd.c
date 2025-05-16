@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   check_cmd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:21:41 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/16 11:32:30 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/15 18:51:21 by achemlal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,10 @@ char	*ft_found_cmd(char *cmd, char **path)
 	return (NULL);
 }
 
-void	check_exec_cmd(char **cmd, char **env)
+void	check_exec_cmd(char **cmd, t_elem **elem, t_gc **gc)
 {
-	pars_cmd_1(cmd[0]);
-	// if (ft_check_path_cmd(cmd[0]) == 1)
-	// 	pars_cmd_2(cmd, env);
-	pars_cmd_3(cmd, env);
+	pars_cmd_1(cmd[0], elem, gc);
+	if (ft_check_path_cmd(cmd[0]) == 1)
+		pars_cmd_2(cmd, elem, gc);
+	pars_cmd_3(cmd, elem, gc);
 }

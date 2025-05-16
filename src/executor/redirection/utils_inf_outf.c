@@ -35,7 +35,7 @@ int	ou_cas_p(t_redirection *ou)
 }
 
 
-int in_cas_p(t_redirection *in)
+int in_cas_p(t_redirection *in,  t_elem **elem, t_gc **gc)
 {
     int	in_fd;
 		//handle case ambiguous redirect
@@ -43,7 +43,7 @@ int in_cas_p(t_redirection *in)
 	if (in->type == REDIR_IN)
 		in_fd = open(in->file_or_delimiter, O_RDONLY, 0644);
 	else
-		in_fd = here_doc(in->file_or_delimiter);
+		in_fd = here_doc(in->file_or_delimiter,elem , gc);
 	if (in_fd == -1)
 	{
 		write(2, "minihell: ", 11);
@@ -53,7 +53,7 @@ int in_cas_p(t_redirection *in)
 	close(in_fd);
     return 1;
 }
-void ou_cas(t_redirection *ou)
+void ou_cas(t_redirection *ou, t_elem **elem, t_gc **gc)
 {
 	int ou_fd;
    
@@ -61,7 +61,7 @@ void ou_cas(t_redirection *ou)
 	if(is_directory(ou->file_or_delimiter))
 	{
 		printf("minishell: %s: Is a directory\n", ou->file_or_delimiter);
-		exit(exit_stat(1, 1));
+		exit(exit_stat(1, 1, (*elem)->env, gc));
 	}
 	if (ou->type == REDIR_OUT)
 		ou_fd = open(ou->file_or_delimiter, O_CREAT | O_WRONLY | O_TRUNC, 0644);
@@ -70,25 +70,25 @@ void ou_cas(t_redirection *ou)
 	if (ou_fd == -1)
 	{
 		perror(ou->file_or_delimiter);
-		exit(exit_stat(1, 1));
+		exit(exit_stat(1, 1, (*elem)->env, gc));
 	}
 	ft_dup2(ou_fd, 1, -1);
 	ft_close(ou_fd);
 }
 
-void  in_cas(t_redirection *in)
+void  in_cas(t_redirection *in,t_elem **elem, t_gc **gc)
 {
 	int	in_fd;
 	
 	if (in->type == REDIR_IN)
 		in_fd = open(in->file_or_delimiter, O_RDONLY, 0644);
 	else
-		in_fd = here_doc(in->file_or_delimiter);
+		in_fd = here_doc(in->file_or_delimiter, elem, gc);
 	if (in_fd == -1)
 	{
 		write(2, "minihell: ", 11);
 		perror(in->file_or_delimiter);
-		exit(exit_stat(1, 1));
+		exit(exit_stat(1, 1, (*elem)->env, gc));
 	}
 	ft_dup2(in_fd, 0, -1);
 	ft_close(in_fd);

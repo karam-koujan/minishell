@@ -101,7 +101,7 @@ void	handler(int signum, siginfo_t *info, void	*context)
 	(void)info;
 	(void)context;
 	if (signum == SIGINT && g_gl != 2)
-		exit_stat(130, 1);
+		exit_stat(130, 1, NULL, NULL);
 	if (signum == SIGINT && g_gl == 2)
 		printf("\n");
 	if (signum == SIGINT && g_gl == 0)
@@ -160,7 +160,7 @@ int main(int argc, char **argv, char **envp)
 		cmd = readline("minishell$ ");
 		if (cmd == NULL)
 			return (printf("exit\n"), free_in_exit(token_head, cmd_table, env), \
-			exit_stat(0, 0));
+			exit_stat(0, 0, NULL, NULL));
 		if (!*cmd)
 			continue ;
 		add_history(cmd);

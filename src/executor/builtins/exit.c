@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:19:12 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/16 11:45:01 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/15 18:47:02 by achemlal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,14 @@
 void free_exit(t_gc **gc, char   **env)
 {
     if (gc)
-        free_all(gc);
+        free_all(&gc);
     if (env)
         free_arr(env);
 }
 
-int exit_stat(int value, int action)
+int exit_stat(int value, int action, t_gc **gc, char   **env)
 {
+    free_exit(gc, env);
     static int status = 0;
 
     if (action == 1) 
@@ -36,13 +37,13 @@ int exit_stat(int value, int action)
 void exit_status(int status)
  {
     if (status > 128)
-        exit_stat(status, 1);
+        exit_stat(status, 1, NULL, NULL);
     if(WIFSIGNALED(status))
 	{
-        exit_stat(128 + WTERMSIG(status), 1);
+        exit_stat(128 + WTERMSIG(status), 1,NULL, NULL);
 	}
     else if (WIFEXITED(status), 1)
-         exit_stat(WEXITSTATUS(status), 1);
+         exit_stat(WEXITSTATUS(status), 1, NULL, NULL);
  }
 int is_numeric( char *str)
 {
@@ -85,28 +86,28 @@ int ft_atoll(char *str, long long *code)
     *code = sign * result;
     return 1;
 }
-void builtin_exit(t_simple_cmd **data, t_gc **gc)
+void builtin_exit(t_simple_cmd **data, t_gc **gc, t_elem **elem)
 {
     long long code;
 
     if((*data)->argc == 1)
-        return(printf("exit\n"), free_all(gc), exit(0));
+        return(printf("exit\n") , exit(exit_stat(0, 1, gc, (*elem)->env)));
     if((*data)->argc == 2)
     {
         if (!is_numeric((*data)->args[1]))
         {
             printf("exit\nexit: %s: numeric argument required\n",
                 (*data)->args[1]);
-            return (free_all(gc), exit(exit_stat(255, 1)));
+            return (exit(exit_stat(255, 1, gc, (*elem)->env)));
         }
         if (!ft_atoll((*data)->args[1], &code))
         {
             printf("exit\nexit: %s: numeric argument required\n",
                 (*data)->args[1]);
-            return (free_all(gc) ,exit(exit_stat(255, 1)));
+            return (exit(exit_stat(255, 1, gc, (*elem)->env)));
         }
     }
     else
-        return(printf("exit\nexit: too many arguments\n"), exit(255));
-    return (printf("exit\n"), free_all(gc), exit(exit_stat(code % 256, 1)));
+        return(printf("exit\nexit: too many arguments\n"), exit(exit_stat(255, 1, gc, (*elem)->env)));
+    return (printf("exit\n"), free_all(gc), exit(exit_stat(code % 256, 1, gc, (*elem)->env)));
 }

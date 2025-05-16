@@ -11,6 +11,12 @@
 
 # define PATH "/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
+typedef struct s_elem
+{
+    char **env;
+    int fd_save;
+} t_elem;
+
 t_env *init_env_list(char **envp, t_gc **gc);
 void init_empty_env(t_env **env, t_gc **gc);
 void handle_shlvl(t_env **env, t_gc **gc);
@@ -22,14 +28,13 @@ char **env_list_to_array(t_env *env) ;
 
 void exec(t_cmd_table *data, t_env **env, t_gc **gc);
 int is_builtin(char *cmd);
-void exec_builtin(t_simple_cmd **data, t_env **env, char **env_array, t_gc **gc);
 
 void builtin_echo(t_simple_cmd **data);
 int  is_n_flage(char *str);
 
 void builtin_env(t_simple_cmd **data, t_env *env);
 
-void builtin_cd(t_simple_cmd **data, t_env **env, t_gc **gc);
+void builtin_cd(t_simple_cmd **data, t_env **env, t_gc **gc, t_elem **elem);
 
 void builtin_pwd();
 
@@ -39,34 +44,34 @@ int  valid_export(char *str, t_gc **gc);
 void var_set(char *str, t_env **env, t_gc **gc);
 void	handle_plus(t_env **env, char **key, char **value, t_gc **gc);
 
-void builtin_exit(t_simple_cmd **data, t_gc **gc);
+void builtin_exit(t_simple_cmd **data, t_gc **gc, t_elem **elem);
 
 void  builtin_unset(t_simple_cmd **data, t_env **env, t_gc **gc);
 
-void exec_cmd(t_simple_cmd **data, t_env *env, char **env_arr);
-void exec_proc(t_simple_cmd **data, t_env *env, char **env_arr);
-void	check_exec_cmd(char **cmd, char **env);
+void exec_cmd(t_simple_cmd **data, t_env *env, t_elem **elem, t_gc **gc);
+void exec_proc(t_simple_cmd **data, t_env *env, t_elem **elem, t_gc **gc);
+void	check_exec_cmd(char **cmd, t_elem **elem, t_gc **gc);
 int	ft_check_path_cmd(char *cmd);
 char	*fet_path(char **env);
 char	*ft_found_cmd(char *cmd, char **path);
-void	pars_cmd_1(char *cmd);
-void	pars_cmd_2(char **cmd, char **env, t_gc **gc);
-void	pars_cmd_3(char **cmd, char **env);
+void	pars_cmd_1(char *cmd, t_elem **elem, t_gc **gc);
+void	pars_cmd_2(char **cmd, t_elem **elem, t_gc **gc);
+void	pars_cmd_3(char **cmd, t_elem **elem, t_gc **gc);
 
-int inf_outf_cmd(t_simple_cmd **data, int flag);
-void  in_cas(t_redirection *in);
-void ou_cas(t_redirection *ou);
-int in_cas_p(t_redirection *in);
+int inf_outf_cmd(t_simple_cmd **data, int flag, t_elem **elem, t_gc **gc);
+void  in_cas(t_redirection *in, t_elem **elem, t_gc **gc);
+void ou_cas(t_redirection *ou, t_elem **elem, t_gc **gc);
+int in_cas_p(t_redirection *in,  t_elem **elem, t_gc **gc);
 int	ou_cas_p(t_redirection *ou);
 int is_directory(char *path);
 int ft_strcmp(const char *s1, const char *s2);
 
-void pipe_case(t_cmd_table *data, t_env *env, char ** env_arr);
+void pipe_case(t_cmd_table *data, t_env *env, t_elem *elem, t_gc **gc);
 void	ft_dup2(int fd_src, int fd_dest, int fd_close);
 void	ft_close(int fd);
 
-int	here_doc(char *delimiter);
+int	here_doc(char *delimiter,  t_elem **elem, t_gc **gc);
 
-int  exit_stat(int value, int action);
+int  exit_stat(int value, int action, t_gc **gc, char **env);
 void exit_status(int status);
 #endif

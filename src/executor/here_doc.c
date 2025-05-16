@@ -28,7 +28,7 @@ static int read_in_stdin(int fd, char *delimiter)
 	return (1);
 }
 
-int	here_doc(char *delimiter)
+int	here_doc(char *delimiter,  t_elem **elem, t_gc **gc)
 {
 	int		fd;
 	pid_t	pid;
@@ -43,8 +43,8 @@ int	here_doc(char *delimiter)
 	{
 		signal(SIGINT, SIG_DFL);
 		if (!read_in_stdin(fd, delimiter))
-			exit(exit_stat(1, 1));
-		exit(exit_stat(0, 1));
+			exit(exit_stat(1, 1, gc, (*elem)->env));
+		exit(exit_stat(0, 1, gc, (*elem)->env));
 	}
 	else
 	{
