@@ -72,6 +72,6 @@ void	ft_close(int fd);
 
 int	here_doc(char *delimiter,  t_elem **elem, t_gc **gc);
 
-int  exit_stat(int value, int action, t_gc **gc, char **env);
+int  exit_stat(int value, int action, t_gc **gc, t_elem **elem);
 void exit_status(int status);
 #endif

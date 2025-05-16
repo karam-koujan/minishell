@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:21:45 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/15 19:28:25 by achemlal         ###   ########.fr       */
+/*   Updated: 2025/05/16 13:22:02 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,10 +66,10 @@ void exec_cmd(t_simple_cmd **data,t_env *env, t_elem **elem, t_gc **gc)
 	else
 	{
 		waitpid(pid, &status, 0);
-		if (exit_stat(0,0, NULL, NULL) == 130 || status == 131)
+		if (exit_stat(0, 0, gc, env) == 130 || status == 131)
 			printf("\n");
 		else if (status == 131)
-			exit_stat(status, 1, NULL, NULL);
+			exit_stat(status, 1, gc, env);
 		else
 			exit_status(status);
 	}
