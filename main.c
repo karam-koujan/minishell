@@ -157,6 +157,7 @@ int main(int argc, char **argv, char **envp)
 			init_empty_env(&env, &gc);
 		handle_shlvl(&env, &gc);
 		init_pwd(&env, &gc);
+		add_to_gc(&gc, (void **)&env, 2);
 		cmd = readline("minishell$ ");
 		if (cmd == NULL)
 			return (printf("exit\n"), free_all(&gc), \
@@ -170,19 +171,17 @@ int main(int argc, char **argv, char **envp)
 			continue ;
 		}
 		token_head = tokenize(cmd, env);
+		add_to_gc(&gc, (void **)&token_head, 0);
 		if (!token_head)
 			return (free(cmd), rl_clear_history(), \
 			free_all(&gc), 1);
 		print_token_list(token_head);
 		cmd_table = parse(token_head, env);
+		add_to_gc(&gc, (void **)&cmd_table, 1);
 		if (!cmd_table)
 			return (free(cmd), rl_clear_history(), \
 			free_all(&gc), 1);
 		print_cmd_table(cmd_table);
-		add_to_gc(&gc, (void **)&token_head, 0);
-		add_to_gc(&gc, (void **)&cmd_table, 1);
-		add_to_gc(&gc, (void **)&env, 2);
-
 		exec(cmd_table, &env, &gc);
 		g_gl = 0;
 		free(cmd);
@@ -192,6 +191,7 @@ int main(int argc, char **argv, char **envp)
 		free_all(&gc);
 		token_head = NULL;
 		cmd_table = NULL;
+		env = NULL;
 		gc = NULL;
 	}
 }
