@@ -1,51 +1,73 @@
-==163294== Memcheck, a memory error detector
-==163294== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
-==163294== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
-==163294== Command: ./minishell
-==163294== 
-==163322== 
-==163322== HEAP SUMMARY:
-==163322==     in use at exit: 208,226 bytes in 226 blocks
-==163322==   total heap usage: 993 allocs, 767 frees, 243,972 bytes allocated
-==163322== 
-==163322== LEAK SUMMARY:
-==163322==    definitely lost: 0 bytes in 0 blocks
-==163322==    indirectly lost: 0 bytes in 0 blocks
-==163322==      possibly lost: 0 bytes in 0 blocks
-==163322==    still reachable: 0 bytes in 0 blocks
-==163322==         suppressed: 208,226 bytes in 226 blocks
-==163322== 
-==163322== For lists of detected and suppressed errors, rerun with: -s
-==163322== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
-==163294== Invalid free() / delete / delete[] / realloc()
-==163294==    at 0x484B27F: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==163294==    by 0x402508: free_all (gc.c:61)
-==163294==    by 0x40191F: main (main.c:162)
-==163294==  Address 0x4b65550 is 0 bytes inside a block of size 6 free'd
-==163294==    at 0x484B27F: free (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==163294==    by 0x408391: ft_token_lstclear (token_operations.c:70)
-==163294==    by 0x401A89: main (main.c:190)
-==163294==  Block was alloc'd at
-==163294==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
-==163294==    by 0x407114: ft_strdup (ft_strdup.c:19)
-==163294==    by 0x409D78: process_word_tokens (tokenizer_extra.c:96)
-==163294==    by 0x409EBC: handle_word_token (tokenizer_extra.c:123)
-==163294==    by 0x408937: join_cmd (tokenizer_helper.c:88)
-==163294==    by 0x408315: handle_tokenizer (token_operations.c:54)
-==163294==    by 0x4070DE: tokenize (tokenizer.c:118)
-==163294==    by 0x40197F: main (main.c:172)
-==163294== 
-==163294== 
-==163294== HEAP SUMMARY:
-==163294==     in use at exit: 208,419 bytes in 240 blocks
-==163294==   total heap usage: 2,543 allocs, 3,425 frees, 286,637 bytes allocated
-==163294== 
-==163294== LEAK SUMMARY:
-==163294==    definitely lost: 0 bytes in 0 blocks
-==163294==    indirectly lost: 0 bytes in 0 blocks
-==163294==      possibly lost: 0 bytes in 0 blocks
-==163294==    still reachable: 0 bytes in 0 blocks
-==163294==         suppressed: 208,419 bytes in 240 blocks
-==163294== 
-==163294== For lists of detected and suppressed errors, rerun with: -s
-==163294== ERROR SUMMARY: 1122 errors from 1 contexts (suppressed: 0 from 0)
+==164383== Memcheck, a memory error detector
+==164383== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==164383== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==164383== Command: ./minishell
+==164383== 
+==164403== 
+==164403== HEAP SUMMARY:
+==164403==     in use at exit: 208,224 bytes in 226 blocks
+==164403==   total heap usage: 993 allocs, 767 frees, 243,953 bytes allocated
+==164403== 
+==164403== LEAK SUMMARY:
+==164403==    definitely lost: 0 bytes in 0 blocks
+==164403==    indirectly lost: 0 bytes in 0 blocks
+==164403==      possibly lost: 0 bytes in 0 blocks
+==164403==    still reachable: 0 bytes in 0 blocks
+==164403==         suppressed: 208,224 bytes in 226 blocks
+==164403== 
+==164403== For lists of detected and suppressed errors, rerun with: -s
+==164403== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+==164383== 
+==164383== HEAP SUMMARY:
+==164383==     in use at exit: 214,378 bytes in 450 blocks
+==164383==   total heap usage: 2,769 allocs, 2,319 frees, 293,383 bytes allocated
+==164383== 
+==164383== 1 bytes in 1 blocks are indirectly lost in loss record 1 of 72
+==164383==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==164383==    by 0x40728F: ft_substr (ft_substr.c:24)
+==164383==    by 0x403EF5: get_key_value (load_env.c:41)
+==164383==    by 0x403DC6: init_env_list (load_env.c:62)
+==164383==    by 0x4018AA: main (main.c:155)
+==164383== 
+==164383== 2 bytes in 1 blocks are indirectly lost in loss record 2 of 72
+==164383==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==164383==    by 0x407CF5: ft_itoa (ft_itoa.c:56)
+==164383==    by 0x4041C6: get_new_shlvl (shlvl.c:65)
+==164383==    by 0x4040C1: handle_shlvl (shlvl.c:78)
+==164383==    by 0x4018D9: main (main.c:158)
+==164383== 
+==164383== 1,074 bytes in 72 blocks are indirectly lost in loss record 40 of 72
+==164383==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==164383==    by 0x4072FD: ft_substr (ft_substr.c:31)
+==164383==    by 0x403EC0: get_key_value (load_env.c:40)
+==164383==    by 0x403DC6: init_env_list (load_env.c:62)
+==164383==    by 0x4018AA: main (main.c:155)
+==164383== 
+==164383== 1,704 bytes in 71 blocks are indirectly lost in loss record 43 of 72
+==164383==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==164383==    by 0x402D79: create_env_node (utils_exec.c:76)
+==164383==    by 0x403DE9: init_env_list (load_env.c:64)
+==164383==    by 0x4018AA: main (main.c:155)
+==164383== 
+==164383== 3,234 bytes in 70 blocks are indirectly lost in loss record 46 of 72
+==164383==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==164383==    by 0x4072FD: ft_substr (ft_substr.c:31)
+==164383==    by 0x403EF5: get_key_value (load_env.c:41)
+==164383==    by 0x403DC6: init_env_list (load_env.c:62)
+==164383==    by 0x4018AA: main (main.c:155)
+==164383== 
+==164383== 6,039 (24 direct, 6,015 indirect) bytes in 1 blocks are definitely lost in loss record 58 of 72
+==164383==    at 0x4848899: malloc (in /usr/libexec/valgrind/vgpreload_memcheck-amd64-linux.so)
+==164383==    by 0x402D79: create_env_node (utils_exec.c:76)
+==164383==    by 0x403DE9: init_env_list (load_env.c:64)
+==164383==    by 0x4018AA: main (main.c:155)
+==164383== 
+==164383== LEAK SUMMARY:
+==164383==    definitely lost: 24 bytes in 1 blocks
+==164383==    indirectly lost: 6,015 bytes in 215 blocks
+==164383==      possibly lost: 0 bytes in 0 blocks
+==164383==    still reachable: 0 bytes in 0 blocks
+==164383==         suppressed: 208,339 bytes in 234 blocks
+==164383== 
+==164383== For lists of detected and suppressed errors, rerun with: -s
+==164383== ERROR SUMMARY: 1 errors from 1 contexts (suppressed: 0 from 0)

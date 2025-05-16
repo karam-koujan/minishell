@@ -150,16 +150,16 @@ int main(int argc, char **argv, char **envp)
 		return (perror("SIGINT ERROR"), 1);
 	if (signal(SIGQUIT, SIG_IGN) == SIG_ERR)
 		return (perror("SIGQUIT ERROR"), 1);
-	env = init_env_list(envp, &gc);
-	if (!env)
-		init_empty_env(&env, &gc);
-	handle_shlvl(&env, &gc);
-	init_pwd(&env, &gc);
 	while (1337)
 	{
+		env = init_env_list(envp, &gc);
+		if (!env)
+			init_empty_env(&env, &gc);
+		handle_shlvl(&env, &gc);
+		init_pwd(&env, &gc);
 		cmd = readline("minishell$ ");
 		if (cmd == NULL)
-			return (printf("exit\n"), free_in_exit(token_head, cmd_table, env), \
+			return (printf("exit\n"), free_all(&gc), \
 			exit_stat(0, 0, NULL, NULL));
 		if (!*cmd)
 			continue ;
@@ -172,12 +172,12 @@ int main(int argc, char **argv, char **envp)
 		token_head = tokenize(cmd, env);
 		if (!token_head)
 			return (free(cmd), rl_clear_history(), \
-			free_in_exit(token_head, cmd_table, env), 1);
+			free_all(&gc), 1);
 		print_token_list(token_head);
 		cmd_table = parse(token_head, env);
 		if (!cmd_table)
 			return (free(cmd), rl_clear_history(), \
-			free_in_exit(token_head, cmd_table, env), 1);
+			free_all(&gc), 1);
 		print_cmd_table(cmd_table);
 		add_to_gc(&gc, (void **)&token_head, 0);
 		add_to_gc(&gc, (void **)&cmd_table, 1);
@@ -186,10 +186,12 @@ int main(int argc, char **argv, char **envp)
 		exec(cmd_table, &env, &gc);
 		g_gl = 0;
 		free(cmd);
-		// ft_malloc(NULL, &gc, 1);
-		ft_token_lstclear(&token_head, free);
-		free_table(cmd_table);
+		// // ft_malloc(NULL, &gc, 1);
+		// ft_token_lstclear(&token_head, free);
+		// free_table(cmd_table);
+		free_all(&gc);
 		token_head = NULL;
 		cmd_table = NULL;
+		gc = NULL;
 	}
 }
