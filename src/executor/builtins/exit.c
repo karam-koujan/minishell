@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:19:12 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/16 17:21:50 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/17 20:53:59 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,5 +109,5 @@ void builtin_exit(t_simple_cmd **data, t_gc **gc, t_elem **elem)
     }
     else
         return(printf("exit\nexit: too many arguments\n"), exit(exit_stat(255, 1, gc, (*elem)->env)));
-    return (printf("exit\n"), free_all(gc), exit(exit_stat(code % 256, 1, gc, (*elem)->env)));
+    return (printf("exit\n"), exit(exit_stat(code % 256, 1, gc, (*elem)->env)));
 }
