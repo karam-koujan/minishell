@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:21:45 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/17 20:50:18 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/18 10:00:24 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,16 +64,17 @@ void exec_cmd(t_simple_cmd **data,t_env *env, t_elem **elem, t_gc **gc)
 	if (pid == 0)
 	{
 		signal(SIGQUIT, SIG_DFL);
+		signal(SIGINT, SIG_DFL);
 		exec_proc(data, env, elem, gc);
 	}
 	else
 	{
 		waitpid(pid, &status, 0);
-		if (exit_stat(130, 1, NULL, NULL) == 130 || status == 131)
-			printf("\n");
-		if (status == 131)
-			exit_stat(status, 1, NULL, NULL);
-		else
+		if (!WIFSIGNALED(status))
 			exit_status(status);
+		else if (exit_stat(0, 0, NULL, NULL) == 130)
+			printf("\n");
+		else if (status == 131 && printf("\n"))
+			exit_stat(status, 1, NULL, NULL);
 	}
 }

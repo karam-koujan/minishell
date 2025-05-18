@@ -35,12 +35,13 @@ int	here_doc(char *delimiter,  t_elem **elem, t_gc **gc)
 	int		status;
 
 	fd = open("/tmp/.here_doc", O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	g_gl = 2;
 	if (fd < 0)
 		return (-1);
 	pid = fork();
 	if (pid == 0)
 	{
+		if (g_gl == 3)
+			return (exit(130), -1);
 		signal(SIGINT, SIG_DFL);
 		if (!read_in_stdin(fd, delimiter))
 			exit(exit_stat(1, 1, gc, (*elem)->env));
@@ -51,7 +52,7 @@ int	here_doc(char *delimiter,  t_elem **elem, t_gc **gc)
 		close(fd);
 		waitpid(pid, &status, 0);
 		if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
-			return (printf("\n"), exit_status(status), -1);
+			return (printf("\n"), g_gl = 3, exit_status(status), -1);
 		exit_status(status);
 		fd = open("/tmp/.here_doc", O_RDONLY);
 		unlink("/tmp/.here_doc");
