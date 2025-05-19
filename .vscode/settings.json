@@ -4,6 +4,7 @@
     "minishell.h": "c",
     "stdlib.h": "c",
     "tokenizer.h": "c",
-    "sstream": "c"
+    "sstream": "c",
+    "executor.h": "c"
   }
 }

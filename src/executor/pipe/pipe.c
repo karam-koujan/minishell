@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:22:22 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/15 19:10:48 by achemlal         ###   ########.fr       */
+/*   Updated: 2025/05/19 15:28:09 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ int first_proc(t_simple_cmd *cmd, t_env *env, t_elem **elem, t_gc **gc)
 		ft_dup2(fd[1], STDOUT_FILENO, fd[1]);
 		ft_close(fd[1]);
 		exec_proc(&cmd, env, elem, gc);
+		free_arr((*elem)->env);
+		clear_parsing(gc);
 	}
 	ft_close(fd[1]);
 	return (fd[0]);
@@ -54,6 +56,8 @@ int mid_proc(t_simple_cmd *cmd, t_env *env, t_elem **elem, t_gc **gc)
 		ft_dup2(fd[1], STDOUT_FILENO, -1);
 		ft_close(fd[1]);
 		exec_proc(&cmd, env, elem, gc);
+		free_arr((*elem)->env);
+		clear_parsing(gc);
 	}
 	ft_close(fd[1]);
 	ft_close((*elem)->fd_save);
@@ -74,6 +78,8 @@ void last_proc(t_simple_cmd *cmd, t_env *env, t_elem **elem, t_gc **gc)
 		ft_dup2((*elem)->fd_save, STDIN_FILENO, -1);
 		ft_close((*elem)->fd_save);
 		exec_proc(&cmd, env, elem, gc);
+		free_arr((*elem)->env);
+		clear_parsing(gc);
 	}
 	ft_close((*elem)->fd_save);
 	waitpid(child, &status, 0);

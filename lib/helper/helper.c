@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 20:21:40 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/15 14:09:38 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/19 12:39:04 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ void	free_arr(char **arr)
 	int	i;
 
 	i = -1;
+	if (arr == NULL)
+		return ;
 	while (arr[++i])
 		free(arr[i]);
 	return (free(arr));

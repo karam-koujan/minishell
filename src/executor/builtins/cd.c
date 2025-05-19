@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:17:43 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/18 17:58:55 by achemlal         ###   ########.fr       */
+/*   Updated: 2025/05/19 14:45:06 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,16 @@ void update_pwd(t_env **env, char *key, char *value)
 {
     t_env *current = *env;
     t_env *node;
-    
+
+    if (!key || !value)
+        return ;
     while (current)
     {
         if (ft_strcmp(current->key, key) == 0)
         {
             free(current->value);
-            current->value = ft_strdup(value);
+            free(key);
+            current->value = value;
             if(!current->value)
                     return ;
             return ;
@@ -63,7 +66,7 @@ void builtin_cd(t_simple_cmd **data, t_env **env, t_gc **gc,t_elem **elem)
 
     target = NULL;
     if((*data)->args[2])
-        return(printf("minishell: cd: too many arguments\n"), (void)exit_stat(1, 1, gc, (*elem)->env));
+        return(printf("minishell: cd: too many arguments\n"), (void)exit_stat(1, 1, NULL, NULL));
     oldpwd = getcwd(NULL, 0);
     if(!oldpwd)
         return (printf("minishell: cd: getcwd failed"), (void)exit(exit_stat(1, 1, gc, (*elem)->env)));
@@ -71,12 +74,11 @@ void builtin_cd(t_simple_cmd **data, t_env **env, t_gc **gc,t_elem **elem)
     if (!target)
         return (free(oldpwd), (void)exit(exit_stat(1, 1,gc, (*elem)->env)));//add
     if (chdir(target) != 0)
-        return (printf("minishell: "),  
-            perror((*data)->args[1]), free(oldpwd), (void)exit_stat(1, 1, gc, (*elem)->env)); //add
+        return (perror((*data)->args[1]), free(oldpwd), (void)exit_stat(1, 1, NULL, NULL)); //add
     update_pwd(env, ft_strdup("OLDPWD="), oldpwd);
     free(oldpwd);//add
     newpwd = getcwd(NULL, 0);
     if (newpwd)
-        update_pwd(env, ft_strdup("PWD="), newpwd);
+        update_pwd(env, ft_strdup("PWD="), ft_strdup(newpwd));
     free(newpwd);
 }

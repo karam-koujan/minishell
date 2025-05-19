@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 21:36:09 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/02 20:33:04 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/19 11:49:33 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,12 @@
 # include "./error_checker.h"
 # include "./tokenizer.h"
 # include "./parser.h"
-# include "./executor.h"
 # include "./env.h"
-
+# include "./executor.h"
+# include "./helper.h"
 extern int  g_gl;
 
 typedef struct sigaction   t_sigaction;
+
+
 #endif

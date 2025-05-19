@@ -16,7 +16,7 @@ int	ou_cas_p(t_redirection *ou, t_elem **elem, t_gc **gc)
 
 	if(ou->is_ambigous)
 	{
-		printf("minishell :filename: ambiguous redirect");
+		printf("minishell :filename: ambiguous redirect\n");
 		return 0;
 	}
 	if(is_directory(ou->file_or_delimiter))
@@ -45,7 +45,7 @@ int in_cas_p(t_redirection *in,  t_elem **elem, t_gc **gc)
 	
 		if(in->is_ambigous)
 	{
-		printf("minishell :filename: ambiguous redirect");
+		printf("minishell :filename: ambiguous redirect\n");
 		return 0;
 	}
 	if (in->type == REDIR_IN)
@@ -67,8 +67,8 @@ void ou_cas(t_redirection *ou, t_elem **elem, t_gc **gc)
    
 	if(ou->is_ambigous)
 	{
-		printf("minishell :filename: ambiguous redirect");
-		exit(exit_stat(1, 1 , NULL, NULL));
+		printf("minishell :filename: ambiguous redirect\n");
+		exit(exit_stat(1, 1, gc, (*elem)->env));
 	}
 	if(is_directory(ou->file_or_delimiter))
 	{
@@ -91,7 +91,7 @@ void ou_cas(t_redirection *ou, t_elem **elem, t_gc **gc)
 void  in_cas(t_redirection *in,t_elem **elem, t_gc **gc)
 {
 	int	in_fd;
-	
+
 	if (in->type == REDIR_IN)
 		in_fd = open(in->file_or_delimiter, O_RDONLY, 0644);
 	else

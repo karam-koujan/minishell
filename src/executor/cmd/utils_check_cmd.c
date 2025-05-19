@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_check_cmd.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:21:54 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/18 18:48:42 by achemlal         ###   ########.fr       */
+/*   Updated: 2025/05/19 12:51:27 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@
 
 static void	error_exit(const char *msg, int code, char **env, t_gc **gc)
 {
-	write(1, "minishell: ", 12);
+	write(2, "minishell: ", 12);
 	perror(msg);
-	exit(exit_stat(code, 1, NULL, env));
+	exit(exit_stat(code, 1, gc, env));
 }
 int	ft_check_path_cmd(char *cmd)
 {
