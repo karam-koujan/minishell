@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   load_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:23:12 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/15 14:46:47 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/18 18:09:12 by achemlal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,15 @@ void init_empty_env(t_env **env, t_gc **gc)
     char *value;
     t_env *new_node;
 
-    path = ft_malloc(ft_strdup("PATH="), gc, 0);
+    path = ft_strdup("PATH=");
 	if (!path)
-		return (free_all(gc));
-	value = ft_malloc(ft_strdup(PATH), gc, 0);
+		return (free_env(env, free));//add
+	value = ft_strdup(PATH);
 	if (!value)
-		return ;
+		return (free(path), free_env(env, free));//add
 	new_node = create_env_node(path, value);
 	if (!new_node)
-		return free_all(gc);
+		return (free(path), free(path), free_env(env, free));//add
 	add_node(env, new_node);
 }
 static int	get_key_value(char *envp, char **key, char **value, t_gc **gc)
@@ -40,7 +40,7 @@ static int	get_key_value(char *envp, char **key, char **value, t_gc **gc)
 	*key = ft_substr(envp, 0, equal_sign);
 	*value = ft_substr(envp, equal_sign, ft_strlen(envp) - equal_sign);
 	if (!*key || !*value)
-		return (0);
+		return (free(key), free(value), 0);//add
 	return (1);
 }
 
@@ -60,10 +60,10 @@ t_env	*init_env_list(char **envp, t_gc **gc)
 	while (envp[i])
 	{
 		if (!get_key_value(envp[i], &key, &value, gc))
-			return (NULL);
+			return (free_env(&head, free), NULL);//add
 		new_node = create_env_node(key, value);
 		if (!new_node)
-			return (free_env(&head, free), NULL);
+			return (free(key), free(value), free_env(&head, free), NULL);//add
 		add_node(&head, new_node);
 		i++;
 	}

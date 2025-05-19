@@ -6,7 +6,7 @@
 /*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:21:32 by achemlal          #+#    #+#             */
-/*   Updated: 2025/04/19 18:36:37 by achemlal         ###   ########.fr       */
+/*   Updated: 2025/05/18 17:48:34 by achemlal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void unset_env(char *key, t_env **env, t_gc **gc)
         return ;
     while (curr) 
     {
-        key_env = ft_malloc(ft_strtrim(curr->key, "="), gc, 0);
+        key_env = ft_strtrim(curr->key, "=");
         if(!key_env)
             return ;
         if (ft_strcmp(key_env, key) == 0) 

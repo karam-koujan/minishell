@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:21:45 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/18 10:00:24 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/18 17:16:21 by achemlal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,6 @@ void check_is_building(t_simple_cmd **data, t_env *env, t_elem **elem, t_gc **gc
 }
 void exec_proc(t_simple_cmd **data, t_env *env, t_elem **elem, t_gc **gc)
 {
-	exit_stat(0, 1, NULL, NULL);
 	inf_outf_cmd(data, 1, elem, gc);
 	check_is_building(data, env,  elem, gc);
 	check_exec_cmd((*data)->args, elem, gc);

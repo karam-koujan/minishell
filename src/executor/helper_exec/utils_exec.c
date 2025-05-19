@@ -36,6 +36,8 @@ char **env_list_to_array(t_env *env)
 		temp = temp->next;
 	}
 	env_arr = (char**)malloc((i + 1) * sizeof(char *));
+	if(!env_arr)
+		return NULL;
 	i = 0;
 	while (env)
 	{

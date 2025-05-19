@@ -6,7 +6,7 @@
 /*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 18:46:19 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/02 18:46:35 by achemlal         ###   ########.fr       */
+/*   Updated: 2025/05/18 17:47:34 by achemlal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static char	*prepare_key(char *key, t_gc **gc)
 	free(trimmed);
 	if (!joined)
 		return (NULL);
-	return (ft_malloc(joined, gc, 0));
+	return (joined);
 }
 
 static int	append_if_exists(t_env *env, char *key, char *value, t_gc **gc)
@@ -41,7 +41,7 @@ static int	append_if_exists(t_env *env, char *key, char *value, t_gc **gc)
 			new_val = ft_strjoin(env->value, value);
 			if (!new_val)
 				return (1);
-			env->value = ft_malloc(new_val, gc, 0);
+			env->value = new_val;
 			return (1);
 		}
 		env = env->next;

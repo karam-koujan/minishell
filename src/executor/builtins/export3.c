@@ -6,7 +6,7 @@
 /*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:20:33 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/15 19:30:08 by achemlal         ###   ########.fr       */
+/*   Updated: 2025/05/18 17:41:47 by achemlal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int valid_export(char *str, t_gc **gc)
 	if(ft_strchr(str, '='))
 	{
 		size = ft_strchr(str, '=') - str + 1;
-		key = ft_malloc(ft_substr(str, 0, size), gc, 0);
+		key = ft_substr(str, 0, size);
 		if(!key)
 			return 0;
 		if(!equal_char(str, key))

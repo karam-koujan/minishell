@@ -6,7 +6,7 @@
 /*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:23:22 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/02 14:35:59 by achemlal         ###   ########.fr       */
+/*   Updated: 2025/05/18 17:30:28 by achemlal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,18 @@ void init_pwd(t_env **env, t_gc **gc)
             flag = 1;
         curr = curr->next;
     }
-    pwd = ft_malloc(getcwd(NULL, 0), gc, 0);
-    new_node = create_env_node(ft_malloc(ft_strdup("PWD="), gc, 0), pwd);
+    pwd = getcwd(NULL, 0);
+    if(!pwd)
+        return ;//add
+    new_node = create_env_node(ft_strdup("PWD="), pwd);
+    if(!new_node)
+        return (free(pwd));//add
     add_node(env, new_node);
     if(flag == 0)
     {
-        new_node = create_env_node(ft_malloc(ft_strdup("OLDPWD"), gc, 0), NULL);
+        new_node = create_env_node(ft_strdup("OLDPWD"), NULL);
+        if(new_node)
+            return ;//add
         add_node(env, new_node);
     }
 }

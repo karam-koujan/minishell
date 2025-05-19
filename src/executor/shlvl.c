@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shlvl.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:23:30 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/15 14:21:32 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/18 17:34:36 by achemlal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void update_shlvl(t_env **env, char *key, char *value)
         }
         curr = curr->next;
     }
+	free(value);
 }
 
 int is_valid_number(char *str)
@@ -84,7 +85,11 @@ void	handle_shlvl(t_env **env, t_gc **gc)
 	{
 		key = ft_strdup("SHLVL=");
 		new_shlvl = ft_strdup("1");
+		if(!new_node)
+			return (free(key));//add
 		new_node = create_env_node(key, new_shlvl);
+		if(!new_node)
+			return(free(key), free(new_shlvl));//add
 		add_node(env, new_node);
 	}
 }

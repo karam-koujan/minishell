@@ -6,7 +6,7 @@
 /*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:21:17 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/02 18:46:30 by achemlal         ###   ########.fr       */
+/*   Updated: 2025/05/18 17:43:08 by achemlal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,14 +99,14 @@ void var_set(char *str, t_env **env, t_gc **gc)
     if(ft_strchr(str, '='))
     {
         size = ft_strchr(str, '=') - str + 1;
-		key = ft_malloc(ft_substr(str, 0, size), gc, 0);
-		value = ft_malloc(ft_substr(str, size, ft_strlen(str) - size), gc, 0);
+		key = ft_substr(str, 0, size);
+		value = ft_substr(str, size, ft_strlen(str) - size);
         if(!key || !value)
             return ;
     }
     else
     {
-		key = ft_malloc(ft_strdup(str), gc, 0);
+		key = ft_strdup(str);
         if(!key)
             return ;
     }

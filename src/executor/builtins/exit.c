@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:19:12 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/17 20:53:59 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/18 17:16:42 by achemlal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void builtin_exit(t_simple_cmd **data, t_gc **gc, t_elem **elem)
     long long code;
 
     if((*data)->argc == 1)
-        return(printf("exit\n") , exit(exit_stat(0, 1, gc, (*elem)->env)));
+        return(printf("exit\n") , exit(exit_stat(0, 0, gc, (*elem)->env)));
     if((*data)->argc == 2)
     {
         if (!is_numeric((*data)->args[1]))

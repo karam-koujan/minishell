@@ -6,7 +6,7 @@
 /*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:16:34 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/15 19:21:04 by achemlal         ###   ########.fr       */
+/*   Updated: 2025/05/18 18:06:34 by achemlal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,18 @@ void exec_builtin(t_simple_cmd **data, t_env **env, t_elem **elem, t_gc **gc)
         builtin_exit(data, gc, elem);
     else if (!ft_strcmp((*data)->args[0], "unset"))
         builtin_unset(data, env, gc);
+    if(ft_strcmp((*data)->args[0], "export") == 0)
+		builtin_export(data, env, gc);
 }
 
 int is_builtin(char *cmd)
 {
-    return (!ft_strcmp(cmd, "cd") || !ft_strcmp(cmd, "exit")
+    return (!ft_strcmp(cmd, "cd") || !ft_strcmp(cmd, "exit") || !ft_strcmp(cmd, "export")
         || !ft_strcmp(cmd, "unset"));
 }
 
 void single_cmd(t_simple_cmd **data, t_env **env, t_elem *elem, t_gc **gc)
 {
-    exit_stat(0, 1, NULL, NULL);
     if ((*data)->argc == 0)
         inf_outf_cmd(data, 0, &elem, gc);
     else if (is_builtin((*data)->args[0]))
