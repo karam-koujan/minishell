@@ -174,20 +174,14 @@ int main(int argc, char **argv, char **envp)
 		if (!token_head)
 			return (free(cmd), rl_clear_history(), \
 			free_all(&gc), 1);
-		//print_token_list(token_head);
 		cmd_table = parse(token_head, env);
 		add_to_gc(&gc, cmd_table, NULL, NULL);
 		if (!cmd_table)
 			return (free(cmd), rl_clear_history(), \
 			free_all(&gc), 1);
-		//print_cmd_table(cmd_table);
 		exec(cmd_table, &env, &gc);
 		g_gl = 0;
 		free(cmd);
-		// // ft_malloc(NULL, &gc, 1);
-		// ft_token_lstclear(&token_head, free);
-		// free_table(cmd_table);
-		//free_all(&gc);
 		clear_parsing(&gc);
 		token_head = NULL;
 		cmd_table = NULL;

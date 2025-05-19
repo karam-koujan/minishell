@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:22:22 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/19 15:28:09 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/19 21:08:16 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ void last_proc(t_simple_cmd *cmd, t_env *env, t_elem **elem, t_gc **gc)
 	if (child == 0)
 	{
 		signal(SIGQUIT, SIG_DFL);
+		signal(SIGINT, SIG_DFL);
 		ft_dup2((*elem)->fd_save, STDIN_FILENO, -1);
 		ft_close((*elem)->fd_save);
 		exec_proc(&cmd, env, elem, gc);
@@ -83,11 +84,11 @@ void last_proc(t_simple_cmd *cmd, t_env *env, t_elem **elem, t_gc **gc)
 	}
 	ft_close((*elem)->fd_save);
 	waitpid(child, &status, 0);
-	if (status == 0)
+	exit_status(status);
+	if (exit_stat(0, 0, NULL, NULL) == 0 || exit_stat(0, 0, NULL, NULL) == 127)
 		g_gl = 2;
 	if (exit_stat(0, 0, NULL, NULL) == 130 || status == 131)
-		printf("\n");
-	exit_status(status);
+		write(1,"\n",1);
 }
 
 void pipe_case(t_cmd_table *data, t_env *env, t_elem *elem, t_gc **gc)

@@ -41,8 +41,8 @@ int	here_doc(char *delimiter,  t_elem **elem, t_gc **gc)
 	if (pid == 0)
 	{
 		if (g_gl == 3)
-			return (exit(130), -1);
-		signal(SIGINT, SIG_DFL);
+			return (exit(exit_stat(130, 1, gc, (*elem)->env)), -1);
+			signal(SIGINT, SIG_DFL);
 		if (!read_in_stdin(fd, delimiter))
 			exit(exit_stat(1, 1, gc, (*elem)->env));
 		exit(exit_stat(0, 1, gc, (*elem)->env));
