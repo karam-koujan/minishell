@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kkoujan <kkoujan@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:19:12 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/19 20:56:17 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/22 00:25:37 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ int exit_stat(int value, int action, t_gc **gc, char   **env)
 }
 void exit_status(int status)
  {
-    if (status > 128)
-        exit_stat(status, 1, NULL, NULL);
+    // if (status > 128)
+    //     exit_stat(status, 1, NULL, NULL);
     if(WIFSIGNALED(status))
 	{
         exit_stat(128 + WTERMSIG(status), 1,NULL, NULL);

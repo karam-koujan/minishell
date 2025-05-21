@@ -119,18 +119,18 @@ int	here_doc(char *delimiter,  t_elem **elem, t_gc **gc)
 	if (pid == 0)
 	{
 		if (g_gl == 3)
-			return (exit(exit_stat(130, 1, gc, (*elem)->env)), -1);
+			return (exit(exit_stat(0, 0, gc, NULL)), -1);
 		signal(SIGINT, SIG_DFL);
 		if (!read_in_stdin(fd, delimiter))
-			exit(exit_stat(1, 1, gc, (*elem)->env));
-		exit(exit_stat(0, 1, gc, (*elem)->env));
+			exit(exit_stat(1, 1, gc, NULL));
+		exit(exit_stat(0, 1, gc, NULL));
 	}
 	else
 	{
 		close(fd);
 		waitpid(pid, &status, 0);
-		if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
-			return (printf("\n"), g_gl = 3 ,exit_status(status), -1);
+		if (g_gl == 3) 
+			return (printf("%i\n", exit_stat(0, 0, NULL, NULL)), g_gl = 3 , -1);
 		printf("status %i\n", status);
 		exit_status(status);
 		fd = open("/tmp/.here_doc", O_RDONLY);
