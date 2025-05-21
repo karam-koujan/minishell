@@ -10,7 +10,6 @@ void	handle_herdoc(t_cmd_table **data, t_elem *elem, t_gc **gc)
 	i = -1;
 	if (!data && !*data)
 		return ;
-	printf("cmd %i\n", (*data)->cmd_count);
 	while (++i < (*data)->cmd_count)
 	{
 		redir = (*data)->cmds[i]->redirs;
@@ -18,6 +17,48 @@ void	handle_herdoc(t_cmd_table **data, t_elem *elem, t_gc **gc)
 		{
 			if (redir->type == REDIR_HEREDOC)
 				redir->herdoc_fd = here_doc(redir->file_or_delimiter, &elem, gc);
+			redir = redir->next;
+		}
+	}
+}
+
+void	close_single_fd(t_simple_cmd	*cmd)
+{
+	int				i;
+	t_redirection	*redir;
+
+	i = -1;
+	if (!cmd)
+		return ;
+	redir = cmd->redirs;
+	while (redir)
+	{
+		if (redir->type == REDIR_HEREDOC && redir->herdoc_fd != -1)
+		{
+			ft_close(redir->herdoc_fd);
+			redir->herdoc_fd = -1;
+		}
+		redir = redir->next;
+	}
+}
+void	close_pipe_fd(t_cmd_table **data)
+{
+	int				i;
+	t_redirection	*redir;
+
+	i = -1;
+	if (!data && !*data)
+		return ;
+	while (++i < (*data)->cmd_count)
+	{
+		redir = (*data)->cmds[i]->redirs;
+		while (redir)
+		{
+			if (redir->type == REDIR_HEREDOC)
+			{
+				ft_close(redir->herdoc_fd);
+				redir->herdoc_fd = -1;
+			}
 			redir = redir->next;
 		}
 	}
@@ -148,7 +189,7 @@ int here_doc(char *delimiter, t_elem **elem, t_gc **gc)
 		return (free(name), -1);
 	if(!read_in_stdin(fd, delimiter))
 		return (exit_stat(1, 1, NULL, NULL), ft_close(fd), free(name), 0);//free data
-	//ft_close(fd);
+	ft_close(fd);
 	fd = open(name, O_RDONLY);
 	if(fd < 0)
 		return (exit_stat(1, 1, NULL, NULL), free(name),-1);//free data

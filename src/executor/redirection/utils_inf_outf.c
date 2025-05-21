@@ -58,6 +58,7 @@ int in_cas_p(t_redirection *in,  t_elem **elem, t_gc **gc)
 		perror(in->file_or_delimiter);
 		return 0;
 	}
+	ft_close(in_fd);
     return 1;
 }
 void ou_cas(t_redirection *ou, t_elem **elem, t_gc **gc)

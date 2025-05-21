@@ -75,5 +75,7 @@ int	here_doc(char *delimiter,  t_elem **elem, t_gc **gc);
 int  exit_stat(int value, int action, t_gc **gc, char **env);
 void exit_status(int status);
 void	handle_herdoc(t_cmd_table **data, t_elem *elem, t_gc **gc);
+void	close_single_fd(t_simple_cmd	*cmd);
+void	close_pipe_fd(t_cmd_table **data);
 
 #endif

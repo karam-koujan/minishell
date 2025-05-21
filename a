@@ -1,0 +1,15 @@
+a
+includes
+lib
+main.c
+main.o
+makefile
+minishell
+out
+pipeline_test.txt
+q
+readline.supp
+README.md
+src
+test
+test.py

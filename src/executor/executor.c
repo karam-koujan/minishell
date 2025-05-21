@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:16:34 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/21 17:09:08 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/21 17:40:31 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,13 @@ void exec(t_cmd_table *data, t_env **env, t_gc **gc)
 	{
 		g_gl = 1;
 		single_cmd(data->cmds, env, &elem, gc);
+		close_single_fd(data->cmds[0]);
 	}
 	else if (data->cmd_count > 1)
 	{
 		g_gl = 1;
 		pipe_case(data, *env, &elem, gc);
+		close_pipe_fd(&data);
 	}
 	free_arr(elem.env);
 }
