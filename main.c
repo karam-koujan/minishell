@@ -86,7 +86,10 @@ void print_cmd_table(t_cmd_table *cmd_table)
 				}
 
 				if (redir->file_or_delimiter)
+				{
 					printf("%s\n", redir->file_or_delimiter);
+					printf("%i\n", redir->herdoc_fd);
+				}
 				else
 					printf("(NULL)\n");  // To debug i                
 				redir = redir->next;

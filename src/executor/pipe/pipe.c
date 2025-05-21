@@ -6,12 +6,24 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:22:22 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/19 21:08:16 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/21 16:27:00 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 
 #include "../../../includes/minishell.h"
+
+void	handle_herdoc_child(t_simple_cmd *cmd, t_elem **elem, t_gc **gc)
+{
+	t_redirection *files = cmd->redirs;
+
+	while (files)
+	{
+		if (files->type == REDIR_HEREDOC)
+			in_cas(files, elem, gc);
+		files = files->next;
+	}
+}
 
 int first_proc(t_simple_cmd *cmd, t_env *env, t_elem **elem, t_gc **gc)
 {
@@ -50,6 +62,7 @@ int mid_proc(t_simple_cmd *cmd, t_env *env, t_elem **elem, t_gc **gc)
 	if (child == 0)
 	{
 		signal(SIGQUIT, SIG_DFL);
+		//inf_outf_cmd(&cmd, 1, elem, gc);
 		ft_close(fd[0]);
 		ft_dup2((*elem)->fd_save, STDIN_FILENO, fd[1]);
 		ft_close((*elem)->fd_save);
@@ -76,6 +89,8 @@ void last_proc(t_simple_cmd *cmd, t_env *env, t_elem **elem, t_gc **gc)
 	{
 		signal(SIGQUIT, SIG_DFL);
 		signal(SIGINT, SIG_DFL);
+		//inf_outf_cmd(&cmd, 1, elem, gc);
+		printf("last proc fd input :%i\n", (*elem)->fd_save);
 		ft_dup2((*elem)->fd_save, STDIN_FILENO, -1);
 		ft_close((*elem)->fd_save);
 		exec_proc(&cmd, env, elem, gc);
@@ -100,6 +115,7 @@ void pipe_case(t_cmd_table *data, t_env *env, t_elem *elem, t_gc **gc)
 	elem->fd_save = first_proc(data->cmds[0], env, &elem, gc);
 	if(elem->fd_save == -1)
 		return ;
+	printf("first proc FD : %i\n", elem->fd_save);
 	if(data->cmd_count >= 3)
 	{
 		while(i < data->cmd_count - 2)
@@ -115,6 +131,7 @@ void pipe_case(t_cmd_table *data, t_env *env, t_elem *elem, t_gc **gc)
 			i++;
 		}
 	}
+	
 	last_proc(data->cmds[data->cmd_count - 1], env, &elem, gc);
 	while ((wait(NULL) != -1))
 		;

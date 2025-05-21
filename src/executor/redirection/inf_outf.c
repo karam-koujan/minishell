@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:37:46 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/19 14:16:51 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/21 16:27:29 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,11 @@ void handle_redir_in_child(t_simple_cmd *cmd, t_elem **elem, t_gc **gc)
 	}
 }
 
+
+
 void check_redir_in_parent(t_simple_cmd *cmd,  t_elem **elem, t_gc **gc)
 {
 	t_redirection *files = cmd->redirs;
-
 	while (files)
 	{
 		if (files->type == REDIR_IN || files->type == REDIR_HEREDOC)

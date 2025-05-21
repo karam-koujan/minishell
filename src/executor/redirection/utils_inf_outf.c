@@ -51,14 +51,13 @@ int in_cas_p(t_redirection *in,  t_elem **elem, t_gc **gc)
 	if (in->type == REDIR_IN)
 		in_fd = open(in->file_or_delimiter, O_RDONLY, 0644);
 	else
-		in_fd = here_doc(in->file_or_delimiter,elem , gc);
+		in_fd = in->herdoc_fd;
 	if (in_fd == -1)
 	{
 		write(2, "minihell: ", 11);
 		perror(in->file_or_delimiter);
 		return 0;
 	}
-	close(in_fd);
     return 1;
 }
 void ou_cas(t_redirection *ou, t_elem **elem, t_gc **gc)
@@ -95,7 +94,7 @@ void  in_cas(t_redirection *in,t_elem **elem, t_gc **gc)
 	if (in->type == REDIR_IN)
 		in_fd = open(in->file_or_delimiter, O_RDONLY, 0644);
 	else
-		in_fd = here_doc(in->file_or_delimiter, elem, gc);
+		in_fd = in->herdoc_fd;
 	if (in_fd == -1)
 	{
 		write(2, "minihell: ", 11);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:17:43 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/19 14:45:06 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/20 16:29:39 by achemlal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,9 +76,7 @@ void builtin_cd(t_simple_cmd **data, t_env **env, t_gc **gc,t_elem **elem)
     if (chdir(target) != 0)
         return (perror((*data)->args[1]), free(oldpwd), (void)exit_stat(1, 1, NULL, NULL)); //add
     update_pwd(env, ft_strdup("OLDPWD="), oldpwd);
-    free(oldpwd);//add
     newpwd = getcwd(NULL, 0);
     if (newpwd)
         update_pwd(env, ft_strdup("PWD="), ft_strdup(newpwd));
-    free(newpwd);
 }
