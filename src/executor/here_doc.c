@@ -54,7 +54,7 @@ void	close_pipe_fd(t_cmd_table **data)
 		redir = (*data)->cmds[i]->redirs;
 		while (redir)
 		{
-			if (redir->type == REDIR_HEREDOC)
+			if (redir->type == REDIR_HEREDOC && redir->herdoc_fd != -1)
 			{
 				ft_close(redir->herdoc_fd);
 				redir->herdoc_fd = -1;
@@ -188,11 +188,11 @@ int here_doc(char *delimiter, t_elem **elem, t_gc **gc)
 	if (fd < 0)
 		return (free(name), -1);
 	if(!read_in_stdin(fd, delimiter))
-		return (exit_stat(1, 1, NULL, NULL), ft_close(fd), free(name), 0);//free data
+		return (exit_stat(1, 1, NULL, NULL), ft_close(fd), free(name), -1);//free data
 	ft_close(fd);
 	fd = open(name, O_RDONLY);
 	if(fd < 0)
-		return (exit_stat(1, 1, NULL, NULL), free(name),-1);//free data
+		return (exit_stat(1, 1, NULL, NULL), free(name), -1);//free data
 	unlink(name);
 	free(name);
 	return (fd);
