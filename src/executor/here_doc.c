@@ -16,7 +16,9 @@ void	handle_herdoc(t_cmd_table **data, t_elem *elem, t_gc **gc)
 		while (redir)
 		{
 			if (redir->type == REDIR_HEREDOC)
-				redir->herdoc_fd = here_doc(redir->file_or_delimiter, &elem, gc);
+			{
+				redir->herdoc_fd = here_doc(redir->file_or_delimiter, &elem, gc);					
+			}
 			redir = redir->next;
 		}
 	}
@@ -102,37 +104,40 @@ static int read_in_stdin(int fd, char *delimiter)
 	return (1);
 }
 
-// int	here_doc(char *delimiter,  t_elem **elem, t_gc **gc)
-// {
-// 	int		fd;
-// 	pid_t	pid;
-// 	int		status;
+int	here_doc(char *delimiter,  t_elem **elem, t_gc **gc)
+{
+	int		fd;
+	pid_t	pid;
+	int		status;
 
-// 	fd = open("/tmp/.here_doc", O_CREAT | O_WRONLY | O_TRUNC, 0644);
-// 	if (fd < 0)
-// 		return (-1);
-// 	pid = fork();
-// 	if (pid == 0)
-// 	{
-// 		if (g_gl == 3)
-// 			return (exit(exit_stat(130, 1, gc, (*elem)->env)), -1);
-// 			signal(SIGINT, SIG_DFL);
-// 		if (!read_in_stdin(fd, delimiter))
-// 			exit(exit_stat(1, 1, gc, (*elem)->env));
-// 		exit(exit_stat(0, 1, gc, (*elem)->env));
-// 	}
-// 	else
-// 	{
-// 		close(fd);
-// 		waitpid(pid, &status, 0);
-// 		if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
-// 			return (printf("\n"), g_gl = 3, exit_status(status), -1);
-// 		exit_status(status);
-// 		fd = open("/tmp/.here_doc", O_RDONLY);
-// 		unlink("/tmp/.here_doc");
-// 		return (fd);
-// 	}
-// }
+	if (g_gl != 3)
+		g_gl = 4;
+	fd = open("/tmp/.here_doc", O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	if (fd < 0)
+		return (-1);
+	pid = fork();
+	if (pid == 0)
+	{
+		if (g_gl == 3)
+			return (exit(exit_stat(130, 1, gc, (*elem)->env)), -1);
+		signal(SIGINT, SIG_DFL);
+		if (!read_in_stdin(fd, delimiter))
+			exit(exit_stat(1, 1, gc, (*elem)->env));
+		exit(exit_stat(0, 1, gc, (*elem)->env));
+	}
+	else
+	{
+		close(fd);
+		waitpid(pid, &status, 0);
+		if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
+			return (printf("\n"), g_gl = 3 ,exit_status(status), -1);
+		printf("status %i\n", status);
+		exit_status(status);
+		fd = open("/tmp/.here_doc", O_RDONLY);
+		unlink("/tmp/.here_doc");
+		return (fd);
+	}
+}
 char *gene_name_here_doc()
 {
 	static int id = 0;
@@ -176,24 +181,24 @@ char *gene_name_here_doc()
 	
 
 }
-int here_doc(char *delimiter, t_elem **elem, t_gc **gc)
-{
-	int fd; 
-	char *name;
+// int here_doc(char *delimiter, t_elem **elem, t_gc **gc)
+// {
+// 	int fd; 
+// 	char *name;
 
-	name = gene_name_here_doc();
-	if(!name)
-		return -1;
-	fd = open(name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	if (fd < 0)
-		return (free(name), -1);
-	if(!read_in_stdin(fd, delimiter))
-		return (exit_stat(1, 1, NULL, NULL), ft_close(fd), free(name), -1);//free data
-	ft_close(fd);
-	fd = open(name, O_RDONLY);
-	if(fd < 0)
-		return (exit_stat(1, 1, NULL, NULL), free(name), -1);//free data
-	unlink(name);
-	free(name);
-	return (fd);
-}
+// 	name = gene_name_here_doc();
+// 	if(!name)
+// 		return -1;
+// 	fd = open(name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+// 	if (fd < 0)
+// 		return (free(name), -1);
+// 	if(!read_in_stdin(fd, delimiter))
+// 		return (exit_stat(1, 1, NULL, NULL), ft_close(fd), free(name), -1);//free data
+// 	ft_close(fd);
+// 	fd = open(name, O_RDONLY);
+// 	if(fd < 0)
+// 		return (exit_stat(1, 1, NULL, NULL), free(name), -1);//free data
+// 	unlink(name);
+// 	free(name);
+// 	return (fd);
+// }

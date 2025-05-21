@@ -120,8 +120,10 @@ void	handler(int signum, siginfo_t *info, void	*context)
 		rl_on_new_line();
 	}
 
-	// if (signum == SIGINT && g_gl == 2)
-	// 	printf("^C");
+	if (signum == SIGINT && g_gl == 4)
+	{
+		g_gl = 3;
+	}
 }
 void	free_in_exit(t_token *token_head, t_cmd_table *cmd_table, \
 	t_env *env)
@@ -182,6 +184,8 @@ int main(int argc, char **argv, char **envp)
 		if (!cmd_table)
 			return (free(cmd), rl_clear_history(), \
 			free_all(&gc), 1);
+		handle_herdoc(&cmd_table, NULL, &gc);
+
 		exec(cmd_table, &env, &gc);
 		g_gl = 0;
 		free(cmd);
