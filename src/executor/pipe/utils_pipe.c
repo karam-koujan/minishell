@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:22:32 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/21 18:03:59 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/22 15:10:36 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,3 @@ void	ft_close(int fd)
 		exit_stat(1, 1, NULL, NULL);
 	}
 }
-
-// void	ft_wait(pid_t pid, t_data *data)
-// {
-// 	pid_t	terminated_pid;
-
-// 	terminated_pid = waitpid(pid, &data->status, 0);
-// 	if (terminated_pid == -1)
-// 		handle_errors ("waitpid failed");
-// }

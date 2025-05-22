@@ -185,7 +185,7 @@ int main(int argc, char **argv, char **envp)
 			return (free(cmd), rl_clear_history(), \
 			free_all(&gc), 1);
 		handle_herdoc(&cmd_table, NULL, &gc);
-
+		print_cmd_table(cmd_table);
 		exec(cmd_table, &env, &gc);
 		g_gl = 0;
 		free(cmd);

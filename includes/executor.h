@@ -77,5 +77,6 @@ void exit_status(int status);
 void	handle_herdoc(t_cmd_table **data, t_elem *elem, t_gc **gc);
 void	close_single_fd(t_simple_cmd	*cmd);
 void	close_pipe_fd(t_cmd_table **data);
+char *gene_name_here_doc();
 
 #endif

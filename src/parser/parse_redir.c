@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 10:31:06 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/19 18:30:14 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/22 17:02:40 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int	is_imbigious(char	*var)
 	char	**arr;
 
 	arr = NULL;
+	if (var == NULL)
+		return (2);
 	if (*var == 0)
 		return (free(var), 1);
 	arr = ft_split(var, ' ');
@@ -43,14 +45,14 @@ int	detect_ambigious_redir(t_token *token, t_env *env)
 			is_quote = 1;
 		if (token->type == VAR_T && !token->v_in_qt)
 		{
-			if (is_imbigious(ft_getenv_val(env, token->val)) == 0)
+			if (is_imbigious(ft_getenv_val(env, token)) == 0)
 				is_quote = 1;
-			if (is_imbigious(ft_getenv_val(env, token->val)) == 2)
+			if (is_imbigious(ft_getenv_val(env, token)) == 2)
 				return (1);
-			else if (is_imbigious(ft_getenv_val(env, token->val)) == -1)
+			else if (is_imbigious(ft_getenv_val(env, token)) == -1)
 				return (-1);
 			else
-				is_imbig = (is_imbigious(ft_getenv_val(env, token->val)) \
+				is_imbig = (is_imbigious(ft_getenv_val(env, token)) \
 				|| is_imbig);
 		}
 		token = token->next;

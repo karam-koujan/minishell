@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 12:31:27 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/21 16:18:35 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/22 16:24:50 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,12 @@ t_redirection	*create_redirection(t_redir_type type, char *file_or_delimiter, \
 	if (!result)
 		return (NULL);
 	result->type = type;
-	result->file_or_delimiter = ft_strdup(file_or_delimiter);
+	if (file_or_delimiter)
+		result->file_or_delimiter = ft_strdup(file_or_delimiter);
+	else
+		result->file_or_delimiter = NULL;
 	result->is_ambigous = is_var;
 	result->herdoc_fd = -1;
-	if (!result->file_or_delimiter)
-		return (NULL);
 	result->next = NULL;
 	return (result);
 }
@@ -66,7 +67,7 @@ void	add_redir_to_cmd(t_simple_cmd *cmd, t_redirection *redir)
 	else
 	{
 		redirs = cmd->redirs;
-		while (redirs != NULL && redirs->next != NULL)
+		while ((redirs != NULL && redirs->next != NULL))
 			redirs = redirs->next;
 		redirs->next = redir;
 	}
@@ -78,6 +79,7 @@ void	add_arg_to_cmd(t_simple_cmd *cmd, char *arg)
 	char	**new_arg;
 	int		i;
 
+
 	i = -1;
 	arg_c = cmd->argc;
 	new_arg = malloc((arg_c + 2) * sizeof(char *));
@@ -85,7 +87,10 @@ void	add_arg_to_cmd(t_simple_cmd *cmd, char *arg)
 		return ;
 	while (++i < arg_c)
 		new_arg[i] = cmd->args[i];
-	new_arg[i] = ft_strdup(arg);
+	if (!arg)
+		new_arg[i] = NULL;
+	else
+		new_arg[i] = ft_strdup(arg);
 	if (!new_arg[i])
 		return (free(new_arg));
 	new_arg[++i] = NULL;

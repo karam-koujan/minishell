@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:16:34 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/22 14:09:21 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/22 15:45:07 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int is_builtin(char *cmd)
 
 void single_cmd(t_simple_cmd **data, t_env **env, t_elem *elem, t_gc **gc)
 {
+
 	if ((*data)->argc == 0)
 		inf_outf_cmd(data, 0, &elem, gc);
 	else if (is_builtin((*data)->args[0])) 
@@ -49,9 +50,10 @@ void exec(t_cmd_table *data, t_env **env, t_gc **gc)
 
 	elem.env = env_list_to_array(*env);
 	if (!elem.env)
-		return; 
+		return;
+
 	if(g_gl == 3)
-		return ;
+		return (close_pipe_fd(&data));
 	if (data->cmd_count == 1)
 	{
 		g_gl = 1;

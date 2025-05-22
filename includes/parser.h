@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 03:08:32 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/21 16:01:34 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/22 16:57:10 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ void			free_redirections(t_redirection *redirs);
 t_token			*parse_token(t_cmd_table **cmd_table, \
 	t_simple_cmd **simple_cmd, t_token *token, t_env *env);
 char			*get_word_val(t_token *token, t_env *env);
-char			*ft_getenv_val(t_env *env, char *key);
+char			*ft_getenv_val(t_env *env, t_token *token);
 t_redirection	*redir_file(t_token **token, t_env *env, t_redir_type type);
 char			*join_expnd(t_token *token, t_env *env);
 

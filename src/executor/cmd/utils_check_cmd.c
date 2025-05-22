@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:21:54 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/19 12:51:27 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/22 15:55:31 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ void	pars_cmd_1(char *cmd, t_elem **elem , t_gc **gc)
 	
 	i = 0;
 	flag = 0;
+
+	
 	if(cmd[0] == '/')
 	{
 		while(cmd[i])
@@ -66,7 +68,6 @@ void	pars_cmd_2(char **cmd, t_elem **elem, t_gc **gc)
 
 	if (access(cmd[0], F_OK) == -1)
 	{
-
 		error_exit(cmd[0], 127, (*elem)->env, gc);
 	}
 	if (access(cmd[0], X_OK) == -1)

@@ -109,19 +109,21 @@ int	here_doc(char *delimiter,  t_elem **elem, t_gc **gc)
 	int		fd;
 	pid_t	pid;
 	int		status;
+	char	*name;
 
 	if (g_gl != 3)
 		g_gl = 4;
 	else if (g_gl == 3)
 		return (-1);
-	fd = open("/tmp/.here_doc", O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	name = gene_name_here_doc();
+	fd = open(name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd < 0)
 		return (-1);
 	pid = fork();
 	if (pid == 0)
 	{
 		if (g_gl == 3)
-			return (exit(exit_stat(0, 0, gc, NULL)), -1);
+			return (exit(exit_stat(0, 0, gc, NULL)), ft_close(fd), -1);
 		signal(SIGINT, SIG_DFL);
 		if (!read_in_stdin(fd, delimiter))
 			exit(exit_stat(1, 1, gc, NULL));
@@ -131,11 +133,11 @@ int	here_doc(char *delimiter,  t_elem **elem, t_gc **gc)
 	{
 		close(fd);
 		waitpid(pid, &status, 0);
-		if (g_gl == 3) 
+		if (g_gl == 3)
 			return (printf("\n") ,exit_stat(0, 0, NULL, NULL), g_gl = 3 , -1);
 		exit_status(status);
-		fd = open("/tmp/.here_doc", O_RDONLY);
-		unlink("/tmp/.here_doc");
+		fd = open(name, O_RDONLY);
+		unlink(name);
 		return (fd);
 	}
 }

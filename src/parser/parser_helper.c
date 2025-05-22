@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 10:43:34 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/16 16:52:19 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/22 17:11:28 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,28 +59,35 @@ void	free_table(t_cmd_table *cmd_table)
 	free(cmd_table);
 }
 
-char	*ft_getenv_val(t_env *env, char *key)
+char	*ft_getenv_val(t_env *env, t_token *token)
 {
-	if (!env || !key)
+	if (!env || !token)
 		return (NULL);
-	if (ft_strcmp(key, "?") == 0)
+	if (ft_strcmp(token->val, "?") == 0)
 		return (ft_itoa(exit_stat(0, 0, NULL, NULL)));
 	while (env)
 	{
-		if (ft_strlen(env->key) - 1 == ft_strlen(key) && \
-		ft_strncmp(env->key, key, ft_strlen(env->key) - 1) == 0)
+		if (ft_strlen(env->key) - 1 == ft_strlen(token->val) && \
+		ft_strncmp(env->key, token->val, ft_strlen(env->key) - 1) == 0)
 			return (ft_strdup(env->value));
 		env = env->next;
 	}
-	return (ft_strdup(""));
+	if (token->v_in_qt)
+		return (ft_strdup(""));
+	else if (!token->v_in_qt)
+	{
+		token->type = 100;
+		return (NULL);
+	}
+	return (NULL);
 }
 
-char	*expnd_out_qt(t_env *env, char *key)
+char	*expnd_out_qt(t_env *env, t_token *token)
 {
 	char	*value;
 	char	*tmp;
 
-	tmp = ft_getenv_val(env, key);
+	tmp = ft_getenv_val(env, token);
 	if (!tmp)
 		return (NULL);
 	value = ft_strtrim(tmp, " ");
@@ -99,9 +106,16 @@ char	*get_word_val(t_token *token, t_env *env)
 		if (token->val && ft_strcmp(token->val, "?") == 0)
 			value = ft_itoa(exit_stat(0, 0, NULL, NULL));
 		else if (token->v_in_qt)
-			value = ft_getenv_val(env, token->val);
+		{
+			value = ft_getenv_val(env, token);
+			if (!value)
+			{
+				free(value);
+				value = ft_strdup("");
+			}
+		}
 		else if (!token->v_in_qt)
-			value = expnd_out_qt(env, token->val);
+			value = expnd_out_qt(env, token);
 		if (!value)
 			return (NULL);
 	}
