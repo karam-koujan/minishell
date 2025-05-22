@@ -6,11 +6,11 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 10:31:06 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/22 17:39:40 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/22 18:10:27 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../../includes/parser.h"
+#include "../../includes/minishell.h"
 
 int	is_imbigious(char	*var)
 {
