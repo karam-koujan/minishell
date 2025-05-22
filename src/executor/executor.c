@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kkoujan <kkoujan@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:16:34 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/22 14:09:21 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/22 23:34:05 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void exec(t_cmd_table *data, t_env **env, t_gc **gc)
 	if (!elem.env)
 		return; 
 	if(g_gl == 3)
-		return ;
+		return (close_pipe_fd(&data));
 	if (data->cmd_count == 1)
 	{
 		g_gl = 1;
