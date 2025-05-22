@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 10:31:06 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/22 21:33:07 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/22 22:08:47 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,8 +78,8 @@ t_redirection	*redir_file(t_token **token, t_env *env, t_redir_type type)
 	while (*token)
 	{
 		next = (*token)->next;
-		if (next && (next->type != WORD_T || next->type != VAR_T \
-		|| next->type != QT_T))
+		if (next && (next->type != WORD_T && next->type != VAR_T \
+		&& next->type != QT_T))
 			break ;
 		*token = (*token)->next;
 	}
