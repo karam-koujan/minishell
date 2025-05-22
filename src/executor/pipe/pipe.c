@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kkoujan <kkoujan@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:22:22 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/22 14:32:14 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/22 23:07:22 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,17 @@ int first_proc(t_simple_cmd *cmd, t_env *env, t_elem **elem, t_gc **gc)
 	int child;
 
 	if (pipe(fd) == -1)
-		return (perror("pipe"), -1);
+	return (perror("pipe"), -1);
 	child = fork();
 	if (child == -1)
-		return (perror("fork"), close(fd[0]), close(fd[1]), -1);
+	return (perror("fork"), close(fd[0]), close(fd[1]), -1);
 	if (child == 0)
 	{
+		if (cmd && cmd->argc == 0)
+		{
+			inf_outf_cmd(&cmd, 1, elem, gc);
+			exit(exit_stat(0, 0, gc, (*elem)->env));
+		}
 		signal(SIGQUIT, SIG_DFL);
 		ft_close(fd[0]);
 		ft_dup2(fd[1], STDOUT_FILENO, fd[1]);
@@ -62,8 +67,11 @@ int mid_proc(t_simple_cmd *cmd, t_env *env, t_elem **elem, t_gc **gc)
 	if (child == 0)
 	{
 		signal(SIGQUIT, SIG_DFL);
-		//inf_outf_cmd(&cmd, 1, elem, gc);
-		ft_close(fd[0]);
+		if (cmd && cmd->argc == 0)
+		{
+			inf_outf_cmd(&cmd, 1, elem, gc);
+			exit(exit_stat(0, 0, gc, (*elem)->env));
+		}		ft_close(fd[0]);
 		ft_dup2((*elem)->fd_save, STDIN_FILENO, fd[1]);
 		ft_close((*elem)->fd_save);
 		ft_dup2(fd[1], STDOUT_FILENO, -1);
@@ -89,7 +97,11 @@ void last_proc(t_simple_cmd *cmd, t_env *env, t_elem **elem, t_gc **gc)
 	{
 		signal(SIGQUIT, SIG_DFL);
 		signal(SIGINT, SIG_DFL);
-		//inf_outf_cmd(&cmd, 1, elem, gc);
+		if (cmd && cmd->argc == 0)
+		{
+			inf_outf_cmd(&cmd, 1, elem, gc);
+			exit(exit_stat(0, 0, gc, (*elem)->env));
+		}
 		ft_dup2((*elem)->fd_save, STDIN_FILENO, -1);
 		ft_close((*elem)->fd_save);
 		exec_proc(&cmd, env, elem, gc);
