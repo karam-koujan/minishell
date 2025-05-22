@@ -93,6 +93,11 @@ void  in_cas(t_redirection *in,t_elem **elem, t_gc **gc)
 {
 	int	in_fd;
 
+	if(in->is_ambigous)
+	{
+		printf("minishell :filename: ambiguous redirect\n");
+		exit(exit_stat(1, 1, gc, (*elem)->env));
+	}
 	if (in->type == REDIR_IN)
 		in_fd = open(in->file_or_delimiter, O_RDONLY, 0644);
 	else
