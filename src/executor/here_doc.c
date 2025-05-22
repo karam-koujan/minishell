@@ -112,6 +112,8 @@ int	here_doc(char *delimiter,  t_elem **elem, t_gc **gc)
 
 	if (g_gl != 3)
 		g_gl = 4;
+	else if (g_gl == 3)
+		return (-1);
 	fd = open("/tmp/.here_doc", O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd < 0)
 		return (-1);
@@ -130,8 +132,7 @@ int	here_doc(char *delimiter,  t_elem **elem, t_gc **gc)
 		close(fd);
 		waitpid(pid, &status, 0);
 		if (g_gl == 3) 
-			return (printf("%i\n", exit_stat(0, 0, NULL, NULL)), g_gl = 3 , -1);
-		printf("status %i\n", status);
+			return (printf("\n") ,exit_stat(0, 0, NULL, NULL), g_gl = 3 , -1);
 		exit_status(status);
 		fd = open("/tmp/.here_doc", O_RDONLY);
 		unlink("/tmp/.here_doc");
