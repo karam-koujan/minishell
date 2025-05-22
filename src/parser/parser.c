@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 03:09:20 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/22 18:55:12 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/22 20:03:13 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ t_token	*parse_word(t_simple_cmd **cmd, t_token *token, t_env *env)
 	if (token->type == WORD_T && (token->next == NULL \
 		|| token->next->type == SP_T))
 	{
-		if (token->val[0] == 0 && !token->v_in_qt)
+		if (token->val[0] == 0 && token->v_in_qt == 3)
 			return (token->next);
 	}
 	value = join_expnd(token, env);

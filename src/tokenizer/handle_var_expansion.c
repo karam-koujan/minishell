@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 11:19:41 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/16 17:44:23 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/22 20:10:57 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,15 +70,15 @@ t_token	*handle_expand_var(t_token *tokenlst, t_env *env)
 	if (!curr)
 		return (NULL);
 	val = ft_getenv_val(env, curr->val);
-	if (tokenlst->v_in_qt || ft_strlen(val) == 0)
+	if (tokenlst->v_in_qt && ft_strlen(val) == 0)
 	{
 		free(tokenlst->val);
 		tokenlst->type = WORD_T;
 		tokenlst->val = val;
 		return (tokenlst->next);
 	}
-	// else if (!tokenlst->v_in_qt && ft_strlen(val) == 0)
-	// 	return (tokenlst->next);		
+	else if (!tokenlst->v_in_qt && ft_strlen(val) == 0)
+		return ();
 	arr = ft_split(val, ' ');
 	if (arr == NULL)
 		return (free(val), NULL);
