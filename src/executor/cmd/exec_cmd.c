@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:21:45 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/21 17:14:09 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/22 14:40:38 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ void check_is_building(t_simple_cmd **data, t_env *env, t_elem **elem, t_gc **gc
 void exec_proc(t_simple_cmd **data, t_env *env, t_elem **elem, t_gc **gc)
 {
 	inf_outf_cmd(data, 1, elem, gc);
-	
 		//printf("here %s\n", (*data)->args[0]);
 		check_is_building(data, env,  elem, gc);
 		check_exec_cmd((*data)->args, elem, gc);
