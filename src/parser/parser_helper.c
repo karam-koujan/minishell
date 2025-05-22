@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 10:43:34 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/22 17:11:28 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/22 17:31:55 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ char	*ft_getenv_val(t_env *env, t_token *token)
 	else if (!token->v_in_qt)
 	{
 		token->type = 100;
+		token->val  = NULL;
 		return (NULL);
 	}
 	return (NULL);

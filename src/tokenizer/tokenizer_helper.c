@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 20:14:14 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/07 11:14:16 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/22 17:46:19 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	join_cmd(t_token **tokenlst)
 	next_token = NULL;
 	while (lst)
 	{
-		if (lst->type == QT_T)
+		if (lst->type == QT_T || lst->type == 100)
 			lst = lst->next;
 		if (lst && lst->type == WORD_T)
 		{

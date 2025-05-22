@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 03:09:20 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/22 16:09:36 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/22 17:18:46 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char	*join_expnd(t_token *token, t_env *env)
 		free(prev);
 		prev = value;
 		token = token->next;
-		if (token && token->type == QT_T)
+		if (token && (token->type == QT_T || token->type == 100))
 			token = token->next;
 	}
 	return (value);

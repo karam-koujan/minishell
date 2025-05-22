@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 10:31:06 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/22 17:02:40 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/22 17:39:40 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,11 +31,27 @@ int	is_imbigious(char	*var)
 	return (free_arr(arr), free(var), 0);
 }
 
+char	*get_var(t_env *env, char *key)
+{
+	if (!env || !key)
+		return (NULL);
+	if (ft_strcmp(key, "?") == 0)
+		return (ft_itoa(exit_stat(0, 0, NULL, NULL)));
+	while (env)
+	{
+		if (ft_strlen(env->key) - 1 == ft_strlen(key) && \
+		ft_strncmp(env->key, key, ft_strlen(env->key) - 1) == 0)
+			return (ft_strdup(env->value));
+		env = env->next;
+	}
+	return (ft_strdup(""));
+}
+
 int	detect_ambigious_redir(t_token *token, t_env *env)
 {
 	int		is_imbig;
 	int		is_quote;
-
+	char	*var;
 	is_imbig = 0;
 	is_quote = 0;
 	while (token && (token->type == VAR_T || \
@@ -45,14 +61,14 @@ int	detect_ambigious_redir(t_token *token, t_env *env)
 			is_quote = 1;
 		if (token->type == VAR_T && !token->v_in_qt)
 		{
-			if (is_imbigious(ft_getenv_val(env, token)) == 0)
+			if (is_imbigious(get_var(env, token->val)) == 0)
 				is_quote = 1;
-			if (is_imbigious(ft_getenv_val(env, token)) == 2)
+			if (is_imbigious(get_var(env, token->val)) == 2)
 				return (1);
-			else if (is_imbigious(ft_getenv_val(env, token)) == -1)
+			else if (is_imbigious(get_var(env, token->val)) == -1)
 				return (-1);
 			else
-				is_imbig = (is_imbigious(ft_getenv_val(env, token)) \
+				is_imbig = (is_imbigious(get_var(env, token->val)) \
 				|| is_imbig);
 		}
 		token = token->next;
@@ -69,7 +85,8 @@ t_redirection	*redir_file(t_token **token, t_env *env, t_redir_type type)
 	t_token			*next;
 
 	*token = (*token)->next;
-	while (*token && ((*token)->type == SP_T || (*token)->type == QT_T))
+	while (*token && ((*token)->type == SP_T || (*token)->type == QT_T || \
+	(*token)->type == 100))
 		*token = (*token)->next;
 	is_ambigious = detect_ambigious_redir(*token, env);
 	if (is_ambigious == -1)

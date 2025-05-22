@@ -184,6 +184,7 @@ int main(int argc, char **argv, char **envp)
 		if (!cmd_table)
 			return (free(cmd), rl_clear_history(), \
 			free_all(&gc), 1);
+		print_token_list(token_head);
 		handle_herdoc(&cmd_table, NULL, &gc);
 		print_cmd_table(cmd_table);
 		exec(cmd_table, &env, &gc);
