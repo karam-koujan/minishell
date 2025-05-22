@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 11:19:41 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/22 20:59:27 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/22 21:22:46 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ t_token	*handle_expand_var(t_token *tokenlst, t_env *env)
 	if (!curr)
 		return (NULL);
 	val = ft_getenv_val(env, curr->val);
-	if (tokenlst->v_in_qt && ft_strlen(val) == 0)
+	if (tokenlst->v_in_qt)
 	{
 		free(tokenlst->val);
 		tokenlst->type = WORD_T;
@@ -92,7 +92,7 @@ t_token	*handle_expand_var(t_token *tokenlst, t_env *env)
 		curr = tokenlst->next;
 		tokenlst->next = curr->next;
 		free(curr);
-		return (tokenlst->next);
+		return (tokenlst);
 	}
 	arr = ft_split(val, ' ');
 	if (arr == NULL)
@@ -121,6 +121,8 @@ void	join_var(t_token **tokenlst, t_env *env)
 				in_redir = 0;
 			continue ;
 		}
+		if (lst->type == WORD_T && lst->next && lst->next->type == SP_T)
+			in_redir = 0;
 		if (lst->type == REDIR_APPEND || lst->type == REDIR_B_T \
 				|| lst->type == REDIR_F_T)
 			in_redir = 1;
