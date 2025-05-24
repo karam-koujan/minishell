@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 23:42:33 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/19 11:50:49 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/24 13:35:43 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ t_token	*handle_tokenizer(t_token **tokenlst, t_env *env);
 void	join_var(t_token **tokenlst, t_env *env);
 void	join_cmd(t_token **tokenlst);
 void	handle_word_token(t_token *lst, t_token **next_ptr);
-int	add_vr_token(t_token **head, char *start_ptr, int len, \
+int		add_vr_token(t_token **head, char *start_ptr, int len, \
 	t_token_data *token_data);
+char	*join_token(t_token **curr, char *val);
+
 #endif

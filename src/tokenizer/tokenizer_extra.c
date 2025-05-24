@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 03:07:06 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/04/23 15:34:58 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/24 13:35:08 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,9 +88,7 @@ char	*remove_quotes(char *cmd)
 char	*process_word_tokens(t_token *lst, t_token **next_ptr)
 {
 	t_token	*curr;
-	t_token	*next_node;
 	char	*val;
-	char	*tmp;
 
 	curr = lst->next;
 	val = ft_strdup(lst->val);
@@ -103,15 +101,9 @@ char	*process_word_tokens(t_token *lst, t_token **next_ptr)
 			curr = curr->next;
 			continue ;
 		}
-		tmp = val;
-		val = ft_strjoin(tmp, curr->val);
-		free(tmp);
+		val = join_token(&curr, val);
 		if (!val)
 			return (NULL);
-		next_node = curr;
-		curr = curr->next;
-		free(next_node->val);
-		free(next_node);
 	}
 	return (*next_ptr = curr, val);
 }
