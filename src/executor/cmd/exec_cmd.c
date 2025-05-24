@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:21:45 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/24 16:14:43 by achemlal         ###   ########.fr       */
+/*   Updated: 2025/05/24 17:49:44 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	check_is_building(t_simple_cmd **data, t_env *env, t_elem **elem,
 	else if (ft_strcmp((*data)->args[0], "echo") == 0)
 		return (builtin_echo(data), 1);
 	else if (ft_strcmp((*data)->args[0], "pwd") == 0)
-		return (builtin_pwd(data), 1);
+		return (builtin_pwd(), 1);
 	else if (ft_strcmp((*data)->args[0], "env") == 0)
 		return (builtin_env(data, env), 1);
 	else if (ft_strcmp((*data)->args[0], "export") == 0)
