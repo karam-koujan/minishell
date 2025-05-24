@@ -6,52 +6,51 @@
 /*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:23:30 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/18 17:34:36 by achemlal         ###   ########.fr       */
+/*   Updated: 2025/05/24 13:24:15 by achemlal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../../includes/minishell.h"
 
-void update_shlvl(t_env **env, char *key, char *value)
+static void	update_shlvl(t_env **env, char *key, char *value)
 {
-    t_env *curr;
+	t_env	*curr;
 
-    curr = *env;
-    while(curr)
-    {
-        if(ft_strcmp(curr->key, key) == 0)
-        {
+	curr = *env;
+	while (curr)
+	{
+		if (ft_strcmp(curr->key, key) == 0)
+		{
 			free(curr->value);
-            curr->value = value;
-            return ;
-        }
-        curr = curr->next;
-    }
+			curr->value = value;
+			return ;
+		}
+		curr = curr->next;
+	}
 	free(value);
 }
 
-int is_valid_number(char *str)
+static int	is_valid_number(char *str)
 {
-    if (!str || !*str)
-        return 0;
+	int	i;
 
-    int i = 0;
-
-    if (str[0] == '-' || str[0] == '+')
-        i++;
-
-    while (str[i])
-    {
-        if (!ft_isdigit(str[i]))
-            return 0;
-        i++;
-    }
-    return 1;
+	if (!str || !*str)
+		return (0);
+	i = 0;
+	if (str[0] == '-' || str[0] == '+')
+		i++;
+	while (str[i])
+	{
+		if (!ft_isdigit(str[i]))
+			return (0);
+		i++;
+	}
+	return (1);
 }
+
 static char	*get_new_shlvl(char *shlvl_str, t_gc **gc)
 {
-	int		shlvl;
+	int	shlvl;
 
 	if (!is_valid_number(shlvl_str))
 		return (ft_strdup("1"));
@@ -85,12 +84,11 @@ void	handle_shlvl(t_env **env, t_gc **gc)
 	{
 		key = ft_strdup("SHLVL=");
 		new_shlvl = ft_strdup("1");
-		if(!new_node)
-			return (free(key));//add
+		if (!new_node)
+			return (free(key));
 		new_node = create_env_node(key, new_shlvl);
-		if(!new_node)
-			return(free(key), free(new_shlvl));//add
+		if (!new_node)
+			return (free(key), free(new_shlvl));
 		add_node(env, new_node);
 	}
 }
-

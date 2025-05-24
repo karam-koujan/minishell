@@ -3,23 +3,19 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkoujan <kkoujan@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:16:34 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/22 23:34:05 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/24 12:25:40 by achemlal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-
-void single_cmd(t_simple_cmd **data, t_env **env, t_elem *elem, t_gc **gc)
+void	single_cmd(t_simple_cmd **data, t_env **env, t_elem *elem, t_gc **gc)
 {
 	if ((*data)->argc == 0)
-	{
-		inf_outf_cmd(data, 0, &elem, gc);
-		return ;
-	}
+		return (inf_outf_cmd(data, 0, &elem, gc));
 	if (!ft_strcmp((*data)->args[0], "cd"))
 		return (check_redir_in_parent(*data, &elem, gc),
 			builtin_cd(data, env, gc, &elem));
@@ -29,27 +25,25 @@ void single_cmd(t_simple_cmd **data, t_env **env, t_elem *elem, t_gc **gc)
 	else if (!ft_strcmp((*data)->args[0], "unset"))
 		return (check_redir_in_parent(*data, &elem, gc),
 			builtin_unset(data, env, gc));
-	else if(ft_strcmp((*data)->args[0], "export") == 0)
+	else if (ft_strcmp((*data)->args[0], "export") == 0)
 	{
-		if(((*data)->argc > 1))
+		if (((*data)->argc > 1))
 			return (check_redir_in_parent(*data, &elem, gc),
 				builtin_export(data, env, gc));
-
 	}
-		exec_cmd(data, *env, &elem, gc);
+	exec_cmd(data, *env, &elem, gc);
 }
 
-void exec(t_cmd_table *data, t_env **env, t_gc **gc)
+void	exec(t_cmd_table *data, t_env **env, t_gc **gc)
 {
-	t_elem elem;
+	t_elem	elem;
 
 	if (!data || !env || !(*env))
-		return; 
-
+		return ;
 	elem.env = env_list_to_array(*env);
 	if (!elem.env)
-		return; 
-	if(g_gl == 3)
+		return ;
+	if (g_gl == 3)
 		return (close_pipe_fd(&data));
 	if (data->cmd_count == 1)
 	{

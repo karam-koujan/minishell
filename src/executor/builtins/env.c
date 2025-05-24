@@ -6,29 +6,29 @@
 /*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:18:58 by achemlal          #+#    #+#             */
-/*   Updated: 2025/04/19 18:22:58 by achemlal         ###   ########.fr       */
+/*   Updated: 2025/05/24 14:55:14 by achemlal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include  "../../../includes/minishell.h"
 
-void builtin_env(t_simple_cmd **data, t_env *env)
+void	builtin_env(t_simple_cmd **data, t_env *env)
 {
-    if((*data)->args[1])
-    {
-        printf("env: ‘%s’: No such file or directory\n", (*data)->args[1]);
-        exit(127);
-        return ;
-    }
-    if (env && ft_strcmp(env->key, "PATH=") == 0)
+	if ((*data)->args[1])
+	{
+		printf("env: ‘%s’: No such file or directory\n", (*data)->args[1]);
+		exit_stat(127, 1, NULL, NULL);
+		return ;
+	}
+	if (env && ft_strcmp(env->key, "PATH=") == 0)
 		env = env->next;
-    while (env)
-    {
-        if (env->value)
-        {
-            printf("%s", env->key);
-            printf("%s\n",env->value);
-        }
-        env = env->next;
-    }
+	while (env)
+	{
+		if (env->value)
+		{
+			printf("%s", env->key);
+			printf("%s\n", env->value);
+		}
+		env = env->next;
+	}
 }

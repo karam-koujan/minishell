@@ -1,6 +1,16 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   here_doc.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/24 12:30:39 by achemlal          #+#    #+#             */
+/*   Updated: 2025/05/24 13:16:51 by achemlal         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../includes/minishell.h"
-
-
 
 void	handle_herdoc(t_cmd_table **data, t_elem *elem, t_gc **gc)
 {
@@ -8,7 +18,7 @@ void	handle_herdoc(t_cmd_table **data, t_elem *elem, t_gc **gc)
 	t_redirection	*redir;
 
 	i = -1;
-	if (!data && !*data)
+	if (!data || !*data)
 		return ;
 	while (++i < (*data)->cmd_count)
 	{
@@ -17,59 +27,18 @@ void	handle_herdoc(t_cmd_table **data, t_elem *elem, t_gc **gc)
 		{
 			if (redir->type == REDIR_HEREDOC)
 			{
-				redir->herdoc_fd = here_doc(redir->file_or_delimiter, &elem, gc);					
+				redir->herdoc_fd = here_doc(redir->file_or_delimiter,
+						&elem, gc);
 			}
 			redir = redir->next;
 		}
 	}
 }
 
-void	close_single_fd(t_simple_cmd	*cmd)
-{
-	int				i;
-	t_redirection	*redir;
-
-	i = -1;
-	if (!cmd)
-		return ;
-	redir = cmd->redirs;
-	while (redir)
-	{
-		if (redir->type == REDIR_HEREDOC && redir->herdoc_fd != -1)
-		{
-			ft_close(redir->herdoc_fd);
-			redir->herdoc_fd = -1;
-		}
-		redir = redir->next;
-	}
-}
-void	close_pipe_fd(t_cmd_table **data)
-{
-	int				i;
-	t_redirection	*redir;
-
-	i = -1;
-	if (!data && !*data)
-		return ;
-	while (++i < (*data)->cmd_count)
-	{
-		redir = (*data)->cmds[i]->redirs;
-		while (redir)
-		{
-			if (redir->type == REDIR_HEREDOC && redir->herdoc_fd != -1)
-			{
-				ft_close(redir->herdoc_fd);
-				redir->herdoc_fd = -1;
-			}
-			redir = redir->next;
-		}
-	}
-}
-
-
-static int read_in_stdin(int fd, char *delimiter)
+static int	read_in_stdin(int fd, char *delimiter)
 {
 	char	*line;
+	int		dev_in_fd;
 
 	while (1)
 	{
@@ -78,7 +47,7 @@ static int read_in_stdin(int fd, char *delimiter)
 		{
 			printf("warning: here-document delimited by end-of-file ");
 			printf("(wanted '");
-			printf("%s",delimiter);
+			printf("%s", delimiter);
 			printf("')\n");
 			break ;
 		}
@@ -94,11 +63,42 @@ static int read_in_stdin(int fd, char *delimiter)
 	return (1);
 }
 
-int	here_doc(char *delimiter,  t_elem **elem, t_gc **gc)
+static int	child_here_doc(char *delimiter, int fd, t_gc **gc)
+{
+	if (g_gl == 3)
+	{
+		ft_close(fd);
+		exit(exit_stat(0, 0, gc, NULL));
+	}
+	signal(SIGINT, SIG_DFL);
+	if (!read_in_stdin(fd, delimiter))
+		exit(exit_stat(1, 1, gc, NULL));
+	exit(exit_stat(0, 1, gc, NULL));
+}
+
+static int	parent_here_doc(pid_t pid, char *name)
+{
+	int	status;
+	int	fd;
+
+	waitpid(pid, &status, 0);
+	if (g_gl == 3)
+	{
+		printf("\n");
+		exit_stat(0, 0, NULL, NULL);
+		g_gl = 3;
+		return (-1);
+	}
+	exit_status(status);
+	fd = open(name, O_RDONLY);
+	unlink(name);
+	return (fd);
+}
+
+int	here_doc(char *delimiter, t_elem **elem, t_gc **gc)
 {
 	int		fd;
 	pid_t	pid;
-	int		status;
 	char	*name;
 
 	if (g_gl != 3)
@@ -111,66 +111,7 @@ int	here_doc(char *delimiter,  t_elem **elem, t_gc **gc)
 		return (-1);
 	pid = fork();
 	if (pid == 0)
-	{
-		if (g_gl == 3)
-			return (exit(exit_stat(0, 0, gc, (*elem)->env)), ft_close(fd), -1);
-		signal(SIGINT, SIG_DFL);
-		if (!read_in_stdin(fd, delimiter))
-			exit(exit_stat(1, 1, gc, (*elem)->env));
-		exit(exit_stat(0, 1, gc, (*elem)->env));
-	}
-	else
-	{
-		close(fd);
-		waitpid(pid, &status, 0);
-		if (g_gl == 3)
-			return (printf("\n") ,exit_stat(0, 0, NULL, NULL), g_gl = 3 , -1);
-		exit_status(status);
-		fd = open(name, O_RDONLY);
-		unlink(name);
-		return (fd);
-	}
-}
-char *gene_name_here_doc()
-{
-	static int id = 0;
-	char *nbr;
-	char *base_name;
-	char *name;
-	char *tmp_name;
-	size_t len ;
-
-	  id = (id + 8754) * (8756 / 788) % 7851498555;
-	  nbr = ft_itoa(id);
-	  if(!nbr)
-	  	return NULL;
-	base_name = ft_strjoin("/tmp/.here_doc_", nbr);
-	free(nbr);
-	if(!base_name)
-		return NULL;
-	if(access(base_name, F_OK | X_OK) == 0)
-	{
-		len = ft_strlen(base_name);
-		name = ft_strdup(base_name);
-		if(!name)
-			return (free(base_name), NULL);
-		free(base_name);
-		while(access(name, F_OK | X_OK) == 0)
-		{
-			tmp_name = malloc(ft_strlen(name) + 2);
-			if(!tmp_name)
-				return (free(name), NULL);
-			ft_strlcpy(tmp_name, name, len);
-			tmp_name[len++] = 't';
-			tmp_name[len] = '\0';
-			free(name);
-			name = tmp_name;
-		}
-	}
-	else
-		name = base_name;
-	id++;
-	return name;
-	
-
+		child_here_doc(delimiter, fd, gc);
+	close(fd);
+	return (parent_here_doc(pid, name));
 }

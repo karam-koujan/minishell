@@ -6,14 +6,11 @@
 /*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 18:46:19 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/18 17:47:34 by achemlal         ###   ########.fr       */
+/*   Updated: 2025/05/24 16:01:34 by achemlal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
-
 #include  "../../../includes/minishell.h"
-
 
 static char	*prepare_key(char *key, t_gc **gc)
 {

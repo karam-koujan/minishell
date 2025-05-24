@@ -6,45 +6,57 @@
 /*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:20:12 by achemlal          #+#    #+#             */
-/*   Updated: 2025/04/19 18:22:52 by achemlal         ###   ########.fr       */
+/*   Updated: 2025/05/24 15:44:40 by achemlal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include  "../../../includes/minishell.h"
-t_env *copy_env(t_env *env)
-{
-	t_env *new_env = NULL;
-	t_env *last = NULL;
-	t_env *new_node;
 
+static t_env	*env_node(t_env *env)
+{
+	t_env	*new_node;
+
+	new_node = malloc(sizeof(t_env));
+	if (!new_node)
+		return (NULL);
+	new_node->key = ft_strdup(env->key);
+	if (env->value)
+		new_node->value = ft_strdup(env->value);
+	else
+		new_node->value = NULL;
+	new_node->next = NULL;
+	return (new_node);
+}
+
+static t_env	*copy_env(t_env *env)
+{
+	t_env	*new_env;
+	t_env	*last;
+	t_env	*new_node;
+
+	new_env = NULL;
+	last = NULL;
+	new_node = NULL;
 	while (env)
 	{
-		new_node = malloc(sizeof(t_env));
+		new_node = env_node(env);
 		if (!new_node)
 			return (NULL);
-		new_node->key = ft_strdup(env->key);
-		if(env->value)
-			new_node->value = ft_strdup(env->value);
-		else
-			new_node->value = NULL;
-		new_node->next = NULL;
-
 		if (!new_env)
 			new_env = new_node;
 		else
 			last->next = new_node;
-			
 		last = new_node;
 		env = env->next;
 	}
-	return new_env;
+	return (new_env);
 }
-t_env *sort_var(t_env *head)
+
+static t_env	*sort_var(t_env *head)
 {
-	t_env *curr;
-	char *swap_key;
-	char *swap_value;
+	t_env	*curr;
+	char	*swap_key;
+	char	*swap_value;
 
 	if (!head)
 		return (NULL);
@@ -67,23 +79,22 @@ t_env *sort_var(t_env *head)
 	return (head);
 }
 
-
-void print_export(t_env *env)
+void	print_export(t_env *env)
 {
-	t_env *sorted;
-	int i = 0;
+	t_env	*sorted;
+	int		i;
 
+	i = 0;
 	sorted = sort_var(copy_env(env));
 	if (!sorted)
 		return ;
-
 	while (sorted)
 	{
 		if (i == 1 && sorted->key && ft_strcmp(sorted->key, "PATH=") == 0)
 		{
 			sorted = sorted->next;
 			i++;
-			continue;
+			continue ;
 		}
 		else if (!sorted->value)
 			printf("declare -x %s\n", sorted->key);
@@ -93,4 +104,3 @@ void print_export(t_env *env)
 		i++;
 	}
 }
-

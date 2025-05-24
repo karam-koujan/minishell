@@ -6,14 +6,11 @@
 /*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:21:17 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/18 17:43:08 by achemlal         ###   ########.fr       */
+/*   Updated: 2025/05/24 16:01:05 by achemlal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include  "../../../includes/minishell.h"
-
-
 
 static int	check_key_only(t_env *env, char *key)
 {
@@ -45,19 +42,10 @@ static int	update_existing(t_env *env, char *key, char *value)
 		str = ft_strtrim(env->key, "=");
 		new = ft_strtrim(key, "=");
 		if (!str || !new)
-		{
-			free(str);
-			free(new);
-			return (0);
-		}
+			return (free(str), free(new), 0);
 		if (ft_strcmp(str, new) == 0)
-		{
-			free(str);
-			free(new);
-			env->key = key;
-			env->value = value;
-			return (1);
-		}
+			return (free(str), free(new), env->key = key,
+				env->value = value, 1);
 		free(str);
 		free(new);
 		env = env->next;
@@ -65,19 +53,19 @@ static int	update_existing(t_env *env, char *key, char *value)
 	return (0);
 }
 
-int	update_var(t_env **env, char *key, char *value, t_gc **gc)
+static int	update_var(t_env **env, char *key, char *value, t_gc **gc)
 {
 	if (ft_strchr(key, '+'))
 	{
 		handle_plus(env, &key, &value, gc);
-			return (1);
+		return (1);
 	}
 	if (!ft_strchr(key, '='))
 		return (check_key_only(*env, key));
 	return (update_existing(*env, key, value));
 }
 
-void	add_var(t_env **env, char *key, char *value, t_gc **gc)
+static void	add_var(t_env **env, char *key, char *value, t_gc **gc)
 {
 	t_env	*new_node;
 
@@ -88,27 +76,28 @@ void	add_var(t_env **env, char *key, char *value, t_gc **gc)
 	new_node = create_env_node(key, value);
 	add_node(env, new_node);
 }
-void var_set(char *str, t_env **env, t_gc **gc)
-{
-    char *key;
-    char *value;
-    size_t size;
 
-    key = NULL;
-    value= NULL;
-    if(ft_strchr(str, '='))
-    {
-        size = ft_strchr(str, '=') - str + 1;
+void	var_set(char *str, t_env **env, t_gc **gc)
+{
+	char	*key;
+	char	*value;
+	size_t	size;
+
+	key = NULL;
+	value = NULL;
+	if (ft_strchr(str, '='))
+	{
+		size = ft_strchr(str, '=') - str + 1;
 		key = ft_substr(str, 0, size);
 		value = ft_substr(str, size, ft_strlen(str) - size);
-        if(!key || !value)
-            return ;
-    }
-    else
-    {
+		if (!key || !value)
+			return ;
+	}
+	else
+	{
 		key = ft_strdup(str);
-        if(!key)
-            return ;
-    }
-    add_var(env, key, value, gc);
+		if (!key)
+			return ;
+	}
+	add_var(env, key, value, gc);
 }

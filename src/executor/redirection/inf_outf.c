@@ -3,22 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   inf_outf.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:37:46 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/21 16:27:29 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/24 16:50:49 by achemlal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
-
 #include "../../../includes/minishell.h"
 
-
-void handle_redir_in_child(t_simple_cmd *cmd, t_elem **elem, t_gc **gc)
+void	handle_redir_in_child(t_simple_cmd *cmd, t_elem **elem, t_gc **gc)
 {
-	t_redirection *files = cmd->redirs;
+	t_redirection	*files;
 
+	files = cmd->redirs;
 	while (files)
 	{
 		if (files->type == REDIR_IN || files->type == REDIR_HEREDOC)
@@ -29,11 +27,11 @@ void handle_redir_in_child(t_simple_cmd *cmd, t_elem **elem, t_gc **gc)
 	}
 }
 
-
-
-int  check_redir_in_parent(t_simple_cmd *cmd,  t_elem **elem, t_gc **gc)
+int	check_redir_in_parent(t_simple_cmd *cmd, t_elem **elem, t_gc **gc)
 {
-	t_redirection *files = cmd->redirs;
+	t_redirection	*files;
+
+	files = cmd->redirs;
 	while (files)
 	{
 		if (files->type == REDIR_IN || files->type == REDIR_HEREDOC)
@@ -48,12 +46,13 @@ int  check_redir_in_parent(t_simple_cmd *cmd,  t_elem **elem, t_gc **gc)
 		}
 		files = files->next;
 	}
-	return 1;
+	return (1);
 }
-void inf_outf_cmd(t_simple_cmd **data, int flag, t_elem **elem, t_gc **gc)
+
+void	inf_outf_cmd(t_simple_cmd **data, int flag, t_elem **elem, t_gc **gc)
 {
 	if (flag == 1)
-		 handle_redir_in_child(*data, elem, gc);
+		handle_redir_in_child(*data, elem, gc);
 	else
-		 check_redir_in_parent(*data, elem, gc);
+		check_redir_in_parent(*data, elem, gc);
 }

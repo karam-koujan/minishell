@@ -6,32 +6,31 @@
 /*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:20:33 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/18 17:41:47 by achemlal         ###   ########.fr       */
+/*   Updated: 2025/05/24 15:52:13 by achemlal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include  "../../../includes/minishell.h"
 
-int equal_char(char *str, char *key)
+static int	equal_char(char *str, char *key)
 {
-	int i; 
+	int	i;
 
 	i = 1;
-	if(!ft_isalpha(key[0]))
-		{
-			if(key[0] != '_')
-				return (0);
-		}
-	while(key[i])
+	if (!ft_isalpha(key[0]))
 	{
-		if(key[i] == '+' && key[i+1] == '=')
+		if (key[0] != '_')
+			return (0);
+	}
+	while (key[i])
+	{
+		if (key[i] == '+' && key[i + 1] == '=')
 		{
-			return 1;
+			return (1);
 		}
-		if(!ft_isalnum(key[i]) && key[i] != '=')
+		if (!ft_isalnum(key[i]) && key[i] != '=')
 		{
-			if(key[i] != '_')
+			if (key[i] != '_')
 				return (0);
 		}
 		i++;
@@ -39,44 +38,45 @@ int equal_char(char *str, char *key)
 	return (1);
 }
 
-int not_equal(char *str)
+int	not_equal(char *str)
 {
-	int i;
+	int	i;
 
 	i = 1;
-	if(!ft_isalpha(str[0]))
-		{
-			if(str[0] != '_')
-				return (0);
-		}
-	while(str[i])
+	if (!ft_isalpha(str[0]))
 	{
-		if(!ft_isalnum(str[i]))
+		if (str[0] != '_')
+			return (0);
+	}
+	while (str[i])
+	{
+		if (!ft_isalnum(str[i]))
 		{
-			if(str[i] != '_')
+			if (str[i] != '_')
 				return (0);
 		}
 		i++;
 	}
 	return (1);
 }
-int valid_export(char *str, t_gc **gc)
-{
-	char *key;
-	size_t size;
 
-	if(ft_strchr(str, '='))
+int	valid_export(char *str, t_gc **gc)
+{
+	char	*key;
+	size_t	size;
+
+	if (ft_strchr(str, '='))
 	{
 		size = ft_strchr(str, '=') - str + 1;
 		key = ft_substr(str, 0, size);
-		if(!key)
-			return 0;
-		if(!equal_char(str, key))
+		if (!key)
+			return (0);
+		if (!equal_char(str, key))
 			return (0);
 	}
 	else
 	{
-		if(!not_equal(str))
+		if (!not_equal(str))
 			return (0);
 	}
 	return (1);

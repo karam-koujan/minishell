@@ -3,38 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkoujan <kkoujan@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:22:22 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/22 23:07:22 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/24 16:45:56 by achemlal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-
 #include "../../../includes/minishell.h"
 
-void	handle_herdoc_child(t_simple_cmd *cmd, t_elem **elem, t_gc **gc)
+static void	handle_pipe_signal(int status)
 {
-	t_redirection *files = cmd->redirs;
-
-	while (files)
-	{
-		if (files->type == REDIR_HEREDOC)
-			in_cas(files, elem, gc);
-		files = files->next;
-	}
+	if (exit_stat(0, 0, NULL, NULL) == 0 || exit_stat(0, 0, NULL, NULL) == 127)
+		g_gl = 2;
+	if (exit_stat(0, 0, NULL, NULL) == 130 || status == 131)
+		write(1, "\n", 1);
 }
 
-int first_proc(t_simple_cmd *cmd, t_env *env, t_elem **elem, t_gc **gc)
+static int	first_proc(t_simple_cmd *cmd, t_env *env, t_elem **elem, t_gc **gc)
 {
-	int fd[2];
-	int child;
+	int	fd[2];
+	int	child;
 
 	if (pipe(fd) == -1)
-	return (perror("pipe"), -1);
+		return (perror("pipe"), -1);
 	child = fork();
 	if (child == -1)
-	return (perror("fork"), close(fd[0]), close(fd[1]), -1);
+		return (perror("fork"), close(fd[0]), close(fd[1]), -1);
 	if (child == 0)
 	{
 		if (cmd && cmd->argc == 0)
@@ -54,10 +49,10 @@ int first_proc(t_simple_cmd *cmd, t_env *env, t_elem **elem, t_gc **gc)
 	return (fd[0]);
 }
 
-int mid_proc(t_simple_cmd *cmd, t_env *env, t_elem **elem, t_gc **gc)
+int	mid_proc(t_simple_cmd *cmd, t_env *env, t_elem **elem, t_gc **gc)
 {
-	int fd[2];
-	int child;
+	int	fd[2];
+	int	child;
 
 	if (pipe(fd) == -1)
 		return (perror("pipe"), -1);
@@ -68,10 +63,9 @@ int mid_proc(t_simple_cmd *cmd, t_env *env, t_elem **elem, t_gc **gc)
 	{
 		signal(SIGQUIT, SIG_DFL);
 		if (cmd && cmd->argc == 0)
-		{
-			inf_outf_cmd(&cmd, 1, elem, gc);
-			exit(exit_stat(0, 0, gc, (*elem)->env));
-		}		ft_close(fd[0]);
+			return (inf_outf_cmd(&cmd, 1, elem, gc),
+				exit(exit_stat(0, 0, gc, (*elem)->env)), -1);
+		ft_close(fd[0]);
 		ft_dup2((*elem)->fd_save, STDIN_FILENO, fd[1]);
 		ft_close((*elem)->fd_save);
 		ft_dup2(fd[1], STDOUT_FILENO, -1);
@@ -80,15 +74,13 @@ int mid_proc(t_simple_cmd *cmd, t_env *env, t_elem **elem, t_gc **gc)
 		free_arr((*elem)->env);
 		clear_parsing(gc);
 	}
-	ft_close(fd[1]);
-	ft_close((*elem)->fd_save);
-	return (fd[0]); 
+	return (ft_close(fd[1]), ft_close((*elem)->fd_save), fd[0]);
 }
 
-void last_proc(t_simple_cmd *cmd, t_env *env, t_elem **elem, t_gc **gc)
+void	last_proc(t_simple_cmd *cmd, t_env *env, t_elem **elem, t_gc **gc)
 {
-	int child;
-	int status;
+	int	child;
+	int	status;
 
 	child = fork();
 	if (child == -1)
@@ -98,10 +90,8 @@ void last_proc(t_simple_cmd *cmd, t_env *env, t_elem **elem, t_gc **gc)
 		signal(SIGQUIT, SIG_DFL);
 		signal(SIGINT, SIG_DFL);
 		if (cmd && cmd->argc == 0)
-		{
-			inf_outf_cmd(&cmd, 1, elem, gc);
-			exit(exit_stat(0, 0, gc, (*elem)->env));
-		}
+			return (inf_outf_cmd(&cmd, 1, elem, gc),
+				exit(exit_stat(0, 0, gc, (*elem)->env)));
 		ft_dup2((*elem)->fd_save, STDIN_FILENO, -1);
 		ft_close((*elem)->fd_save);
 		exec_proc(&cmd, env, elem, gc);
@@ -111,29 +101,26 @@ void last_proc(t_simple_cmd *cmd, t_env *env, t_elem **elem, t_gc **gc)
 	ft_close((*elem)->fd_save);
 	waitpid(child, &status, 0);
 	exit_status(status);
-	if (exit_stat(0, 0, NULL, NULL) == 0 || exit_stat(0, 0, NULL, NULL) == 127)
-		g_gl = 2;
-	if (exit_stat(0, 0, NULL, NULL) == 130 || status == 131)
-		write(1,"\n",1);
+	handle_pipe_signal(status);
 }
 
-void pipe_case(t_cmd_table *data, t_env *env, t_elem *elem, t_gc **gc)
+void	pipe_case(t_cmd_table *data, t_env *env, t_elem *elem, t_gc **gc)
 {
-	int i;
-	int status;
+	int	i;
+	int	status;
 
 	i = 0;
 	elem->fd_save = first_proc(data->cmds[0], env, &elem, gc);
-	if(elem->fd_save == -1)
+	if (elem->fd_save == -1)
 		return ;
-	if(data->cmd_count >= 3)
+	if (data->cmd_count >= 3)
 	{
-		while(i < data->cmd_count - 2)
+		while (i < data->cmd_count - 2)
 		{
-			elem->fd_save =  mid_proc(data->cmds[i + 1], env, &elem, gc);
-			if(elem->fd_save == -1)
+			elem->fd_save = mid_proc(data->cmds[i + 1], env, &elem, gc);
+			if (elem->fd_save == -1)
 			{
-				exit_stat(1, 1, NULL, NULL);   
+				exit_stat(1, 1, NULL, NULL);
 				while ((wait(&status) != -1))
 					;
 				return ;
@@ -141,7 +128,6 @@ void pipe_case(t_cmd_table *data, t_env *env, t_elem *elem, t_gc **gc)
 			i++;
 		}
 	}
-	
 	last_proc(data->cmds[data->cmd_count - 1], env, &elem, gc);
 	while ((wait(NULL) != -1))
 		;

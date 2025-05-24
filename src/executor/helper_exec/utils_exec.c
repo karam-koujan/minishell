@@ -1,32 +1,45 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils_exec.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/24 16:22:25 by achemlal          #+#    #+#             */
+/*   Updated: 2025/05/24 16:24:55 by achemlal         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../../../includes/minishell.h"
 
-char *ft_getenv(t_env *env, char *key)
+char	*ft_getenv(t_env *env, char *key)
 {
-	if(!env || !key)
-		return NULL;
-	while(env)
+	if (!env || !key)
+		return (NULL);
+	while (env)
 	{
-		if(ft_strcmp(env->key, key) == 0)
+		if (ft_strcmp(env->key, key) == 0)
 			return (env->value);
 		env = env->next;
 	}
 	return (NULL);
 }
-char *join_env_var(t_env *env)
+
+char	*join_env_var(t_env *env)
 {
-	char *env_var;
+	char	*env_var;
 
 	env_var = ft_strjoin(env->key, env->value);
-	if(!env_var)
+	if (!env_var)
 		return (NULL);
 	return (env_var);
 }
 
-char **env_list_to_array(t_env *env)
+char	**env_list_to_array(t_env *env)
 {
 	t_env	*temp;
 	int		i;
-	char **env_arr;
+	char	**env_arr;
 
 	i = 0;
 	temp = env;
@@ -35,9 +48,9 @@ char **env_list_to_array(t_env *env)
 		i++;
 		temp = temp->next;
 	}
-	env_arr = (char**)malloc((i + 1) * sizeof(char *));
-	if(!env_arr)
-		return NULL;
+	env_arr = (char **)malloc((i + 1) * sizeof(char *));
+	if (!env_arr)
+		return (NULL);
 	i = 0;
 	while (env)
 	{
@@ -54,6 +67,7 @@ char **env_list_to_array(t_env *env)
 void	add_node(t_env **env, t_env *new)
 {
 	t_env	*l;
+
 	if (!env || !new)
 		return ;
 	if (*env == NULL)
@@ -71,15 +85,15 @@ void	add_node(t_env **env, t_env *new)
 	}
 }
 
-t_env *create_env_node(char *key, char *value)
+t_env	*create_env_node(char *key, char *value)
 {
-	t_env *node;
+	t_env	*node;
 
 	node = malloc(sizeof(t_env));
-	if(!node)
-		return NULL;
+	if (!node)
+		return (NULL);
 	node->key = key;
 	node->value = value;
 	node->next = NULL;
-	return node;
+	return (node);
 }

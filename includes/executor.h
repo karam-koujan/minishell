@@ -37,6 +37,7 @@ void builtin_env(t_simple_cmd **data, t_env *env);
 
 void builtin_cd(t_simple_cmd **data, t_env **env, t_gc **gc, t_elem **elem);
 void builtin_cd_child(t_simple_cmd **data, t_env **env, t_gc **gc,t_elem **elem);
+void update_pwd(t_env **env, char *key, char *value);
 
 void builtin_pwd();
 
@@ -71,17 +72,18 @@ int	ou_cas_p(t_redirection *ou, t_elem **elem, t_gc **gc);
 int is_directory(char *path);
 int ft_strcmp(const char *s1, const char *s2);
 
-void pipe_case(t_cmd_table *data, t_env *env, t_elem *elem, t_gc **gc);
+void    pipe_case(t_cmd_table *data, t_env *env, t_elem *elem, t_gc **gc);
 void	ft_dup2(int fd_src, int fd_dest, int fd_close);
 void	ft_close(int fd);
 
-int	here_doc(char *delimiter,  t_elem **elem, t_gc **gc);
-
-int  exit_stat(int value, int action, t_gc **gc, char **env);
-void exit_status(int status);
+int	    here_doc(char *delimiter,  t_elem **elem, t_gc **gc);
 void	handle_herdoc(t_cmd_table **data, t_elem *elem, t_gc **gc);
 void	close_single_fd(t_simple_cmd	*cmd);
 void	close_pipe_fd(t_cmd_table **data);
-char *gene_name_here_doc();
+char    *gene_name_here_doc();
+
+int  exit_stat(int value, int action, t_gc **gc, char **env);
+void exit_status(int status);
+
 
 #endif

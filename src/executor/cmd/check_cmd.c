@@ -6,10 +6,9 @@
 /*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:21:41 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/18 18:14:53 by achemlal         ###   ########.fr       */
+/*   Updated: 2025/05/24 16:12:19 by achemlal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #include "../../../includes/minishell.h"
 
@@ -20,8 +19,8 @@ char	*fet_path(char **env)
 
 	i = 0;
 	path = "PATH=";
-	if(!env)
-		return NULL;
+	if (!env)
+		return (NULL);
 	while (env[i])
 	{
 		if (ft_strncmp(env[i], path, 5) == 0)
