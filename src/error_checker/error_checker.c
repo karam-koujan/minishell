@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 21:28:03 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/04/20 10:42:14 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/24 14:01:35 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,14 +60,13 @@ int	has_misplaced_pipes(char *cmd)
 				return (i);
 			if (cmd[i] == '|' && pipe == 0)
 				pipe = 1;
-			// if (ft_strchr("<>", cmd[i]) != NULL && pipe != 0)
-			// 	return ((int)cmd[i]);
 			if (cmd[i] != '|' && !is_whitespace(cmd[i]))
 				pipe = 0;
 		}
 	}
 	return (-1);
 }
+
 
 
 int	has_invalid_redir(char *cmd)
@@ -92,10 +91,7 @@ int	has_invalid_redir(char *cmd)
 			increment_redir(cmd[i], &redirfor, &redirback);
 			if ((cmd[i] != '<' && cmd[i] != '>') && !is_whitespace(cmd[i]) && \
 			ft_strchr("|", cmd[i]) == NULL)
-			{
-				redirback = 0;
-				redirfor = 0;
-			}
+				reset_redir_state(&redirfor, &redirback);
 		}
 	}
 	return (-1);
