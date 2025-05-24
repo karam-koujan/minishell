@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 21:36:09 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/24 16:19:16 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/24 16:43:42 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,8 @@
 # include "./executor.h"
 # include "./helper.h"
 
-extern int		g_gl;
-
+extern int					g_gl;
 typedef struct sigaction	t_sigaction;
-
 typedef struct s_sh
 {
 	char		*cmd;
