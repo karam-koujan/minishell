@@ -70,17 +70,7 @@ void	close_pipe_fd(t_cmd_table **data)
 static int read_in_stdin(int fd, char *delimiter)
 {
 	char	*line;
-	int		dev_in_fd;
 
-	// close(0);
-	// dev_in_fd = open("/dev/tty", O_RDONLY);
-	// if (!dev_in_fd)
-	// 	return (-1);
-	// close(1);
-	// dev_in_fd = open("/dev/tty", O_RDONLY);
-	// if (!dev_in_fd)
-	// 		return (-1);
-	// write(2, "Adad", 4);
 	while (1)
 	{
 		line = readline("> ");
@@ -123,11 +113,11 @@ int	here_doc(char *delimiter,  t_elem **elem, t_gc **gc)
 	if (pid == 0)
 	{
 		if (g_gl == 3)
-			return (exit(exit_stat(0, 0, gc, NULL)), ft_close(fd), -1);
+			return (exit(exit_stat(0, 0, gc, (*elem)->env)), ft_close(fd), -1);
 		signal(SIGINT, SIG_DFL);
 		if (!read_in_stdin(fd, delimiter))
-			exit(exit_stat(1, 1, gc, NULL));
-		exit(exit_stat(0, 1, gc, NULL));
+			exit(exit_stat(1, 1, gc, (*elem)->env));
+		exit(exit_stat(0, 1, gc, (*elem)->env));
 	}
 	else
 	{
@@ -184,24 +174,3 @@ char *gene_name_here_doc()
 	
 
 }
-// int here_doc(char *delimiter, t_elem **elem, t_gc **gc)
-// {
-// 	int fd; 
-// 	char *name;
-
-// 	name = gene_name_here_doc();
-// 	if(!name)
-// 		return -1;
-// 	fd = open(name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-// 	if (fd < 0)
-// 		return (free(name), -1);
-// 	if(!read_in_stdin(fd, delimiter))
-// 		return (exit_stat(1, 1, NULL, NULL), ft_close(fd), free(name), -1);//free data
-// 	ft_close(fd);
-// 	fd = open(name, O_RDONLY);
-// 	if(fd < 0)
-// 		return (exit_stat(1, 1, NULL, NULL), free(name), -1);//free data
-// 	unlink(name);
-// 	free(name);
-// 	return (fd);
-// }

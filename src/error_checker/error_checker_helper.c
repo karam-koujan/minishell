@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 23:13:00 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/04/20 10:42:34 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/24 16:20:36 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,8 @@ int	in_quotes(char *cmd, int pos)
 
 int	check_edges(char	*cmd, char	*charset, int edge, int *flag)
 {
-	int	i;
-	int	j;
+	size_t	i;
+	size_t	j;
 
 	i = 0;
 	j = ft_strlen(cmd) - 1;

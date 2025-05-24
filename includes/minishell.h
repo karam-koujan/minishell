@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 21:36:09 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/19 11:49:33 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/24 16:19:16 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,23 @@
 # include "./env.h"
 # include "./executor.h"
 # include "./helper.h"
-extern int  g_gl;
 
-typedef struct sigaction   t_sigaction;
+extern int		g_gl;
 
+typedef struct sigaction	t_sigaction;
+
+typedef struct s_sh
+{
+	char		*cmd;
+	t_token		*token_head;
+	t_cmd_table	*cmd_table;
+	t_env		*env;
+	t_sigaction sa;
+	t_gc		*gc;
+}				t_sh;
+void	free_in_exit(t_token *token_head, t_cmd_table *cmd_table, \
+	t_env *env);
+void	handler(int signum, siginfo_t *info, void	*context);
+int		handle_signals(t_sh *sh);
 
 #endif
