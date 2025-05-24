@@ -6,12 +6,11 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 20:07:49 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/24 13:19:37 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/24 17:44:55 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
 
 t_token	*init_token(t_token_type type, char *val, int vr_in_qt)
 {
@@ -89,4 +88,3 @@ int	add_token(t_token **head, char *start_ptr, int len, t_token_type type)
 	ft_token_add_back(head, node_token);
 	return (1);
 }
-

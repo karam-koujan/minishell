@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/01 10:15:54 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/24 16:01:20 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/24 17:40:50 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -158,5 +158,4 @@ void	free_in_exit(t_token *token_head, t_cmd_table *cmd_table, \
 	ft_token_lstclear(&token_head, free);
 	free_table(cmd_table);
 	free_env(&env, free);
-
 }

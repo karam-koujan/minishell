@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 10:31:06 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/22 22:08:47 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/24 17:47:27 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ int	detect_ambigious_redir(t_token *token, t_env *env)
 	}
 	return (is_imbig && !is_quote);
 }
-
 
 t_redirection	*redir_file(t_token **token, t_env *env, t_redir_type type)
 {

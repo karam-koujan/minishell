@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 12:31:27 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/22 22:02:47 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/24 17:46:40 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,4 +96,3 @@ void	add_arg_to_cmd(t_simple_cmd *cmd, char *arg)
 	cmd->args = new_arg;
 	cmd->argc = arg_c + 1;
 }
-

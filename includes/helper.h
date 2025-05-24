@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 20:23:00 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/24 16:03:59 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/24 17:39:39 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,4 @@ int		is_whitespace(char c);
 void	free_arr(char	**arr);
 void	free_all(t_gc **head);
 void	clear_parsing(t_gc **head);
-
-
 #endif

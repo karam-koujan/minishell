@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 03:08:32 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/24 13:45:49 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/24 17:40:03 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,5 +63,4 @@ char			*ft_getenv_val(t_env *env, char *key);
 t_redirection	*redir_file(t_token **token, t_env *env, t_redir_type type);
 char			*join_expnd(t_token *token, t_env *env);
 char			*expnd_out_qt(t_env *env, char *key);
-
 #endif

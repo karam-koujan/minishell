@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 16:14:56 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/24 16:18:11 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/24 17:46:01 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,6 @@ void	handler(int signum, siginfo_t *info, void	*context)
 		rl_replace_line("", 0);
 		rl_on_new_line();
 	}
-
 	if (signum == SIGINT && g_gl == 4)
 	{
 		g_gl = 3;

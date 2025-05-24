@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:25:19 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/24 17:34:09 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/24 17:41:48 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ typedef struct s_elem
 	char	**env;
 	int		fd_save;
 }				t_elem;
-
 t_env	*init_env_list(char **envp, t_gc **gc);
 void	init_empty_env(t_env **env, t_gc **gc);
 void	handle_shlvl(t_env **env, t_gc **gc);
@@ -50,7 +49,7 @@ void	builtin_cd_child(t_simple_cmd **data, t_env **env, t_gc **gc, \
 void	update_pwd(t_env **env, char *key, char *value);
 void	builtin_pwd(void);
 void	builtin_export(t_simple_cmd **data, t_env **env, t_gc **gc);
-void	builtin_export_child(t_simple_cmd **data, t_env **env,  t_gc **gc , \
+void	builtin_export_child(t_simple_cmd **data, t_env **env, t_gc **gc, \
 	t_elem **elem);
 void	print_export(t_env *env);
 int		valid_export(char *str, t_gc **gc);
@@ -86,6 +85,4 @@ char	*gene_name_here_doc(void);
 int		exit_stat(int value, int action, t_gc **gc, char **env);
 void	exit_status(int status);
 int		check_redir_in_parent(t_simple_cmd *cmd, t_elem **elem, t_gc **gc);
-
-
 #endif

@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/05/24 17:37:45 by kkoujan           #+#    #+#             */
+/*   Updated: 2025/05/24 17:37:55 by kkoujan          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "./includes/minishell.h"
 
 int	g_gl;
@@ -13,27 +25,26 @@ int	g_gl;
 // 		printf("here Command table is NULL\n");
 // 		return;
 // 	}
-	
+
 // 	printf("Command Table:\n");
-	
+
 // 	if (cmd_table->cmd_count == 0)
 // 	{
 // 		printf(" here No commands in table\n");
 // 		return;
 // 	}
-	
 // 	i = 0;
 // 	while (i < cmd_table->cmd_count)
 // 	{
 // 		printf("Command %d:\n", i + 1);
-		
+
 // 		if (!cmd_table->cmds[i])
 // 		{
 // 			printf("  Command is NULL\n");
 // 			i++;
 // 			continue;
 // 		}
-		
+
 // 		// Print arguments
 // 		printf("  Arguments: ");
 // 		if (cmd_table->cmds[i]->argc == 0 || !cmd_table->cmds[i]->args)
@@ -52,7 +63,7 @@ int	g_gl;
 // 			}
 // 			printf("\n");
 // 		}
-		
+
 // 		// Print redirections
 // 		printf("  Redirections: ");
 // 		if (!cmd_table->cmds[i]->redirs)
@@ -62,12 +73,10 @@ int	g_gl;
 // 		else
 // 		{
 // 			printf("\n");
-			
 // 			redir = cmd_table->cmds[i]->redirs;
 // 			while (redir)
 // 			{
 // 				printf("    ");
-				
 // 				// Print redirection type
 // 				if (redir->type == REDIR_IN)
 // 					printf("< ");
@@ -140,7 +149,7 @@ int	run(t_sh *sh)
 	return (0);
 }
 
-int main(int argc, char **argv, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
 	t_sh		sh;
 

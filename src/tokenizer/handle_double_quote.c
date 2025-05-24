@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 19:59:35 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/07 11:02:08 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/24 17:45:18 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ int	double_quote_len(char *cmd)
 	offset = 1;
 	while (cmd[offset] && cmd[offset] != '\"')
 		offset++;
-
 	return (offset);
 }
 

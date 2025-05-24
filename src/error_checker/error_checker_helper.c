@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 23:13:00 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/24 16:20:36 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/24 17:47:10 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ int	in_quotes(char *cmd, int pos)
 	}
 	return (single_q || double_q);
 }
-
 
 int	check_edges(char	*cmd, char	*charset, int edge, int *flag)
 {
@@ -103,6 +102,5 @@ int	check_err(int p_idx, int r_idx)
 		min = r_idx;
 	else
 		min = p_idx;
-
 	return (min);
 }

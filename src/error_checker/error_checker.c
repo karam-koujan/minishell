@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 21:28:03 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/24 14:01:35 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/24 17:42:57 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,6 @@ int	has_misplaced_pipes(char *cmd)
 	return (-1);
 }
 
-
-
 int	has_invalid_redir(char *cmd)
 {
 	int	i;
@@ -96,7 +94,6 @@ int	has_invalid_redir(char *cmd)
 	}
 	return (-1);
 }
-
 
 int	has_logical_op(char	*cmd)
 {
@@ -134,6 +131,5 @@ int	syntax_error(char	*cmd)
 		return (write(2, unclosed_quote_err, ft_strlen(unclosed_quote_err)), 0);
 	if (idx > -1 && write(2, operator_err, ft_strlen(operator_err)))
 		return (write(2, "`", 1), write(2, &cmd[idx], 1), write(2, "'\n", 2), 0);
-
 	return (1);
 }

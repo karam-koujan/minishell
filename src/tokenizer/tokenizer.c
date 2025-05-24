@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkoujan <kkoujan@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 23:42:20 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/11 10:24:14 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/24 17:46:17 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/tokenizer.h"
-
 
 int	handle_var(char *cmd, t_token **head, int in_quote)
 {
@@ -70,7 +69,6 @@ int	handle_single_quote(char *cmd, t_token **head)
 
 	len = 1;
 	start = cmd + 1;
-
 	while (cmd[len] && cmd[len] != '\'')
 		len++;
 	if (add_token(head, start, len - 1, WORD_T) == 0)

@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/04 10:43:34 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/24 13:42:29 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/24 17:46:53 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,4 +88,3 @@ char	*expnd_out_qt(t_env *env, char *key)
 		return (free(tmp), NULL);
 	return (free(tmp), value);
 }
-

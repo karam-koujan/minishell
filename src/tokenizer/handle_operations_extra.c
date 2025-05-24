@@ -6,12 +6,11 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 13:19:19 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/24 13:35:21 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/24 17:44:15 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
-
 
 int	add_vr_token(t_token **head, char *start_ptr, int len, \
 	t_token_data *token_data)

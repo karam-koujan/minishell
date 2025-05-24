@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/10 21:36:09 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/24 16:43:42 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/24 17:39:57 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,12 +34,11 @@ typedef struct s_sh
 	t_token		*token_head;
 	t_cmd_table	*cmd_table;
 	t_env		*env;
-	t_sigaction sa;
+	t_sigaction	sa;
 	t_gc		*gc;
 }				t_sh;
 void	free_in_exit(t_token *token_head, t_cmd_table *cmd_table, \
 	t_env *env);
 void	handler(int signum, siginfo_t *info, void	*context);
 int		handle_signals(t_sh *sh);
-
 #endif

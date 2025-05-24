@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 20:14:14 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/07 11:14:16 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/24 17:35:35 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,23 +92,23 @@ void	join_cmd(t_token **tokenlst)
 			lst = lst->next;
 	}
 }
-void print_token_list(t_token *head)
-{
-    t_token *current = head;
-    int count = 0;
-    if (!head)
-    {
-        printf("Empty token list\n");
-        return;
-    }
-    printf("TOKEN LIST:\n");
-    while (current)
-    {
-        printf("Token %d:\n", count++);
-        printf("  Type: %d\n", current->type);
-        printf("  Value: %s\n", current->val ? current->val : "(null)");
-		printf("  in_var: %i\n", current->v_in_qt);
-        current = current->next;
-    }
-    printf("End of token list. Total tokens: %d\n", count);
-}
+// void print_token_list(t_token *head)
+// {
+//     t_token *current = head;
+//     int count = 0;
+//     if (!head)
+//     {
+//         printf("Empty token list\n");
+//         return;
+//     }
+//     printf("TOKEN LIST:\n");
+//     while (current)
+//     {
+//         printf("Token %d:\n", count++);
+//         printf("  Type: %d\n", current->type);
+//         printf("  Value: %s\n", current->val ? current->val : "(null)");
+// 		printf("  in_var: %i\n", current->v_in_qt);
+//         current = current->next;
+//     }
+//     printf("End of token list. Total tokens: %d\n", count);
+// }
