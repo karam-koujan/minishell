@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 20:07:49 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/07 12:02:26 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/24 13:19:37 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,18 +90,3 @@ int	add_token(t_token **head, char *start_ptr, int len, t_token_type type)
 	return (1);
 }
 
-int	add_vr_token(t_token **head, char *start_ptr, int len, \
-	t_token_data *token_data)
-{
-	char	*token;
-	t_token	*node_token;
-
-	token = ft_substr(start_ptr, 0, len);
-	if (!token)
-		return (free(token), 0);
-	node_token = init_token(token_data->type, token, token_data->v_in_qt);
-	if (!node_token)
-		return (free(token), 0);
-	ft_token_add_back(head, node_token);
-	return (1);
-}
