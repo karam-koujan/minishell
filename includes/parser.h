@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 03:08:32 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/21 16:01:34 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/24 13:45:49 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,14 +62,6 @@ char			*get_word_val(t_token *token, t_env *env);
 char			*ft_getenv_val(t_env *env, char *key);
 t_redirection	*redir_file(t_token **token, t_env *env, t_redir_type type);
 char			*join_expnd(t_token *token, t_env *env);
+char			*expnd_out_qt(t_env *env, char *key);
 
 #endif
-
-
-/*
-    definitely lost: 634 bytes in 5 blocks
-==425287==    indirectly lost: 10,174 bytes in 280 blocks
-==425287==      possibly lost: 0 bytes in 0 blocks
-==425287==    still reachable: 208,227 bytes in 225 blocks
-==425287==         suppressed: 0 bytes in 0 blocks
-*/
