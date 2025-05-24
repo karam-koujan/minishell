@@ -12,50 +12,39 @@
 
 #include "../../../includes/minishell.h"
 
-void check_is_building(t_simple_cmd **data, t_env *env, t_elem **elem, t_gc **gc)
+int check_is_building(t_simple_cmd **data, t_env *env, t_elem **elem, t_gc **gc)
 {
 	if((*data)->argc == 0)
 		exit(exit_stat(1, 1, gc, (*elem)->env));
-	if(ft_strcmp((*data)->args[0], "echo") == 0)
-	{
-		builtin_echo(data);
-		exit(exit_stat(0, 1, gc, (*elem)->env));
-	}
-	if(ft_strcmp((*data)->args[0], "pwd") == 0)
-	{
-		builtin_pwd(data);
-		exit(exit_stat(0, 1, gc, (*elem)->env));
-	}
-	if(ft_strcmp((*data)->args[0], "env") == 0)
-	{
-		builtin_env(data, env);
-		exit(exit_stat(0, 1, gc,(*elem)->env));
-	}
-	if(ft_strcmp((*data)->args[0], "export") == 0)
-	{
-		builtin_export(data, &env, gc);
-		exit(exit_stat(0, 1, gc, (*elem)->env));
-	}
-	if(ft_strcmp((*data)->args[0], "unset") == 0)
-		exit(exit_stat(0, 1, gc, (*elem)->env));
-	if(ft_strcmp((*data)->args[0], "exit") == 0)
-		exit(exit_stat(0, 1, gc, (*elem)->env));
-	if(ft_strcmp((*data)->args[0], "cd") == 0)
-		exit(exit_stat(0, 1, gc, (*elem)->env));
+	else if(ft_strcmp((*data)->args[0], "echo") == 0)
+		return (builtin_echo(data), 1);
+	else if(ft_strcmp((*data)->args[0], "pwd") == 0)
+		return (builtin_pwd(data), 1);
+	else if(ft_strcmp((*data)->args[0], "env") == 0)
+		return (builtin_env(data, env), 1);
+	else if(ft_strcmp((*data)->args[0], "export") == 0)
+		return (builtin_export_child(data, &env, gc, elem) , 1);
+	else if(ft_strcmp((*data)->args[0], "unset") == 0)
+		return (1);
+	else if(ft_strcmp((*data)->args[0], "exit") == 0)
+		return (builtin_exit_child(data, gc, elem) , 1);
+	else if(ft_strcmp((*data)->args[0], "cd") == 0)
+		return (builtin_cd_child(data, &env, gc, elem), 1);
+	return 0;
 }
 void exec_proc(t_simple_cmd **data, t_env *env, t_elem **elem, t_gc **gc)
 {
-	inf_outf_cmd(data, 1, elem, gc);
-		//printf("here %s\n", (*data)->args[0]);
-		check_is_building(data, env,  elem, gc);
+		inf_outf_cmd(data, 1, elem, gc);
+		if(check_is_building(data, env,  elem, gc))
+			exit(exit_stat(0, 1, gc, (*elem)->env));
 		check_exec_cmd((*data)->args, elem, gc);
-
 }
 
 void exec_cmd(t_simple_cmd **data,t_env *env, t_elem **elem, t_gc **gc)
 {
 	pid_t pid;
 	int status;
+
 
 	if (!(*data)->args || !(*data)->args[0])
 		return ;

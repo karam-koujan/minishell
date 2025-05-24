@@ -12,33 +12,32 @@
 
 #include "../../includes/minishell.h"
 
-void exec_builtin(t_simple_cmd **data, t_env **env, t_elem **elem, t_gc **gc)
-{
-	if (!ft_strcmp((*data)->args[0], "cd"))
-		builtin_cd(data, env, gc, elem);
-	else if (!ft_strcmp((*data)->args[0], "exit"))
-		builtin_exit(data, gc, elem);
-	else if (!ft_strcmp((*data)->args[0], "unset"))
-		builtin_unset(data, env, gc);
-}
-
-int is_builtin(char *cmd)
-{
-	return (!ft_strcmp(cmd, "cd") || !ft_strcmp(cmd, "exit") 
-		|| !ft_strcmp(cmd, "unset"));
-}
 
 void single_cmd(t_simple_cmd **data, t_env **env, t_elem *elem, t_gc **gc)
 {
 	if ((*data)->argc == 0)
+	{
 		inf_outf_cmd(data, 0, &elem, gc);
-	else if (is_builtin((*data)->args[0])) 
-		exec_builtin(data, env, &elem, gc);
-	else
+		return ;
+	}
+	if (!ft_strcmp((*data)->args[0], "cd"))
+		return (check_redir_in_parent(*data, &elem, gc),
+			builtin_cd(data, env, gc, &elem));
+	else if (!ft_strcmp((*data)->args[0], "exit"))
+		return (check_redir_in_parent(*data, &elem, gc),
+			builtin_exit(data, gc, &elem));
+	else if (!ft_strcmp((*data)->args[0], "unset"))
+		return (check_redir_in_parent(*data, &elem, gc),
+			builtin_unset(data, env, gc));
+	else if(ft_strcmp((*data)->args[0], "export") == 0)
+	{
+		if(((*data)->argc > 1))
+			return (check_redir_in_parent(*data, &elem, gc),
+				builtin_export(data, env, gc));
+
+	}
 		exec_cmd(data, *env, &elem, gc);
 }
-
-
 
 void exec(t_cmd_table *data, t_env **env, t_gc **gc)
 {

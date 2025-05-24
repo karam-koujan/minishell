@@ -21,7 +21,7 @@ int equal_char(char *str, char *key)
 	if(!ft_isalpha(key[0]))
 		{
 			if(key[0] != '_')
-				return (printf("export: '%s': not a valid identifier\n", str),exit_stat(1, 1, NULL, NULL), 0);
+				return (0);
 		}
 	while(key[i])
 	{
@@ -32,8 +32,7 @@ int equal_char(char *str, char *key)
 		if(!ft_isalnum(key[i]) && key[i] != '=')
 		{
 			if(key[i] != '_')
-				return (printf("export: '%s': not a valid identifier\n", str),
-					exit_stat(1, 1, NULL, NULL), 0);
+				return (0);
 		}
 		i++;
 	}
@@ -48,16 +47,14 @@ int not_equal(char *str)
 	if(!ft_isalpha(str[0]))
 		{
 			if(str[0] != '_')
-				return (printf("export: '%s': not a valid identifier\n", str),
-					exit_stat(1, 1, NULL, NULL), 0);
+				return (0);
 		}
 	while(str[i])
 	{
 		if(!ft_isalnum(str[i]))
 		{
 			if(str[i] != '_')
-				return (printf("export: '%s': not a valid identifier\n", str),
-					exit_stat(1, 1, NULL, NULL), 0);
+				return (0);
 		}
 		i++;
 	}

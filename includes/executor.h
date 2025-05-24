@@ -28,6 +28,7 @@ char **env_list_to_array(t_env *env) ;
 
 void exec(t_cmd_table *data, t_env **env, t_gc **gc);
 int is_builtin(char *cmd);
+void exec_builtin(t_simple_cmd **data, t_env **env, t_elem **elem, t_gc **gc);
 
 void builtin_echo(t_simple_cmd **data);
 int  is_n_flage(char *str);
@@ -35,16 +36,19 @@ int  is_n_flage(char *str);
 void builtin_env(t_simple_cmd **data, t_env *env);
 
 void builtin_cd(t_simple_cmd **data, t_env **env, t_gc **gc, t_elem **elem);
+void builtin_cd_child(t_simple_cmd **data, t_env **env, t_gc **gc,t_elem **elem);
 
 void builtin_pwd();
 
 void builtin_export(t_simple_cmd **data, t_env **env, t_gc **gc);
+void builtin_export_child(t_simple_cmd **data, t_env **env,  t_gc **gc , t_elem **elem);
 void print_export(t_env *env);
 int  valid_export(char *str, t_gc **gc);
 void var_set(char *str, t_env **env, t_gc **gc);
 void	handle_plus(t_env **env, char **key, char **value, t_gc **gc);
 
 void builtin_exit(t_simple_cmd **data, t_gc **gc, t_elem **elem);
+void builtin_exit_child(t_simple_cmd **data, t_gc **gc, t_elem **elem);
 
 void  builtin_unset(t_simple_cmd **data, t_env **env, t_gc **gc);
 
@@ -59,6 +63,7 @@ void	pars_cmd_2(char **cmd, t_elem **elem, t_gc **gc);
 void	pars_cmd_3(char **cmd, t_elem **elem, t_gc **gc);
 
 void inf_outf_cmd(t_simple_cmd **data, int flag, t_elem **elem, t_gc **gc);
+int  check_redir_in_parent(t_simple_cmd *cmd,  t_elem **elem, t_gc **gc);
 void  in_cas(t_redirection *in, t_elem **elem, t_gc **gc);
 void ou_cas(t_redirection *ou, t_elem **elem, t_gc **gc);
 int in_cas_p(t_redirection *in,  t_elem **elem, t_gc **gc);

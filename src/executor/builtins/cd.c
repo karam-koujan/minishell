@@ -58,6 +58,32 @@ char *cd_get_target(t_simple_cmd *cmd, t_env *env, t_gc **gc)
         target = cmd->args[1];
     return (target);
 }
+void builtin_cd_child(t_simple_cmd **data, t_env **env, t_gc **gc,t_elem **elem)
+{
+    char *target;
+    char *oldpwd;
+    char *newpwd;
+
+    target = NULL;
+   // write(2, "aaaaaaaaaaaa\n", 14);
+    if((*data)->argc > 2)
+        return(write(2, "minishell: cd: too many arguments\n", 35),
+            (void)exit(exit_stat(1, 1, NULL, NULL)));
+    oldpwd = getcwd(NULL, 0);
+    if(!oldpwd)
+        return (write(2, "minishell: cd: getcwd failed", 29),
+            (void)exit(exit_stat(1, 1, gc, (*elem)->env)));
+    target = cd_get_target(*data, (*env), gc);
+    if (!target)
+        return (free(oldpwd), (void)exit(exit_stat(1, 1,gc, (*elem)->env)));//add
+    if (chdir(target) != 0)
+    {
+        write(2, "minishell: cd: ",16);
+        write(2, target, ft_strlen(target));
+        write(2, ": No such file or directory\n", 29);
+        return (free(oldpwd), (void)exit(exit_stat(1, 1, NULL, NULL))); //add
+    }
+}
 void builtin_cd(t_simple_cmd **data, t_env **env, t_gc **gc,t_elem **elem)
 {
     char *target;
