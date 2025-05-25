@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:37:45 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/24 17:37:55 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/25 19:26:06 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,6 +144,8 @@ int	run(t_sh *sh)
 		return (free(sh->cmd), rl_clear_history(), \
 		free_all(&sh->gc), 1);
 	handle_herdoc(&sh->cmd_table, NULL, &sh->gc);
+	if (g_gl == 3)
+		clear_parsing(&sh->gc);
 	exec(sh->cmd_table, &sh->env, &sh->gc);
 	clear_sh(sh);
 	return (0);

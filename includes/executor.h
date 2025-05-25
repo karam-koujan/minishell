@@ -85,4 +85,6 @@ char	*gene_name_here_doc(void);
 int		exit_stat(int value, int action, t_gc **gc, char **env);
 void	exit_status(int status);
 int		check_redir_in_parent(t_simple_cmd *cmd, t_elem **elem, t_gc **gc);
+void	error_print(char *cmd, char*msg);
+int	is_directory(char *path);
 #endif

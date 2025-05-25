@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   inf_outf.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:37:46 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/24 16:50:49 by achemlal         ###   ########.fr       */
+/*   Updated: 2025/05/25 19:20:25 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int	check_redir_in_parent(t_simple_cmd *cmd, t_elem **elem, t_gc **gc)
 		if (files->type == REDIR_IN || files->type == REDIR_HEREDOC)
 		{
 			if (in_cas_p(files, elem, gc) == 0)
-				return (exit_stat(1, 1, NULL, NULL), 0);
+				return (exit_stat(1, 1, NULL, NULL),0);
 		}
 		else if (files->type == REDIR_OUT || files->type == REDIR_APPEND)
 		{

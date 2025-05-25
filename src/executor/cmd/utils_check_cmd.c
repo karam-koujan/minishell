@@ -3,20 +3,20 @@
 /*                                                        :::      ::::::::   */
 /*   utils_check_cmd.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:21:54 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/24 16:29:44 by achemlal         ###   ########.fr       */
+/*   Updated: 2025/05/25 18:19:43 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-static void	error_exit(char *msg, int code, char **env, t_gc **gc)
+void	error_print(char *cmd, char*msg)
 {
-	write(2, "minishell: ", 12);
-	perror(msg);
-	exit(exit_stat(code, 1, gc, env));
+	write(2, "minishell: ", 11);
+	write(2, cmd, ft_strlen(cmd));
+	write(2, msg, ft_strlen(msg));
 }
 
 int	ft_check_path_cmd(char *cmd)
@@ -33,55 +33,65 @@ int	ft_check_path_cmd(char *cmd)
 	return (0);
 }
 
-void	pars_cmd_1(char *cmd, t_elem **elem, t_gc **gc)
+int	check_str(char *str , char c)
 {
-	int	i ;
-	int	flag;
+	int	i;
 
 	i = 0;
-	flag = 0;
-	if (cmd[0] == '/')
+	while (str[i])
 	{
-		while (cmd[i])
-		{
-			if (cmd[i] != '/')
-				flag = 1;
+			if (str[i] != c)
+				return (1);
 			i++;
-		}
-		if (flag == 0)
-		{
-			printf("minishell: %s:  Is a directory\n", cmd);
-			exit(exit_stat(126, 1, gc, (*elem)->env));
-		}
 	}
-	if (cmd[0] == '.' && ft_check_path_cmd(cmd) == 0)
+	return (0);
+}
+void	pars_cmd_1(char *cmd, t_elem **elem, t_gc **gc)
+{
+	if (cmd == NULL || cmd[0] == '\0')
 	{
-		printf("minishell: %s: Command not found\n", cmd);
+		error_print(cmd, ": Command not found\n");
+		exit(exit_stat(127, 1, gc, (*elem)->env));
+	}
+	if (!check_str(cmd, '/'))
+	{
+		error_print(cmd, ": Is a directory\n");
+		exit(exit_stat(126, 1, gc, (*elem)->env));
+	}
+	if (cmd[0] == '.' && ft_strlen(cmd) == 1)
+	{
+		error_print(cmd, ": filename argument required\n");
 		exit(exit_stat(2, 1, gc, (*elem)->env));
 	}
 }
 
 void	pars_cmd_2(char **cmd, t_elem **elem, t_gc **gc)
 {
-	char	*str;
-	char	*tmp;
-
 	if (access(cmd[0], F_OK) == -1)
 	{
-		error_exit(cmd[0], 127, (*elem)->env, gc);
+		write(2, "minishell: ", 11);
+		perror(cmd[0]);
+		exit(exit_stat(127, 1, gc, (*elem)->env));
 	}
 	if (access(cmd[0], X_OK) == -1)
 	{
-		printf("minishell: %s: Permission Denied\n", cmd[0]);
-		return (exit(exit_stat(126, 1, gc, (*elem)->env)));
+		error_print(cmd[0], ": Permission Denied\n");
+		exit(exit_stat(126, 1, gc, (*elem)->env));
 	}
 	if (execve(cmd[0], cmd, (*elem)->env) == -1)
 	{
 		if (access(cmd[0], F_OK | X_OK) == 0)
+		{
+			if (is_directory(cmd[0]))
+			{
+				error_print(cmd[0], ": Is a directory\n");
+				exit(exit_stat(126, 1, gc, (*elem)->env));
+			}
 			exit(exit_stat(0, 1, gc, (*elem)->env));
-		printf("minishell: %s: Command not found\n", cmd[0]);
+		}
+		error_print(cmd[0], ": Command not found\n");
+		exit(exit_stat(127, 1, gc, (*elem)->env));
 	}
-	return (exit(exit_stat(127, 1, gc, (*elem)->env)));
 }
 
 void	pars_cmd_3(char **cmd, t_elem **elem, t_gc **gc)
@@ -93,16 +103,19 @@ void	pars_cmd_3(char **cmd, t_elem **elem, t_gc **gc)
 	if (!path || !path[0])
 	{
 		free_arr(path);
-		error_exit(cmd[0], 127, (*elem)->env, gc);
+		error_print(cmd[0], ": No such file or directory\n");
+		exit(exit_stat(127, 1, gc, (*elem)->env));
 	}
 	path_cmd = ft_found_cmd(cmd[0], path);
 	free_arr(path);
 	if (!path_cmd)
 	{
-		printf("minishell: %s: Command not found\n", cmd[0]);
+		error_print(cmd[0], ": Command not found\n");
 		exit(exit_stat(127, 1, gc, (*elem)->env));
 	}
 	execve(path_cmd, cmd, (*elem)->env);
 	free(path_cmd);
-	error_exit(cmd[0], 127, (*elem)->env, gc);
+	error_print(cmd[0], ": Command not found\n");
+	exit(exit_stat(127, 1, gc, (*elem)->env));
 }
+

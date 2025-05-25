@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:17:43 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/24 13:31:48 by achemlal         ###   ########.fr       */
+/*   Updated: 2025/05/25 18:56:36 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ void	update_pwd(t_env **env, char *key, char *value)
 	t_env	*current;
 	t_env	*node;
 
-	current = *env;
-	if (!key || !value)
+	if (!env || !*env || !key || !value)
 		return ;
+	current = *env;
 	while (current)
 	{
 		if (ft_strcmp(current->key, key) == 0)
@@ -80,8 +80,10 @@ void	builtin_cd(t_simple_cmd **data, t_env **env, t_gc **gc, t_elem **elem)
 	if (chdir(target) != 0)
 		return (perror((*data)->args[1]), free(oldpwd),
 			(void)exit_stat(1, 1, NULL, NULL));
-	update_pwd(env, ft_strdup("OLDPWD="), oldpwd);
+	update_pwd(env, ft_strdup("OLDPWD="), ft_strdup(oldpwd));
 	newpwd = getcwd(NULL, 0);
 	if (newpwd)
 		update_pwd(env, ft_strdup("PWD="), ft_strdup(newpwd));
+	free(oldpwd);
+	free(newpwd);
 }

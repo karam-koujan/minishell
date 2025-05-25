@@ -42,8 +42,8 @@ int	in_quotes(char *cmd, int pos)
 
 int	check_edges(char	*cmd, char	*charset, int edge, int *flag)
 {
-	size_t	i;
-	size_t	j;
+	int	i;
+	int	j;
 
 	i = 0;
 	j = ft_strlen(cmd) - 1;
@@ -51,7 +51,7 @@ int	check_edges(char	*cmd, char	*charset, int edge, int *flag)
 		i++;
 	while (j >= 0 && is_whitespace(cmd[j]))
 		j--;
-	if (i >= ft_strlen(cmd))
+	if ((size_t)i >= ft_strlen(cmd))
 		return (-i);
 	if (ft_strchr(charset, cmd[i]) != NULL && (edge == 1 || edge == 0))
 	{

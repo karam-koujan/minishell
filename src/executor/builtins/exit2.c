@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 14:56:59 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/24 16:10:16 by achemlal         ###   ########.fr       */
+/*   Updated: 2025/05/25 18:41:54 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	free_exit(t_gc **gc, char **env)
 {
+	// printf("here\n");
 	if (gc)
 		free_all(gc);
 	if (env)

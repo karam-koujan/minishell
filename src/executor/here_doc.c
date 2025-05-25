@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 12:30:39 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/24 13:16:51 by achemlal         ###   ########.fr       */
+/*   Updated: 2025/05/25 19:03:18 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,8 +63,9 @@ static int	read_in_stdin(int fd, char *delimiter)
 	return (1);
 }
 
-static int	child_here_doc(char *delimiter, int fd, t_gc **gc)
+static int	child_here_doc(char *delimiter, int fd, t_gc **gc, char *name)
 {
+	free(name);
 	if (g_gl == 3)
 	{
 		ft_close(fd);
@@ -87,12 +88,12 @@ static int	parent_here_doc(pid_t pid, char *name)
 		printf("\n");
 		exit_stat(0, 0, NULL, NULL);
 		g_gl = 3;
-		return (-1);
+		return (free(name), -1);
 	}
 	exit_status(status);
 	fd = open(name, O_RDONLY);
 	unlink(name);
-	return (fd);
+	return (free(name), fd);
 }
 
 int	here_doc(char *delimiter, t_elem **elem, t_gc **gc)
@@ -108,10 +109,10 @@ int	here_doc(char *delimiter, t_elem **elem, t_gc **gc)
 	name = gene_name_here_doc();
 	fd = open(name, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd < 0)
-		return (-1);
+		return (free(name), -1);
 	pid = fork();
 	if (pid == 0)
-		child_here_doc(delimiter, fd, gc);
+		child_here_doc(delimiter, fd, gc, name);
 	close(fd);
 	return (parent_here_doc(pid, name));
 }
