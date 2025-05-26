@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 12:30:39 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/26 23:15:45 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/27 00:11:25 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,73 @@ void	handle_herdoc(t_cmd_table **data, t_elem *elem, t_gc **gc)
 	}
 }
 
-static int	read_in_stdin(int fd, t_redirection *redir)
+char	*expand_herdoc(char *line, t_env *env)
+{
+	int		i;
+	int		start;
+	char	*var_name;
+	char	*var_value;
+	char	*result;
+	char	*temp;
+	int		var_start;
+	char	*line_tmp;
+	if (!line)
+		return (NULL);
+	
+	result = ft_strdup("");  // Start with empty string
+	i = 0;
+	
+	while (line[i])
+	{
+		if (line[i] == '$')
+		{
+			var_start = i;
+			i++;
+			start = i;
+			// Extract variable name (alphanumeric + underscore)
+			while (line[i] && (ft_isalnum(line[i]) || line[i] == '_'))
+				i++;
+			
+			if (i > start)  // Found a valid variable name
+			{
+				var_name = ft_substr(line, start, i - start);
+				var_value = ft_getenv_val(env, var_name);  // Get expanded value
+				
+				if (var_value)
+				{
+					// Append the expanded variable value to result
+					temp = ft_strjoin(result, var_value);
+					free(result);
+					result = temp;
+				}
+				// If var_value is NULL, we simply don't add anything (variable expands to empty)
+				free(var_name);
+			}
+			else
+			{
+				// Just a '$' without valid variable name, keep it as is
+				temp = ft_strjoin(result, "$");
+				free(result);
+				result = temp;
+			}
+		}
+		else
+		{
+			// Regular character, append to result
+			line_tmp = ft_strdup(&line[i]);
+			temp = ft_strjoin(result, line_tmp);
+			free(line_tmp);
+			free(result);
+			result = temp;
+			i++;
+		}
+	}
+	
+	free(line);  // Free original line
+	return (result);
+}
+
+static int	read_in_stdin(int fd, t_redirection *redir, t_env *env)
 {
 	char	*line;
 	int		dev_in_fd;
@@ -53,6 +119,8 @@ static int	read_in_stdin(int fd, t_redirection *redir)
 			printf("')\n");
 			break ;
 		}
+		if (!redir->in_qt)
+			line = expand_herdoc(line, env);
 		if (ft_strcmp(line, redir->file_or_delimiter) == 0)
 		{
 			free(line);
@@ -69,7 +137,7 @@ static int	child_here_doc(t_redirection *redir, int fd, t_gc **gc, char *name)
 {
 	free(name);
 	signal(SIGINT, SIG_DFL);
-	if (!read_in_stdin(fd, redir))
+	if (!read_in_stdin(fd, redir, (*gc)->env))
 		exit(exit_stat(1, 1, gc, NULL));
 	exit(exit_stat(0, 1, gc, NULL));
 }
