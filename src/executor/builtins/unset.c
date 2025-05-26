@@ -6,7 +6,7 @@
 /*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:21:32 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/24 16:06:13 by achemlal         ###   ########.fr       */
+/*   Updated: 2025/05/26 18:43:39 by achemlal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,11 +33,12 @@ static void	unset_env(char *key, t_env **env, t_gc **gc)
 				prev->next = curr->next;
 			else
 				*env = curr->next;
-			return (free(curr->key), free(curr->value),
+			return (free(curr->key), free(key_env), free(curr->value),
 				free(curr));
 		}
 		prev = curr;
 		curr = curr->next;
+		free(key_env);
 	}
 }
 

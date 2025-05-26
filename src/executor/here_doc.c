@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 12:30:39 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/25 19:03:18 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/26 19:06:32 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ void	handle_herdoc(t_cmd_table **data, t_elem *elem, t_gc **gc)
 		{
 			if (redir->type == REDIR_HEREDOC)
 			{
+				if (g_gl == 3)
+					return ;
 				redir->herdoc_fd = here_doc(redir->file_or_delimiter,
 						&elem, gc);
 			}
@@ -66,11 +68,6 @@ static int	read_in_stdin(int fd, char *delimiter)
 static int	child_here_doc(char *delimiter, int fd, t_gc **gc, char *name)
 {
 	free(name);
-	if (g_gl == 3)
-	{
-		ft_close(fd);
-		exit(exit_stat(0, 0, gc, NULL));
-	}
 	signal(SIGINT, SIG_DFL);
 	if (!read_in_stdin(fd, delimiter))
 		exit(exit_stat(1, 1, gc, NULL));
@@ -85,7 +82,6 @@ static int	parent_here_doc(pid_t pid, char *name)
 	waitpid(pid, &status, 0);
 	if (g_gl == 3)
 	{
-		printf("\n");
 		exit_stat(0, 0, NULL, NULL);
 		g_gl = 3;
 		return (free(name), -1);
