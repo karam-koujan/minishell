@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 03:07:06 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/24 13:35:08 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/26 17:42:48 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ char	*process_word_tokens(t_token *lst, t_token **next_ptr)
 {
 	t_token	*curr;
 	char	*val;
+	t_token	*prev;
 
 	curr = lst->next;
 	val = ft_strdup(lst->val);
@@ -98,7 +99,9 @@ char	*process_word_tokens(t_token *lst, t_token **next_ptr)
 	{
 		if (curr && curr->type == QT_T)
 		{
+			prev = curr;
 			curr = curr->next;
+			free(prev);
 			continue ;
 		}
 		val = join_token(&curr, val);
