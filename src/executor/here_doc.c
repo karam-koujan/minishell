@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kkoujan <kkoujan@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 12:30:39 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/26 19:06:32 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/26 22:30:53 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ static int	parent_here_doc(pid_t pid, char *name)
 	waitpid(pid, &status, 0);
 	if (g_gl == 3)
 	{
+		printf("\n");
 		exit_stat(0, 0, NULL, NULL);
 		g_gl = 3;
 		return (free(name), -1);
