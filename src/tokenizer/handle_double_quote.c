@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 19:59:35 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/26 16:35:36 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/26 16:41:29 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,15 +54,11 @@ int	handle_double_quote(char *cmd, t_token **head, int *in_herdoc)
 {
 	int				offset;
 	t_double_quote	st;
-	t_token			*sp;
 
 	st.len = 0;
 	offset = double_quote_len(cmd);
 	st.start = cmd;
-	sp = init_token(QT_T, NULL, 0);
-	if (!sp)
-		return (free_ti(sp), -1);
-	ft_token_add_back(head, sp);
+	ft_token_add_back(head, init_token(QT_T, NULL, 0));
 	if (offset == 1)
 	{
 		if (add_token(head, st.start + 1, 0, WORD_T) == 0)
