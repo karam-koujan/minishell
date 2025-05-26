@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:21:17 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/26 16:24:49 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/26 17:00:39 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ static int	update_existing(t_env *env, char *key, char *value)
 		if (!str || !new)
 			return (free(str), free(new), 0);
 		if (ft_strcmp(str, new) == 0)
-			return (free(str), free(new), env->key = key,
+			return (free(str), free(new), free(env->key), \
+			free(env->value), env->key = key,
 				env->value = value, 1);
 		free(str);
 		free(new);
