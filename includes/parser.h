@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kkoujan <kkoujan@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 03:08:32 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/24 17:40:03 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/26 23:09:21 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ typedef struct s_redirection {
 	char					*file_or_delimiter;
 	int						herdoc_fd;
 	int						is_ambigous;
+	int						in_qt;
 	struct s_redirection	*next;
 }				t_redirection;
 
@@ -52,7 +53,7 @@ void			add_redir_to_cmd(t_simple_cmd *cmd, t_redirection *redir);
 t_cmd_table		*create_command_table(void);
 t_simple_cmd	*create_simple_cmd(void);
 t_redirection	*create_redirection(t_redir_type type, \
-	char *file_or_delimiter, int is_var);
+	char *file_or_delimiter, int is_var, int in_qt);
 void			free_table(t_cmd_table *cmd_table);
 void			free_simple_cmd(t_simple_cmd *cmd);
 void			free_redirections(t_redirection *redirs);

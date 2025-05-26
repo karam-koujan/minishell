@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kkoujan <kkoujan@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 23:42:33 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/24 17:40:18 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/26 22:47:03 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,4 +76,5 @@ void	handle_word_token(t_token *lst, t_token **next_ptr);
 int		add_vr_token(t_token **head, char *start_ptr, int len, \
 	t_token_data *token_data);
 char	*join_token(t_token **curr, char *val);
+int	add_str_token(t_token **head, char *start_ptr, int len, t_token_type type);
 #endif

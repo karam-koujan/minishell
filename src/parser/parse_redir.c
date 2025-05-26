@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_redir.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kkoujan <kkoujan@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 10:31:06 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/24 17:47:27 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/26 23:09:42 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ t_redirection	*redir_file(t_token **token, t_env *env, t_redir_type type)
 	if (is_ambigious == -1)
 		return (NULL);
 	val = join_expnd(*token, env);
-	redir = create_redirection(type, val, is_ambigious);
+	redir = create_redirection(type, val, is_ambigious, (*token)->v_in_qt);
 	free(val);
 	while (*token)
 	{

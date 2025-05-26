@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kkoujan <kkoujan@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:25:19 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/24 17:41:48 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/26 23:14:40 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int		ft_strcmp(const char *s1, const char *s2);
 void	pipe_case(t_cmd_table *data, t_env *env, t_elem *elem, t_gc **gc);
 void	ft_dup2(int fd_src, int fd_dest, int fd_close);
 void	ft_close(int fd);
-int		here_doc(char *delimiter, t_elem **elem, t_gc **gc);
+int		here_doc(t_redirection *redir, t_elem **elem, t_gc **gc);
 void	handle_herdoc(t_cmd_table **data, t_elem *elem, t_gc **gc);
 void	close_single_fd(t_simple_cmd	*cmd);
 void	close_pipe_fd(t_cmd_table **data);

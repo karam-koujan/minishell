@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   tokenizer_extra.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kkoujan <kkoujan@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 03:07:06 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/26 17:42:48 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/26 23:01:49 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ char	*remove_quotes(char *cmd)
 	return (str);
 }
 
-char	*process_word_tokens(t_token *lst, t_token **next_ptr)
+char	*process_word_tokens(t_token *lst, t_token **next_ptr, int *in_qt)
 {
 	t_token	*curr;
 	char	*val;
@@ -99,6 +99,7 @@ char	*process_word_tokens(t_token *lst, t_token **next_ptr)
 	{
 		if (curr && curr->type == QT_T)
 		{
+			*in_qt = 0;
 			prev = curr;
 			curr = curr->next;
 			free(prev);
@@ -114,11 +115,14 @@ char	*process_word_tokens(t_token *lst, t_token **next_ptr)
 void	handle_word_token(t_token *lst, t_token **next_ptr)
 {
 	char	*val;
+	int		in_qt;
 
-	val = process_word_tokens(lst, next_ptr);
+	in_qt = 0;
+	val = process_word_tokens(lst, next_ptr, &in_qt);
 	if (!val)
 		return ;
 	free(lst->val);
 	lst->val = val;
+	lst->v_in_qt = in_qt;
 	lst->next = *next_ptr;
 }

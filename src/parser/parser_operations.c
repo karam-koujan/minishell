@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   parser_operations.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kkoujan <kkoujan@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/03 12:31:27 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/24 17:46:40 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/26 23:09:01 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/parser.h"
 
 t_redirection	*create_redirection(t_redir_type type, char *file_or_delimiter, \
-	int is_var)
+	int is_var, int in_qt)
 {
 	t_redirection	*result;
 
@@ -27,6 +27,7 @@ t_redirection	*create_redirection(t_redir_type type, char *file_or_delimiter, \
 		result->file_or_delimiter = ft_strdup("");
 	result->is_ambigous = is_var;
 	result->herdoc_fd = -1;
+	result->in_qt = in_qt;
 	if (!result->file_or_delimiter)
 		return (NULL);
 	result->next = NULL;

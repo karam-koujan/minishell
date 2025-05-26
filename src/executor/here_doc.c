@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 12:30:39 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/26 22:30:53 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/26 23:15:45 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ void	handle_herdoc(t_cmd_table **data, t_elem *elem, t_gc **gc)
 			{
 				if (g_gl == 3)
 					return ;
-				redir->herdoc_fd = here_doc(redir->file_or_delimiter,
+				redir->herdoc_fd = here_doc(redir,
 						&elem, gc);
 			}
 			redir = redir->next;
@@ -37,7 +37,7 @@ void	handle_herdoc(t_cmd_table **data, t_elem *elem, t_gc **gc)
 	}
 }
 
-static int	read_in_stdin(int fd, char *delimiter)
+static int	read_in_stdin(int fd, t_redirection *redir)
 {
 	char	*line;
 	int		dev_in_fd;
@@ -49,11 +49,11 @@ static int	read_in_stdin(int fd, char *delimiter)
 		{
 			printf("warning: here-document delimited by end-of-file ");
 			printf("(wanted '");
-			printf("%s", delimiter);
+			printf("%s", redir->file_or_delimiter);
 			printf("')\n");
 			break ;
 		}
-		if (ft_strcmp(line, delimiter) == 0)
+		if (ft_strcmp(line, redir->file_or_delimiter) == 0)
 		{
 			free(line);
 			break ;
@@ -65,11 +65,11 @@ static int	read_in_stdin(int fd, char *delimiter)
 	return (1);
 }
 
-static int	child_here_doc(char *delimiter, int fd, t_gc **gc, char *name)
+static int	child_here_doc(t_redirection *redir, int fd, t_gc **gc, char *name)
 {
 	free(name);
 	signal(SIGINT, SIG_DFL);
-	if (!read_in_stdin(fd, delimiter))
+	if (!read_in_stdin(fd, redir))
 		exit(exit_stat(1, 1, gc, NULL));
 	exit(exit_stat(0, 1, gc, NULL));
 }
@@ -93,7 +93,7 @@ static int	parent_here_doc(pid_t pid, char *name)
 	return (free(name), fd);
 }
 
-int	here_doc(char *delimiter, t_elem **elem, t_gc **gc)
+int	here_doc(t_redirection *redir, t_elem **elem, t_gc **gc)
 {
 	int		fd;
 	pid_t	pid;
@@ -109,7 +109,7 @@ int	here_doc(char *delimiter, t_elem **elem, t_gc **gc)
 		return (free(name), -1);
 	pid = fork();
 	if (pid == 0)
-		child_here_doc(delimiter, fd, gc, name);
+		child_here_doc(redir, fd, gc, name);
 	close(fd);
 	return (parent_here_doc(pid, name));
 }

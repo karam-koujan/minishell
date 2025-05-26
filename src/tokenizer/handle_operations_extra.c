@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_operations_extra.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kkoujan <kkoujan@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 13:19:19 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/26 17:41:29 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/26 23:05:54 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,21 @@ int	add_vr_token(t_token **head, char *start_ptr, int len, \
 	if (!token)
 		return (free(token), 0);
 	node_token = init_token(token_data->type, token, token_data->v_in_qt);
+	if (!node_token)
+		return (free(token), 0);
+	ft_token_add_back(head, node_token);
+	return (1);
+}
+
+int	add_str_token(t_token **head, char *start_ptr, int len, t_token_type type)
+{
+	char	*token;
+	t_token	*node_token;
+
+	token = ft_substr(start_ptr, 0, len);
+	if (!token)
+		return (free(token), 0);
+	node_token = init_token(type, token, 1);
 	if (!node_token)
 		return (free(token), 0);
 	ft_token_add_back(head, node_token);
