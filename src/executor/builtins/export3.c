@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export3.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:20:33 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/24 15:52:13 by achemlal         ###   ########.fr       */
+/*   Updated: 2025/05/26 16:11:17 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,8 @@ int	valid_export(char *str, t_gc **gc)
 	char	*key;
 	size_t	size;
 
+	key = NULL;
+	size = 0;
 	if (ft_strchr(str, '='))
 	{
 		size = ft_strchr(str, '=') - str + 1;
@@ -72,12 +74,12 @@ int	valid_export(char *str, t_gc **gc)
 		if (!key)
 			return (0);
 		if (!equal_char(str, key))
-			return (0);
+			return (free(key), 0);
 	}
 	else
 	{
 		if (!not_equal(str))
-			return (0);
+			return (free(key), 0);
 	}
-	return (1);
+	return (free(key), 1);
 }

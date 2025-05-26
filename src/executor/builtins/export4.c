@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export4.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:21:17 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/24 16:01:05 by achemlal         ###   ########.fr       */
+/*   Updated: 2025/05/26 16:24:49 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,13 +85,14 @@ void	var_set(char *str, t_env **env, t_gc **gc)
 
 	key = NULL;
 	value = NULL;
+	size = 0;
 	if (ft_strchr(str, '='))
 	{
 		size = ft_strchr(str, '=') - str + 1;
 		key = ft_substr(str, 0, size);
 		value = ft_substr(str, size, ft_strlen(str) - size);
 		if (!key || !value)
-			return ;
+			return (free(key), free(value));
 	}
 	else
 	{
