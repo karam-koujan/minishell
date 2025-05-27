@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkoujan <kkoujan@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 12:30:39 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/27 00:11:25 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/27 00:50:55 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ char	*expand_herdoc(char *line, t_env *env)
 		else
 		{
 			// Regular character, append to result
-			line_tmp = ft_strdup(&line[i]);
+			line_tmp = ft_substr(line, i, 1);
 			temp = ft_strjoin(result, line_tmp);
 			free(line_tmp);
 			free(result);
@@ -98,7 +98,6 @@ char	*expand_herdoc(char *line, t_env *env)
 			i++;
 		}
 	}
-	
 	free(line);  // Free original line
 	return (result);
 }
@@ -119,6 +118,7 @@ static int	read_in_stdin(int fd, t_redirection *redir, t_env *env)
 			printf("')\n");
 			break ;
 		}
+		printf("redir: %i\n", redir->in_qt);
 		if (!redir->in_qt)
 			line = expand_herdoc(line, env);
 		if (ft_strcmp(line, redir->file_or_delimiter) == 0)
