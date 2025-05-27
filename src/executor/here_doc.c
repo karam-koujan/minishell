@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 12:30:39 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/27 01:26:14 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/27 01:33:35 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ char	*expand_herdoc(char *line, t_env *env)
 			{
 				var_name = ft_substr(line, start, i - start);
 				var_value = ft_getenv_val(env, var_name);  // Get expanded value
-				
 				if (var_value)
 				{
 					temp = ft_strjoin(result, var_value);
@@ -72,6 +71,7 @@ char	*expand_herdoc(char *line, t_env *env)
 					result = temp;
 				}
 				free(var_name);
+				free(var_value);
 			}
 			else
 			{
