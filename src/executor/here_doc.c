@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 12:30:39 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/27 00:50:55 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/27 01:26:14 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,8 @@ char	*expand_herdoc(char *line, t_env *env)
 	char	*line_tmp;
 	if (!line)
 		return (NULL);
-	
 	result = ft_strdup("");  // Start with empty string
 	i = 0;
-	
 	while (line[i])
 	{
 		if (line[i] == '$')
@@ -60,10 +58,8 @@ char	*expand_herdoc(char *line, t_env *env)
 			var_start = i;
 			i++;
 			start = i;
-			// Extract variable name (alphanumeric + underscore)
 			while (line[i] && (ft_isalnum(line[i]) || line[i] == '_'))
 				i++;
-			
 			if (i > start)  // Found a valid variable name
 			{
 				var_name = ft_substr(line, start, i - start);
@@ -71,17 +67,14 @@ char	*expand_herdoc(char *line, t_env *env)
 				
 				if (var_value)
 				{
-					// Append the expanded variable value to result
 					temp = ft_strjoin(result, var_value);
 					free(result);
 					result = temp;
 				}
-				// If var_value is NULL, we simply don't add anything (variable expands to empty)
 				free(var_name);
 			}
 			else
 			{
-				// Just a '$' without valid variable name, keep it as is
 				temp = ft_strjoin(result, "$");
 				free(result);
 				result = temp;
@@ -89,7 +82,6 @@ char	*expand_herdoc(char *line, t_env *env)
 		}
 		else
 		{
-			// Regular character, append to result
 			line_tmp = ft_substr(line, i, 1);
 			temp = ft_strjoin(result, line_tmp);
 			free(line_tmp);
@@ -98,7 +90,7 @@ char	*expand_herdoc(char *line, t_env *env)
 			i++;
 		}
 	}
-	free(line);  // Free original line
+	free(line); 
 	return (result);
 }
 

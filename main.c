@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:37:45 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/26 15:59:34 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/27 01:27:53 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,6 +157,8 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	g_gl = 0;
 	start_sh(&sh, envp);
+	if (!isatty(0))
+		return (1);
 	if (handle_signals(&sh))
 		return (1);
 	while (1337)
