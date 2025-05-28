@@ -6,21 +6,28 @@
 /*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:21:26 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/24 16:03:42 by achemlal         ###   ########.fr       */
+/*   Updated: 2025/05/28 18:17:46 by achemlal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include  "../../../includes/minishell.h"
 
-void	builtin_pwd(void)
+void	builtin_pwd(t_env *env)
 {
-	char	cwd[1024];
+	char	*pwd;
 
-	if (getcwd(cwd, sizeof(cwd)))
+	pwd = getcwd(NULL, 0);
+	if (!pwd)
 	{
-		ft_putstr_fd(cwd, 1);
+		pwd = ft_getenv(env, "PWD=");
+		ft_putstr_fd(pwd, 1);
 		ft_putstr_fd("\n", 1);
 	}
 	else
-		perror("pwd");
+	{
+		ft_putstr_fd(pwd, 1);
+		ft_putstr_fd("\n", 1);
+		free(pwd);
+	}
+		
 }

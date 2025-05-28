@@ -6,11 +6,29 @@
 /*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:19:12 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/24 15:15:36 by achemlal         ###   ########.fr       */
+/*   Updated: 2025/05/27 13:31:30 by achemlal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include  "../../../includes/minishell.h"
+
+static void print_exit_error(char *msg, char *arg, char *type)
+{
+	if(type == "PR")
+	{
+		write(2, "exit\nminishell: exit: ", 23);
+		if(arg)
+			write(2, arg, ft_strlen(arg));
+		write(2, msg, ft_strlen(msg));
+	}
+	else
+	{
+		write(2, "minishell: exit: ", 18);
+		if(arg)
+			write(2, arg, ft_strlen(arg));
+		write(2, msg, ft_strlen(msg));
+	}
+}
 
 static int	is_numeric( char *str)
 {
@@ -64,26 +82,17 @@ void	builtin_exit_child(t_simple_cmd **data, t_gc **gc, t_elem **elem)
 
 	if ((*data)->argc == 1)
 		return (exit(exit_stat(0, 0, gc, (*elem)->env)));
-	if ((*data)->argc == 2)
+	if (!is_numeric((*data)->args[1]) || !ft_atoll((*data)->args[1], &code))
 	{
-		if (!is_numeric((*data)->args[1]))
-		{
-			write(2, "minishell: exit: ", 18);
-			write(2, (*data)->args[1], ft_strlen((*data)->args[1]));
-			write (2, ": numeric argument required\n", 29);
-			return (exit(exit_stat(255, 1, gc, (*elem)->env)));
-		}
-		if (!ft_atoll((*data)->args[1], &code))
-		{
-			write(2, "minishell: exit: ", 18);
-			write(2, (*data)->args[1], ft_strlen((*data)->args[1]));
-			write (2, ": numeric argument required\n", 29);
-			return (exit(exit_stat(255, 1, gc, (*elem)->env)));
-		}
+		print_exit_error(": numeric argument required\n", (*data)->args[1], "CH");
+		return (exit(exit_stat(2, 1, gc, (*elem)->env)));
 	}
-	else
-		return (write(2, "minishell: exit: too many arguments\n", 37),
-			exit(exit_stat(255, 1, gc, (*elem)->env)));
+	else if ((*data)->argc > 2)
+	{
+		print_exit_error(": too many arguments\n", NULL, "CH");
+		exit_stat(1, 1, NULL, NULL);
+		return ;
+	}
 	return (exit(exit_stat(code % 256, 1, gc, (*elem)->env)));
 }
 
@@ -93,23 +102,16 @@ void	builtin_exit(t_simple_cmd **data, t_gc **gc, t_elem **elem)
 
 	if ((*data)->argc == 1)
 		return (printf("exit\n"), exit(exit_stat(0, 0, gc, (*elem)->env)));
-	if ((*data)->argc == 2)
+	if (!is_numeric((*data)->args[1]) || !ft_atoll((*data)->args[1], &code))
 	{
-		if (!is_numeric((*data)->args[1]))
-		{
-			printf("exit\nminishell: exit: %s: numeric argument required\n",
-				(*data)->args[1]);
-			return (exit(exit_stat(255, 1, gc, (*elem)->env)));
-		}
-		if (!ft_atoll((*data)->args[1], &code))
-		{
-			printf("exit\nminishell: exit: %s: numeric argument required\n",
-				(*data)->args[1]);
-			return (exit(exit_stat(255, 1, gc, (*elem)->env)));
-		}
+		print_exit_error(": numeric argument required\n", (*data)->args[1], "PR");
+		return (exit(exit_stat(2, 1, gc, (*elem)->env)));
 	}
-	else
-		return (printf("exit\nexit: too many arguments\n"),
-			exit(exit_stat(255, 1, gc, (*elem)->env)));
-	return (printf("exit\n"), exit(exit_stat(code % 256, 1, gc, (*elem)->env)));
+	else if ((*data)->argc > 2)
+	{
+		print_exit_error(": too many arguments\n", NULL, "PR");
+		exit_stat(1, 1, NULL, NULL);
+		return ;
+	}
+	return (write(2, "exit\n", 6), exit(exit_stat(code % 256, 1, gc, (*elem)->env)));
 }

@@ -6,7 +6,7 @@
 /*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 13:21:49 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/24 14:46:50 by achemlal         ###   ########.fr       */
+/*   Updated: 2025/05/26 20:38:51 by achemlal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ void	builtin_cd_child(t_simple_cmd **data, t_env **env, t_gc **gc,
 {
 	char	*target;
 	char	*oldpwd;
-	char	*newpwd;
 
 	target = NULL;
 	if ((*data)->argc > 2)
@@ -48,7 +47,7 @@ void	builtin_cd_child(t_simple_cmd **data, t_env **env, t_gc **gc,
 			(void)exit(exit_stat(1, 1, NULL, NULL)));
 	oldpwd = getcwd(NULL, 0);
 	if (!oldpwd)
-		return (write(2, "minishell: cd: getcwd failed", 29),
+		return (write(2, "minishell: cd: getcwd failed\n", 30),
 			(void)exit(exit_stat(1, 1, gc, (*elem)->env)));
 	target = cd_get_target_child(*data, (*env), gc);
 	if (!target)
@@ -60,4 +59,5 @@ void	builtin_cd_child(t_simple_cmd **data, t_env **env, t_gc **gc,
 		write(2, ": No such file or directory\n", 29);
 		return (free(oldpwd), (void)exit(exit_stat(1, 1, NULL, NULL)));
 	}
+	free(oldpwd);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:20:02 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/26 16:15:37 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/28 17:42:04 by achemlal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	builtin_export_child(t_simple_cmd **data, t_env **env, t_gc **gc,
 
 	i = 1;
 	if (!(*data)->args[1])
-		return (print_export((*env)));
+		return (print_export((*env), elem));
 	while ((*data)->args[i])
 	{
 		if (!valid_export((*data)->args[i], gc))
@@ -36,13 +36,13 @@ void	builtin_export_child(t_simple_cmd **data, t_env **env, t_gc **gc,
 	}
 }
 
-void	builtin_export(t_simple_cmd **data, t_env **env, t_gc **gc)
+void	builtin_export(t_simple_cmd **data, t_env **env, t_gc **gc, t_elem **elem)
 {
 	int	i;
 
 	i = 1;
 	if (!(*data)->args[1])
-		return (print_export((*env)));
+		return (print_export((*env), elem));
 	while ((*data)->args[i])
 	{
 		if (!valid_export((*data)->args[i], gc))
@@ -58,7 +58,10 @@ void	builtin_export(t_simple_cmd **data, t_env **env, t_gc **gc)
 			continue ;
 		}
 		else
-			var_set((*data)->args[i], env, gc);
+		{
+			var_set((*data)->args[i], env, gc, elem);
+			(*gc)->env = *env;
+		}
 		i++;
 	}
 }

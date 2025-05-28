@@ -3,59 +3,57 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:16:34 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/26 18:59:53 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/27 19:21:26 by achemlal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	single_cmd(t_simple_cmd **data, t_env **env, t_elem *elem, t_gc **gc)
+void	single_cmd(t_simple_cmd **data, t_env **env, t_elem **elem, t_gc **gc)
 {
 	if ((*data)->argc == 0)
-		return (inf_outf_cmd(data, 0, &elem, gc));
+		return (inf_outf_cmd(data, 0, elem, gc));
 	if (!ft_strcmp((*data)->args[0], "cd"))
-		return (check_redir_in_parent(*data, &elem, gc),
-			builtin_cd(data, env, gc, &elem));
+		return (check_redir_in_parent(*data, elem, gc),
+			builtin_cd(data, env, gc, elem));
 	else if (!ft_strcmp((*data)->args[0], "exit"))
-		return (check_redir_in_parent(*data, &elem, gc),
-			builtin_exit(data, gc, &elem));
+		return (check_redir_in_parent(*data, elem, gc),
+			builtin_exit(data, gc, elem));
 	else if (!ft_strcmp((*data)->args[0], "unset"))
-		return (check_redir_in_parent(*data, &elem, gc),
+		return (check_redir_in_parent(*data, elem, gc),
 			builtin_unset(data, env, gc));
 	else if (ft_strcmp((*data)->args[0], "export") == 0)
 	{
 		if (((*data)->argc > 1))
-			return (check_redir_in_parent(*data, &elem, gc),
-				builtin_export(data, env, gc));
+			return (check_redir_in_parent(*data, elem, gc),
+				builtin_export(data, env, gc, elem));
 	}
-	exec_cmd(data, *env, &elem, gc);
+	exec_cmd(data, *env, elem, gc);
 }
 
-void	exec(t_cmd_table *data, t_env **env, t_gc **gc)
+void	exec(t_cmd_table *data, t_env **env, t_gc **gc, t_elem **elem)
 {
-	t_elem	elem;
-
 	if (!data || !env || !(*env))
 		return ;
-	elem.env = env_list_to_array(*env);
-	if (!elem.env)
+	(*elem)->env = env_list_to_array(*env);
+	if (!(*elem)->env)
 		return ;
 	if (g_gl == 3)
-		return (close_pipe_fd(&data), free_arr(elem.env));
+		return (close_pipe_fd(&data), free_arr((*elem)->env));
 	if (data->cmd_count == 1)
 	{
 		g_gl = 1;
-		single_cmd(data->cmds, env, &elem, gc);
+		single_cmd(data->cmds, env, elem, gc);
 		close_single_fd(data->cmds[0]);
 	}
 	else if (data->cmd_count > 1)
 	{
 		g_gl = 1;
-		pipe_case(data, *env, &elem, gc);
+		pipe_case(data, *env, elem, gc);
 		close_pipe_fd(&data);
 	}
-	free_arr(elem.env);
+	free_arr((*elem)->env);
 }

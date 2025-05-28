@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_check_cmd.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:21:54 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/25 18:19:43 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/27 18:29:39 by achemlal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,27 @@ int	check_str(char *str , char c)
 			i++;
 	}
 	return (0);
+}
+void exec_emp_path(char **cmd, t_elem **elem, t_gc **gc)
+{
+	if(access(cmd[0], F_OK) == 0)
+	{
+		if(access(cmd[0], X_OK) == -1)
+		{
+			error_print(cmd[0], "Permission denied\n");
+			exit(exit_stat(126, 1, gc, (*elem)->env));
+		}
+		else
+		{
+			if(execve(cmd[0], cmd, (*elem)->env) == -1)
+				exit(exit_stat(0, 1, gc, (*elem)->env));
+		}
+	}
+	else
+	{
+		error_print(cmd[0], ": No such file or directory\n");
+		exit(exit_stat(127, 1, gc, (*elem)->env));
+	}
 }
 void	pars_cmd_1(char *cmd, t_elem **elem, t_gc **gc)
 {
@@ -101,11 +122,7 @@ void	pars_cmd_3(char **cmd, t_elem **elem, t_gc **gc)
 
 	path = ft_split(fet_path((*elem)->env), ':');
 	if (!path || !path[0])
-	{
-		free_arr(path);
-		error_print(cmd[0], ": No such file or directory\n");
-		exit(exit_stat(127, 1, gc, (*elem)->env));
-	}
+		exec_emp_path(cmd, elem, gc);
 	path_cmd = ft_found_cmd(cmd[0], path);
 	free_arr(path);
 	if (!path_cmd)

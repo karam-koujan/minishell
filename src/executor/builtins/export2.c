@@ -6,7 +6,7 @@
 /*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:20:12 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/26 17:18:39 by achemlal         ###   ########.fr       */
+/*   Updated: 2025/05/28 17:41:58 by achemlal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ static t_env	*sort_var(t_env *head)
 	return (head);
 }
 
-void	print_export(t_env *env)
+void	print_export(t_env *env, t_elem **elem)
 {
 	t_env	*sorted;
 	t_env	*copy;
@@ -92,7 +92,7 @@ void	print_export(t_env *env)
 		return (free_env(&copy, free));
 	while (sorted)
 	{
-		if (i == 1 && sorted->key && ft_strcmp(sorted->key, "PATH=") == 0)
+		if (ft_strcmp((*elem)->aff_PATH, "oui") == 0 && ft_strcmp(sorted->key, "PATH=") == 0)
 		{
 			sorted = sorted->next;
 			i++;

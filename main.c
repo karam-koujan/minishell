@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:37:45 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/27 01:27:53 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/27 19:50:58 by achemlal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -131,7 +131,7 @@ void	clear_sh(t_sh *sh)
 	sh->cmd_table = NULL;
 }
 
-int	run(t_sh *sh)
+int	run(t_sh *sh, t_elem *elem)
 {
 	sh->token_head = tokenize(sh->cmd, sh->env);
 	add_to_gc(&sh->gc, NULL, sh->token_head, NULL);
@@ -144,7 +144,7 @@ int	run(t_sh *sh)
 		return (free(sh->cmd), rl_clear_history(), \
 		free_all(&sh->gc), 1);
 	handle_herdoc(&sh->cmd_table, NULL, &sh->gc);
-	exec(sh->cmd_table, &sh->env, &sh->gc);
+	exec(sh->cmd_table, &sh->env, &sh->gc, &elem);
 	clear_sh(sh);
 	return (0);
 }
@@ -152,13 +152,18 @@ int	run(t_sh *sh)
 int	main(int argc, char **argv, char **envp)
 {
 	t_sh		sh;
+	t_elem		elem;
 
 	(void)argc;
 	(void)argv;
 	g_gl = 0;
-	start_sh(&sh, envp);
-	if (!isatty(0))
+	if(!envp || !envp[0])
+		elem.aff_PATH = "oui";
+	else
+		elem.aff_PATH = "non";
+	if (!isatty(1) || !isatty(0))
 		return (1);
+	start_sh(&sh, envp);
 	if (handle_signals(&sh))
 		return (1);
 	while (1337)
@@ -175,7 +180,7 @@ int	main(int argc, char **argv, char **envp)
 			free(sh.cmd);
 			continue ;
 		}
-		if (run(&sh))
+		if (run(&sh, &elem))
 			return (1);
 	}
 }

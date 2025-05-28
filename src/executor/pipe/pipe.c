@@ -6,7 +6,7 @@
 /*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:22:22 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/24 16:45:56 by achemlal         ###   ########.fr       */
+/*   Updated: 2025/05/27 19:20:22 by achemlal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,21 +104,21 @@ void	last_proc(t_simple_cmd *cmd, t_env *env, t_elem **elem, t_gc **gc)
 	handle_pipe_signal(status);
 }
 
-void	pipe_case(t_cmd_table *data, t_env *env, t_elem *elem, t_gc **gc)
+void	pipe_case(t_cmd_table *data, t_env *env, t_elem **elem, t_gc **gc)
 {
 	int	i;
 	int	status;
 
 	i = 0;
-	elem->fd_save = first_proc(data->cmds[0], env, &elem, gc);
-	if (elem->fd_save == -1)
+	(*elem)->fd_save = first_proc(data->cmds[0], env, elem, gc);
+	if ((*elem)->fd_save == -1)
 		return ;
 	if (data->cmd_count >= 3)
 	{
 		while (i < data->cmd_count - 2)
 		{
-			elem->fd_save = mid_proc(data->cmds[i + 1], env, &elem, gc);
-			if (elem->fd_save == -1)
+			(*elem)->fd_save = mid_proc(data->cmds[i + 1], env, elem, gc);
+			if ((*elem)->fd_save == -1)
 			{
 				exit_stat(1, 1, NULL, NULL);
 				while ((wait(&status) != -1))
@@ -128,7 +128,7 @@ void	pipe_case(t_cmd_table *data, t_env *env, t_elem *elem, t_gc **gc)
 			i++;
 		}
 	}
-	last_proc(data->cmds[data->cmd_count - 1], env, &elem, gc);
+	last_proc(data->cmds[data->cmd_count - 1], env, elem, gc);
 	while ((wait(NULL) != -1))
 		;
 }

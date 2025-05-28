@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:17:43 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/25 18:56:36 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/28 20:44:42 by achemlal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,18 +67,36 @@ void	builtin_cd(t_simple_cmd **data, t_env **env, t_gc **gc, t_elem **elem)
 	char	*newpwd;
 
 	target = NULL;
-	if ((*data)->args[2])
+	if ((*data)->argc > 2)
 		return (printf("minishell: cd: too many arguments\n"),
 			(void)exit_stat(1, 1, NULL, NULL));
 	oldpwd = getcwd(NULL, 0);
 	if (!oldpwd)
-		return (printf("minishell: cd: getcwd failed"),
-			(void)exit(exit_stat(1, 1, gc, (*elem)->env)));
+	{
+		if ((*data)->argc > 1 && ft_strcmp((*data)->args[1], "..") == 0)
+		{
+			if (chdir("..") != 0 || ft_strcmp((*data)->args[1], ".."))
+					exit_stat(1, 1, NULL, NULL);
+			if(!getcwd(NULL, 0))
+				write(2, "cd: error retrieving current directory: getcwd: cannot access parent directories: No such file or directory\n", 108);
+			oldpwd = ft_getenv(*env, "PWD=");
+			if(!oldpwd)
+				return ;
+			newpwd = ft_strjoin(oldpwd, "/..");
+			update_pwd(env, ft_strdup("OLDPWD="), ft_strdup(oldpwd));
+			update_pwd(env, ft_strdup("PWD="), newpwd); 
+			return ;
+		}
+		else
+		{
+			oldpwd = ft_getenv(*env, "PWD=");
+		}
+	}
 	target = cd_get_target(*data, (*env), gc);
 	if (!target)
-		return (free(oldpwd), (void)exit(exit_stat(1, 1, gc, (*elem)->env)));
+		return (free(oldpwd), (void)exit_stat(1, 1, NULL, NULL));
 	if (chdir(target) != 0)
-		return (perror((*data)->args[1]), free(oldpwd),
+		return (write(2, "minishell: cd: ", 16), perror((*data)->args[1]), free(oldpwd),
 			(void)exit_stat(1, 1, NULL, NULL));
 	update_pwd(env, ft_strdup("OLDPWD="), ft_strdup(oldpwd));
 	newpwd = getcwd(NULL, 0);
