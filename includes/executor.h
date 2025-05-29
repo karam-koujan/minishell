@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkoujan <kkoujan@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:25:19 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/29 17:50:07 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/29 21:14:31 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,12 @@ typedef struct s_elem
 {
 	char	**env;
 	int		fd_save;
-	char 	*aff_PATH;
-	char *key;
-	char *value;
+	char	*aff_PATH;
+	char	*key;
+	char	*value;
 }				t_elem;
-typedef struct	s_exp_heredoc
+
+typedef struct s_exp_heredoc
 {
 	int		i;
 	int		start;
@@ -57,13 +58,14 @@ void	exec_builtin(t_simple_cmd **data, t_env **env, t_elem **elem, \
 	t_gc **gc);
 void	builtin_echo(t_simple_cmd **data);
 int		is_n_flage(char *str);
-int	builtin_env(t_simple_cmd **data, t_env *env);
+int		builtin_env(t_simple_cmd **data, t_env *env);
 void	builtin_cd(t_simple_cmd **data, t_env **env, t_gc **gc, t_elem **elem);
 void	builtin_cd_child(t_simple_cmd **data, t_env **env, t_gc **gc, \
 	t_elem **elem);
 void	update_pwd(t_env **env, char *key, char *value);
 void	builtin_pwd(t_env *env);
-void	builtin_export(t_simple_cmd **data, t_env **env, t_gc **gc, t_elem **elem);
+void	builtin_export(t_simple_cmd **data, t_env **env, t_gc **gc, \
+	t_elem **elem);
 void	builtin_export_child(t_simple_cmd **data, t_env **env, t_gc **gc, \
 	t_elem **elem);
 void	print_export(t_env *env, t_elem **elem);
@@ -92,7 +94,7 @@ int		ft_strcmp(const char *s1, const char *s2);
 void	pipe_case(t_cmd_table *data, t_env *env, t_elem **elem, t_gc **gc);
 void	ft_dup2(int fd_src, int fd_dest, int fd_close);
 void	ft_close(int fd);
-int     here_doc(t_redirection *redir, t_elem **elem, t_gc **gc);
+int		here_doc(t_redirection *redir, t_elem **elem, t_gc **gc);
 void	handle_herdoc(t_cmd_table **data, t_elem *elem, t_gc **gc);
 void	close_single_fd(t_simple_cmd	*cmd);
 void	close_pipe_fd(t_cmd_table **data);
@@ -101,5 +103,8 @@ int		exit_stat(int value, int action, t_gc **gc, char **env);
 void	exit_status(int status);
 int		check_redir_in_parent(t_simple_cmd *cmd, t_elem **elem, t_gc **gc);
 void	error_print(char *cmd, char*msg);
-int	is_directory(char *path);
+int		is_directory(char *path);
+void	handle_herdoc(t_cmd_table **data, t_elem *elem, t_gc **gc);
+void	join_expnd_herdoc(t_exp_heredoc *d, char *line, t_env *env);
+char	*expand_herdoc(char *line, t_env *env);
 #endif

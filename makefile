@@ -9,7 +9,7 @@ src/executor/builtins/pwd.o src/executor/builtins/cd.o src/executor/builtins/cd2
 ./lib/libft/ft_isalpha.o src/tokenizer/handle_double_quote.o src/tokenizer/token_operations.o src/tokenizer/tokenizer_helper.o ./lib/helper/helper.o \
 src/parser/parser.o src/parser/parser_operations.o src/parser/parser_helper.o ./lib/libft/ft_strjoin.o ./lib/libft/ft_strlcat.o src/tokenizer/tokenizer_extra.o \
 src/parser/parse_redir.o src/tokenizer/handle_var_expansion.o src/tokenizer/handle_operations_extra.o src/parser/parser_helper_extra.o src/error_checker/redir_helper.o \
-src/signal/signal.o
+src/signal/signal.o src/executor/here_doc3.o
 
 all : $(Name)
 
