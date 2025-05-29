@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkoujan <kkoujan@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:37:45 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/29 18:58:30 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/29 21:08:32 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,7 +144,6 @@ int	run(t_sh *sh, t_elem *elem)
 		return (free(sh->cmd), rl_clear_history(), \
 		free_all(&sh->gc), 1);
 	handle_herdoc(&sh->cmd_table, NULL, &sh->gc);
-	// print_cmd_table(sh->cmd_table);
 	exec(sh->cmd_table, &sh->env, &sh->gc, &elem);
 	clear_sh(sh);
 	return (0);
