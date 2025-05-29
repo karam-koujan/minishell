@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_var_expansion.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkoujan <kkoujan@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/05 11:19:41 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/29 18:57:32 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/29 20:49:10 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,9 @@ t_token	*handle_empty_var(t_token **tokenlst, char *val)
 	if (!(*tokenlst)->next)
 	{
 		free((*tokenlst)->val);
-		free(*tokenlst);
+		(*tokenlst)->type = WORD_T;
+		(*tokenlst)->v_in_qt = 3;
+		(*tokenlst)->val = val;
 		return (NULL);
 	}
 	free((*tokenlst)->val);
@@ -81,31 +83,33 @@ t_token	*handle_empty_var(t_token **tokenlst, char *val)
 	return (*tokenlst);
 }
 
-t_token	*handle_expand_var(t_token *tokenlst, t_env *env)
+t_token	*handle_expand_var(t_token **tokenlst, t_env *env)
 {
 	char	*val;
 	char	**arr;
 	t_token	*curr;
 
-	curr = tokenlst;
+	curr = *tokenlst;
 	if (!curr)
 		return (NULL);
 	val = ft_getenv_val(env, curr->val);
-	if (tokenlst->v_in_qt)
+	if (!val)
+		return (NULL);
+	if (curr->v_in_qt)
 	{
-		free(tokenlst->val);
-		tokenlst->type = WORD_T;
-		tokenlst->val = val;
-		return (tokenlst->next);
+		free(curr->val);
+		curr->type = WORD_T;
+		curr->val = val;
+		return (curr->next);
 	}
-	else if (!tokenlst->v_in_qt && ft_strlen(val) == 0)
-		return (handle_empty_var(&tokenlst, val));
+	else if (!curr->v_in_qt && ft_strlen(val) == 0)
+		return (handle_empty_var(tokenlst, val));
 	arr = ft_split(val, ' ');
 	if (arr == NULL)
 		return (free(val), NULL);
 	if (curr)
 		insert_var(&curr, arr);
-	return (free(val), free_arr(arr), tokenlst->next);
+	return (free(val), free_arr(arr), ((*tokenlst)->next));
 }
 
 void	join_var(t_token **tokenlst, t_env *env)
@@ -120,7 +124,7 @@ void	join_var(t_token **tokenlst, t_env *env)
 		if (lst->type == VAR_T)
 		{
 			if (!in_redir)
-				lst = handle_expand_var(lst, env);
+				lst = handle_expand_var(&lst, env);
 			else
 				lst = lst->next;
 			if (lst && lst->type == SP_T)

@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/31 03:07:06 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/27 01:22:29 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/29 20:55:24 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ void	handle_word_token(t_token *lst, t_token **next_ptr)
 	char	*val;
 	int		in_qt;
 
-	in_qt = 0;
+	in_qt = lst->v_in_qt;
 	if (lst->v_in_qt == 1)
 		in_qt = 1;
 	val = process_word_tokens(lst, next_ptr, &in_qt);
