@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:25:19 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/28 20:58:49 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/29 17:50:07 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,18 @@ typedef struct s_elem
 	char *key;
 	char *value;
 }				t_elem;
+typedef struct	s_exp_heredoc
+{
+	int		i;
+	int		start;
+	char	*var_name;
+	char	*var_value;
+	char	*result;
+	char	*temp;
+	int		var_start;
+	char	*line_tmp;	
+}				t_exp_heredoc;
+
 t_env	*init_env_list(char **envp, t_gc **gc);
 void	init_empty_env(t_env **env, t_gc **gc);
 void	handle_shlvl(t_env **env, t_gc **gc);

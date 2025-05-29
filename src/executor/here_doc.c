@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kkoujan <kkoujan@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 12:30:39 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/27 01:33:35 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/29 18:08:04 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,62 +36,57 @@ void	handle_herdoc(t_cmd_table **data, t_elem *elem, t_gc **gc)
 		}
 	}
 }
+void	join_expnd_herdoc(t_exp_heredoc *d, char *line, t_env *env)
+{
+	d->var_start = d->i;
+	(d->i)++;
+	d->start = d->i;
+	while (line[d->i] && (ft_isalnum(line[d->i]) || line[d->i] == '_'))
+		(d->i)++;
+	if (d->i > d->start)
+	{
+		d->var_name = ft_substr(line, d->start, d->i - d->start);
+		d->var_value = ft_getenv_val(env, d->var_name);
+		if (d->var_value)
+		{
+			d->temp = ft_strjoin(d->result, d->var_value);
+			free(d->result);
+			d->result = d->temp;
+		}
+		free(d->var_name);
+		free(d->var_value);
+	}
+	else
+	{
+		d->temp = ft_strjoin(d->result, "$");
+		free(d->result);
+		d->result = d->temp;
+	}
+}
 
 char	*expand_herdoc(char *line, t_env *env)
 {
-	int		i;
-	int		start;
-	char	*var_name;
-	char	*var_value;
-	char	*result;
-	char	*temp;
-	int		var_start;
-	char	*line_tmp;
+	t_exp_heredoc	herdoc_data;
 	if (!line)
 		return (NULL);
-	result = ft_strdup("");  // Start with empty string
-	i = 0;
-	while (line[i])
+	herdoc_data.result = ft_strdup("");
+	herdoc_data.i = 0;
+	while (line[herdoc_data.i])
 	{
-		if (line[i] == '$')
-		{
-			var_start = i;
-			i++;
-			start = i;
-			while (line[i] && (ft_isalnum(line[i]) || line[i] == '_'))
-				i++;
-			if (i > start)  // Found a valid variable name
-			{
-				var_name = ft_substr(line, start, i - start);
-				var_value = ft_getenv_val(env, var_name);  // Get expanded value
-				if (var_value)
-				{
-					temp = ft_strjoin(result, var_value);
-					free(result);
-					result = temp;
-				}
-				free(var_name);
-				free(var_value);
-			}
-			else
-			{
-				temp = ft_strjoin(result, "$");
-				free(result);
-				result = temp;
-			}
-		}
+		if (line[herdoc_data.i] == '$')
+			join_expnd_herdoc(&herdoc_data, line, env);
 		else
 		{
-			line_tmp = ft_substr(line, i, 1);
-			temp = ft_strjoin(result, line_tmp);
-			free(line_tmp);
-			free(result);
-			result = temp;
-			i++;
+			herdoc_data.line_tmp = ft_substr(line, herdoc_data.i, 1);
+			herdoc_data.temp = ft_strjoin(herdoc_data.result, herdoc_data.line_tmp);
+			free(herdoc_data.line_tmp);
+			free(herdoc_data.result);
+			herdoc_data.result = herdoc_data.temp;
+			(herdoc_data.i)++;
 		}
 	}
 	free(line); 
-	return (result);
+	return (herdoc_data.result);
 }
 
 static int	read_in_stdin(int fd, t_redirection *redir, t_env *env)
@@ -110,7 +105,6 @@ static int	read_in_stdin(int fd, t_redirection *redir, t_env *env)
 			printf("')\n");
 			break ;
 		}
-		printf("redir: %i\n", redir->in_qt);
 		if (!redir->in_qt)
 			line = expand_herdoc(line, env);
 		if (ft_strcmp(line, redir->file_or_delimiter) == 0)
