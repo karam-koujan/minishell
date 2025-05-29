@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 03:09:20 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/29 18:58:15 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/29 19:09:44 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,14 +69,8 @@ t_token	*parse_word(t_simple_cmd **cmd, t_token *token, t_env *env)
 	prev = NULL;
 	if (*cmd == NULL)
 		*cmd = create_simple_cmd();
-	if (*cmd == NULL)
+	if (*cmd == NULL || !token)
 		return (NULL);
-	if (token->type == WORD_T && (token->next == NULL \
-		|| token->next->type == SP_T))
-	{
-		if (token->val[0] == 0 && token->v_in_qt == 3)
-			return (token->next);
-	}
 	value = join_expnd(token, env);
 	while (token && (token->type == WORD_T || token->type == VAR_T))
 		token = token->next;
@@ -88,6 +82,7 @@ t_token	*parse_word(t_simple_cmd **cmd, t_token *token, t_env *env)
 t_token	*parse_token(t_cmd_table **cmd_table, \
 	t_simple_cmd **simple_cmd, t_token *token, t_env *env)
 {
+	
 	if (token->type == WORD_T)
 	{
 		token = parse_word(simple_cmd, token, env);
@@ -123,7 +118,7 @@ t_cmd_table	*parse(t_token *tokenlst, t_env *env)
 
 	token = tokenlst;
 	cmd_table = create_command_table();
-	if (!cmd_table)
+	if (!cmd_table || !token)
 		return (NULL);
 	simple_cmd = NULL;
 	while (token)
