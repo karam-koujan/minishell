@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:22:22 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/27 19:20:22 by achemlal         ###   ########.fr       */
+/*   Updated: 2025/05/29 15:42:33 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,22 @@ int	mid_proc(t_simple_cmd *cmd, t_env *env, t_elem **elem, t_gc **gc)
 	return (ft_close(fd[1]), ft_close((*elem)->fd_save), fd[0]);
 }
 
+int	is_redir_exist(t_redirection *redirs, t_redir_type type)
+{
+	t_redirection	*r;
+
+	if (!redirs)
+		return (-1);
+	r = redirs;
+	while (r)
+	{
+		if (r->type == type)
+			return (1);
+		r = r->next;
+	}
+	return (0);
+}
+
 void	last_proc(t_simple_cmd *cmd, t_env *env, t_elem **elem, t_gc **gc)
 {
 	int	child;
@@ -100,8 +116,10 @@ void	last_proc(t_simple_cmd *cmd, t_env *env, t_elem **elem, t_gc **gc)
 	}
 	ft_close((*elem)->fd_save);
 	waitpid(child, &status, 0);
-	exit_status(status);
 	handle_pipe_signal(status);
+	if (cmd->argc == 0 && is_redir_exist(cmd->redirs, REDIR_IN))
+		return ;
+	exit_status(status);
 }
 
 void	pipe_case(t_cmd_table *data, t_env *env, t_elem **elem, t_gc **gc)
