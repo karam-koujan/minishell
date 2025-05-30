@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:25:19 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/30 10:27:02 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/30 11:44:31 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,7 @@ void	pipe_case(t_cmd_table *data, t_env *env, t_elem **elem, t_gc **gc);
 void	ft_dup2(int fd_src, int fd_dest, int fd_close);
 void	ft_close(int fd);
 int		here_doc(t_redirection *redir, t_gc **gc);
-void	handle_herdoc(t_cmd_table **data, t_elem *elem, t_gc **gc);
+void	handle_herdoc(t_cmd_table **data, t_gc **gc);
 void	close_single_fd(t_simple_cmd	*cmd);
 void	close_pipe_fd(t_cmd_table **data);
 char	*gene_name_here_doc(void);
@@ -104,7 +104,6 @@ void	exit_status(int status);
 int		check_redir_in_parent(t_simple_cmd *cmd, t_elem **elem, t_gc **gc);
 void	error_print(char *cmd, char*msg);
 int		is_directory(char *path);
-void	handle_herdoc(t_cmd_table **data, t_elem *elem, t_gc **gc);
 void	join_expnd_herdoc(t_exp_heredoc *d, char *line, t_env *env);
 char	*expand_herdoc(char *line, t_env *env);
 #endif

@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:23:30 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/30 10:26:02 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/30 11:59:05 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,8 +85,8 @@ void	handle_shlvl(t_env **env)
 	{
 		key = ft_strdup("SHLVL=");
 		new_shlvl = ft_strdup("1");
-		if (!new_node)
-			return (free(key));
+		if (!key || !new_shlvl)
+			return (free(key), free(new_node));
 		new_node = create_env_node(key, new_shlvl);
 		if (!new_node)
 			return (free(key), free(new_shlvl));
