@@ -6,13 +6,13 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 21:10:55 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/29 21:12:27 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/30 10:16:52 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	handle_herdoc(t_cmd_table **data, t_elem *elem, t_gc **gc)
+void	handle_herdoc(t_cmd_table **data, t_gc **gc)
 {
 	int				i;
 	t_redirection	*redir;
@@ -29,8 +29,7 @@ void	handle_herdoc(t_cmd_table **data, t_elem *elem, t_gc **gc)
 			{
 				if (g_gl == 3)
 					return ;
-				redir->herdoc_fd = here_doc(redir,
-						&elem, gc);
+				redir->herdoc_fd = here_doc(redir, gc);
 			}
 			redir = redir->next;
 		}

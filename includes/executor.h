@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:25:19 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/29 21:14:31 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/30 10:27:02 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,10 +44,10 @@ typedef struct s_exp_heredoc
 	char	*line_tmp;	
 }				t_exp_heredoc;
 
-t_env	*init_env_list(char **envp, t_gc **gc);
-void	init_empty_env(t_env **env, t_gc **gc);
-void	handle_shlvl(t_env **env, t_gc **gc);
-void	init_pwd(t_env **env, t_gc **gc);
+t_env	*init_env_list(char **envp);
+void	init_empty_env(t_env **env);
+void	handle_shlvl(t_env **env);
+void	init_pwd(t_env **env);
 t_env	*create_env_node(char *key, char *value);
 void	add_node(t_env **env, t_env *new);
 char	*ft_getenv(t_env *env, char *key);
@@ -94,7 +94,7 @@ int		ft_strcmp(const char *s1, const char *s2);
 void	pipe_case(t_cmd_table *data, t_env *env, t_elem **elem, t_gc **gc);
 void	ft_dup2(int fd_src, int fd_dest, int fd_close);
 void	ft_close(int fd);
-int		here_doc(t_redirection *redir, t_elem **elem, t_gc **gc);
+int		here_doc(t_redirection *redir, t_gc **gc);
 void	handle_herdoc(t_cmd_table **data, t_elem *elem, t_gc **gc);
 void	close_single_fd(t_simple_cmd	*cmd);
 void	close_pipe_fd(t_cmd_table **data);

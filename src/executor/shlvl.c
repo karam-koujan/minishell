@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   shlvl.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:23:30 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/24 13:24:15 by achemlal         ###   ########.fr       */
+/*   Updated: 2025/05/30 10:26:02 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ static int	is_valid_number(char *str)
 	return (1);
 }
 
-static char	*get_new_shlvl(char *shlvl_str, t_gc **gc)
+static char	*get_new_shlvl(char *shlvl_str)
 {
 	int	shlvl;
 
@@ -65,7 +65,7 @@ static char	*get_new_shlvl(char *shlvl_str, t_gc **gc)
 	return (ft_itoa(shlvl));
 }
 
-void	handle_shlvl(t_env **env, t_gc **gc)
+void	handle_shlvl(t_env **env)
 {
 	t_env	*new_node;
 	char	*shlvl_str;
@@ -73,9 +73,10 @@ void	handle_shlvl(t_env **env, t_gc **gc)
 	char	*key;
 
 	shlvl_str = ft_getenv(*env, "SHLVL=");
+	new_node = NULL;
 	if (shlvl_str)
 	{
-		new_shlvl = get_new_shlvl(shlvl_str, gc);
+		new_shlvl = get_new_shlvl(shlvl_str);
 		if (!new_shlvl)
 			return ;
 		update_shlvl(env, "SHLVL=", new_shlvl);

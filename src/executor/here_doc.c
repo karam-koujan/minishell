@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 12:30:39 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/29 21:12:10 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/30 10:16:06 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static int	parent_here_doc(pid_t pid, char *name)
 	return (free(name), fd);
 }
 
-int	here_doc(t_redirection *redir, t_elem **elem, t_gc **gc)
+int	here_doc(t_redirection *redir, t_gc **gc)
 {
 	int		fd;
 	pid_t	pid;

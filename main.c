@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:37:45 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/30 09:52:37 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/30 10:26:45 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,11 +114,11 @@ void	start_sh(t_sh *sh, char **envp)
 	sh->token_head = NULL;
 	sh->cmd = NULL;
 	sh->gc = init_gc();
-	sh->env = init_env_list(envp, &sh->gc);
+	sh->env = init_env_list(envp);
 	if (!sh->env)
-		init_empty_env(&sh->env, &sh->gc);
-	handle_shlvl(&sh->env, &sh->gc);
-	init_pwd(&sh->env, &sh->gc);
+		init_empty_env(&sh->env);
+	handle_shlvl(&sh->env);
+	init_pwd(&sh->env);
 	add_to_gc(&sh->gc, NULL, NULL, sh->env);
 }
 
