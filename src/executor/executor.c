@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkoujan <kkoujan@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:16:34 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/29 18:41:22 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/30 12:23:49 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	single_cmd(t_simple_cmd **data, t_env **env, t_elem **elem, t_gc **gc)
 
 void	exec(t_cmd_table *data, t_env **env, t_gc **gc, t_elem **elem)
 {
-	if (!data || !env || !(*env))
+	if (!data || !env)
 		return ;
 	(*elem)->env = env_list_to_array(*env);
 	if (!(*elem)->env)

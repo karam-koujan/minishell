@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export4.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
+/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:21:17 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/28 17:00:42 by achemlal         ###   ########.fr       */
+/*   Updated: 2025/05/30 12:20:53 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ static int	update_existing(t_env *env, t_elem **elem)
 	char	*str;
 	char	*new;
 
-	
 	while (env)
 	{
 		str = ft_strtrim(env->key, "=");
@@ -55,7 +54,6 @@ static int	update_existing(t_env *env, t_elem **elem)
 			free(new);
 			env = env->next;
 		}
-		
 	}
 	return (0);
 }
@@ -100,7 +98,6 @@ void	var_set(char *str, t_env **env, t_gc **gc, t_elem **elem)
 		if (!(*elem)->key || !(*elem)->value)
 			return (free((*elem)->key), free((*elem)->value));
 	}
-	
 	else
 	{
 		(*elem)->key = ft_strdup(str);
