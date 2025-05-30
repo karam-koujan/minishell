@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   handle_double_quote.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkoujan <kkoujan@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/21 19:59:35 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/26 22:48:06 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/30 09:55:53 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ int	loop_double_quote(char **cmd_ptr, t_token **head, t_double_quote *st, \
 		if ((cmd[st->len] == '$' && !(*in_herdoc)) && \
 		(is_var_spchar(cmd[st->len + 1]) || ft_isalpha(cmd[st->len + 1])))
 		{
-			if (st->len > 0 && add_str_token(head, st->start, st->len, WORD_T) == 0)
+			if (st->len > 0 && add_str_token(head, st->start, st->len, \
+				WORD_T) == 0)
 				return (-1);
 			var = handle_var(cmd + st->len, head, 1);
 			if (var < 0)
