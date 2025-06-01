@@ -6,7 +6,7 @@
 /*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:20:12 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/28 17:41:58 by achemlal         ###   ########.fr       */
+/*   Updated: 2025/05/31 23:07:40 by achemlal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,19 +83,18 @@ void	print_export(t_env *env, t_elem **elem)
 {
 	t_env	*sorted;
 	t_env	*copy;
-	int		i;
 
-	i = 0;
 	copy = copy_env(env);
 	sorted = sort_var(copy);
 	if (!sorted)
 		return (free_env(&copy, free));
 	while (sorted)
 	{
-		if (ft_strcmp((*elem)->aff_PATH, "oui") == 0 && ft_strcmp(sorted->key, "PATH=") == 0)
+		if (ft_strcmp((*elem)->aff_path, "oui") == 0
+			&& ft_strcmp(sorted->key, "PATH=") == 0
+			&& (*elem)->flag == 0)
 		{
 			sorted = sorted->next;
-			i++;
 			continue ;
 		}
 		else if (!sorted->value)
@@ -103,7 +102,6 @@ void	print_export(t_env *env, t_elem **elem)
 		else
 			printf("declare -x %s\"%s\"\n", sorted->key, sorted->value);
 		sorted = sorted->next;
-		i++;
 	}
 	free_env(&copy, free);
 }

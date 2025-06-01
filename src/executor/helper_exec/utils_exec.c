@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_exec.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 16:22:25 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/30 12:16:26 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/06/01 17:33:40 by achemlal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,23 +37,21 @@ char	*join_env_var(t_env *env)
 
 char	**env_list_to_array(t_env *env)
 {
-	t_env	*temp;
 	int		i;
 	char	**env_arr;
 
-	i = 0;
-	temp = env;
-	while (temp)
-	{
-		i++;
-		temp = temp->next;
-	}
+	i = count_env_array(env);
 	env_arr = (char **)malloc((i + 1) * sizeof(char *));
 	if (!env_arr)
 		return (NULL);
 	i = 0;
 	while (env)
 	{
+		if (!env->value)
+		{
+			env = env->next;
+			continue ;
+		}
 		env_arr[i] = join_env_var(env);
 		if (!env_arr[i])
 			return (free_arr(env_arr), NULL);

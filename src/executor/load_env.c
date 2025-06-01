@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   load_env.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:23:12 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/30 11:52:54 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/31 15:25:02 by achemlal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	init_empty_env(t_env **env)
 		return (free(path), free_env(env, free));
 	new_node = create_env_node(path, value);
 	if (!new_node)
-		return (free(path), free(path), free_env(env, free));
+		return (free(path), free_env(env, free));
 	add_node(env, new_node);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export4.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:21:17 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/30 12:20:53 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/31 15:37:56 by achemlal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,11 +58,11 @@ static int	update_existing(t_env *env, t_elem **elem)
 	return (0);
 }
 
-static int	update_var(t_env **env, t_gc **gc, t_elem **elem)
+static int	update_var(t_env **env, t_elem **elem)
 {
 	if (ft_strchr((*elem)->key, '+'))
 	{
-		handle_plus(env, &(*elem)->key, &(*elem)->value, gc);
+		handle_plus(env, &(*elem)->key, &(*elem)->value);
 		return (1);
 	}
 	if (!ft_strchr((*elem)->key, '='))
@@ -70,22 +70,21 @@ static int	update_var(t_env **env, t_gc **gc, t_elem **elem)
 	return (update_existing(*env, elem));
 }
 
-static void	add_var(t_env **env,  t_gc **gc, t_elem **elem)
+static void	add_var(t_env **env, t_elem **elem)
 {
 	t_env	*new_node;
 
-	if (update_var(env, gc, elem) == 1)
+	if (update_var(env, elem) == 1)
 		return ;
 	if (ft_strchr((*elem)->key, '+'))
-		handle_plus(env, &(*elem)->key, &(*elem)->value, gc);
+		handle_plus(env, &(*elem)->key, &(*elem)->value);
 	new_node = create_env_node((*elem)->key, (*elem)->value);
 	add_node(env, new_node);
 }
 
-void	var_set(char *str, t_env **env, t_gc **gc, t_elem **elem)
+void	var_set(char *str, t_env **env, t_elem **elem)
 {
 	size_t	size;
-	int i = 0;
 
 	(*elem)->key = NULL;
 	(*elem)->value = NULL;
@@ -104,5 +103,5 @@ void	var_set(char *str, t_env **env, t_gc **gc, t_elem **elem)
 		if (!(*elem)->key)
 			return ;
 	}
-	add_var(env, gc, elem);
+	add_var(env, elem);
 }

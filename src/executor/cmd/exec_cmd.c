@@ -6,7 +6,7 @@
 /*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:21:45 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/28 18:14:55 by achemlal         ###   ########.fr       */
+/*   Updated: 2025/06/01 11:51:03 by achemlal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ static int	check_is_building(t_simple_cmd **data, t_env *env, t_elem **elem,
 		return (builtin_pwd(env), 1);
 	else if (ft_strcmp((*data)->args[0], "env") == 0)
 	{
-		if(builtin_env(data, env) == 0)
+		if (builtin_env(data, env, elem) == 0)
 			return (0);
-		return (1);	
+		return (1);
 	}
 	else if (ft_strcmp((*data)->args[0], "export") == 0)
 		return (builtin_export_child(data, &env, gc, elem), 1);
@@ -67,9 +67,9 @@ void	exec_cmd(t_simple_cmd **data, t_env *env, t_elem **elem, t_gc **gc)
 		waitpid(pid, &status, 0);
 		if (!WIFSIGNALED(status))
 			exit_status(status);
-		else if (exit_stat(0, 0, NULL, NULL) == 130)
-			printf("\n");
 		else if (status == 131 && printf("\n"))
 			exit_stat(status, 1, NULL, NULL);
+		else if (exit_stat(0, 0, NULL, NULL) == 130)
+			printf("\n");
 	}
 }

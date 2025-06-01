@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kkoujan <kkoujan@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:37:45 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/30 11:48:51 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/06/01 22:09:02 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,7 +113,9 @@ void	start_sh(t_sh *sh, char **envp)
 	sh->cmd_table = NULL;
 	sh->token_head = NULL;
 	sh->cmd = NULL;
+	sh->env = NULL;
 	sh->gc = init_gc();
+	
 	sh->env = init_env_list(envp);
 	if (!sh->env)
 		init_empty_env(&sh->env);
@@ -143,7 +145,8 @@ int	run(t_sh *sh, t_elem *elem)
 	if (!sh->cmd_table)
 		return (free(sh->cmd), rl_clear_history(), \
 		free_all(&sh->gc), 1);
-	handle_herdoc(&sh->cmd_table, &sh->gc);
+	if (handle_herdoc(&sh->cmd_table, &sh->gc))
+		return (exit_stat(2, 1, NULL, NULL), 0);
 	exec(sh->cmd_table, &sh->env, &sh->gc, &elem);
 	clear_sh(sh);
 	return (0);
@@ -176,15 +179,19 @@ int	main(int argc, char **argv, char **envp)
 	t_sh		sh;
 	t_elem		elem;
 
-	(void)argc;
-	(void)argv;
+	if(argc > 1 || !argv)
+	{
+		perror(argv[0]);
+		return (-1);
+	}
 	g_gl = 0;
-	if (!isatty(1) || !isatty(0))
+	if (!isatty(1) || !isatty(0) || !isatty(2))
 		return (1);
 	if(!envp || !envp[0])
-		elem.aff_PATH = "oui";
+		elem.aff_path = "oui";
 	else
-		elem.aff_PATH = "non";
+		elem.aff_path = "non";
+	elem.flag = 0;
 	start_sh(&sh, envp);
 	if (handle_signals(&sh))
 		return (free_all(&sh.gc), 1);

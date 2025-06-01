@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd_init.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:23:22 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/30 10:26:35 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/06/01 15:55:19 by achemlal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,13 +51,11 @@ int	add_oldpwd_if_missing(t_env **env)
 
 void	init_pwd(t_env **env)
 {
-	if (env_key_exists(*env, "PWD="))
-		return ;
-	if (!add_pwd_if_missing(env))
-		return ;
-	if (!env_key_exists(*env, "OLDPWD"))
-	{
-		if (!add_oldpwd_if_missing(env))
-			return ;
-	}
+	int	i;
+
+	i = env_key_exists(*env, "PWD=");
+	if (i == 0)
+		add_pwd_if_missing(env);
+	if (!env_key_exists(*env, "OLDPWD") && !env_key_exists(*env, "OLDPWD="))
+		add_oldpwd_if_missing(env);
 }

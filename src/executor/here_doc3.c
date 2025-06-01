@@ -3,37 +3,41 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc3.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: kkoujan <kkoujan@student.1337.ma>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 21:10:55 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/30 10:16:52 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/06/01 22:15:17 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../includes/minishell.h"
 
-void	handle_herdoc(t_cmd_table **data, t_gc **gc)
+int	handle_herdoc(t_cmd_table **data, t_gc **gc)
 {
 	int				i;
 	t_redirection	*redir;
 
 	i = -1;
 	if (!data || !*data)
-		return ;
+		return (1);
+	if (herdoc_count(data) > 16)
+		return (printf("the number of herdocs exceed the limite\n"), 1);
 	while (++i < (*data)->cmd_count)
 	{
 		redir = (*data)->cmds[i]->redirs;
+		if (redir )
 		while (redir)
 		{
 			if (redir->type == REDIR_HEREDOC)
 			{
 				if (g_gl == 3)
-					return ;
+					return (0);
 				redir->herdoc_fd = here_doc(redir, gc);
 			}
 			redir = redir->next;
 		}
 	}
+	return (0);
 }
 
 void	join_expnd_herdoc(t_exp_heredoc *d, char *line, t_env *env)
@@ -89,4 +93,27 @@ char	*expand_herdoc(char *line, t_env *env)
 	}
 	free(line);
 	return (herdoc_data.result);
+}
+
+int	herdoc_count(t_cmd_table **data)
+{
+	int				i;
+	int				len;
+	t_redirection	*redir;
+
+	len = 0;
+	i = -1;
+	if (!data || !*data)
+		return (0);
+	while (++i < (*data)->cmd_count)
+	{
+		redir = (*data)->cmds[i]->redirs;
+		while (redir)
+		{
+			if (redir->type == REDIR_HEREDOC)
+				len++;
+			redir = redir->next;
+		}
+	}
+	return (len);
 }

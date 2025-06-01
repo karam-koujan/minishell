@@ -6,13 +6,13 @@
 /*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 13:21:49 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/26 20:38:51 by achemlal         ###   ########.fr       */
+/*   Updated: 2025/05/31 15:30:58 by achemlal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include  "../../../includes/minishell.h"
 
-static char	*cd_get_target_child(t_simple_cmd *cmd, t_env *env, t_gc **gc)
+static char	*cd_get_target_child(t_simple_cmd *cmd, t_env *env)
 {
 	char	*target;
 
@@ -49,7 +49,7 @@ void	builtin_cd_child(t_simple_cmd **data, t_env **env, t_gc **gc,
 	if (!oldpwd)
 		return (write(2, "minishell: cd: getcwd failed\n", 30),
 			(void)exit(exit_stat(1, 1, gc, (*elem)->env)));
-	target = cd_get_target_child(*data, (*env), gc);
+	target = cd_get_target_child(*data, (*env));
 	if (!target)
 		return (free(oldpwd), (void)exit(exit_stat(1, 1, gc, (*elem)->env)));
 	if (chdir(target) != 0)

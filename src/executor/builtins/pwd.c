@@ -6,7 +6,7 @@
 /*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:21:26 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/28 18:17:46 by achemlal         ###   ########.fr       */
+/*   Updated: 2025/05/31 15:59:32 by achemlal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,5 @@ void	builtin_pwd(t_env *env)
 		ft_putstr_fd(pwd, 1);
 		ft_putstr_fd("\n", 1);
 		free(pwd);
-	}
-		
+	}	
 }

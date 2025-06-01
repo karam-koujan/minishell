@@ -6,13 +6,13 @@
 /*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:18:58 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/27 13:54:10 by achemlal         ###   ########.fr       */
+/*   Updated: 2025/06/01 17:25:41 by achemlal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include  "../../../includes/minishell.h"
 
-int	builtin_env(t_simple_cmd **data, t_env *env)
+int	builtin_env(t_simple_cmd **data, t_env *env, t_elem **elem)
 {
 	if ((*data)->argc > 1)
 	{
@@ -20,12 +20,17 @@ int	builtin_env(t_simple_cmd **data, t_env *env)
 		exit(exit_stat(127, 1, NULL, NULL));
 		return (0);
 	}
-	if (env && ft_strcmp(env->key, "PATH=") == 0)
-		env = env->next;
 	while (env)
 	{
 		if (env->value)
 		{
+			if (ft_strcmp((*elem)->aff_path, "oui") == 0
+				&& ft_strcmp(env->key, "PATH=") == 0
+				&& (*elem)->flag == 0)
+			{
+				env = env->next;
+				continue ;
+			}
 			printf("%s", env->key);
 			printf("%s\n", env->value);
 		}

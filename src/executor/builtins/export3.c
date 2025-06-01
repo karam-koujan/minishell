@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   export3.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:20:33 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/26 16:11:17 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/31 15:34:37 by achemlal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include  "../../../includes/minishell.h"
 
-static int	equal_char(char *str, char *key)
+static int	equal_char(char *key)
 {
 	int	i;
 
@@ -60,7 +60,7 @@ int	not_equal(char *str)
 	return (1);
 }
 
-int	valid_export(char *str, t_gc **gc)
+int	valid_export(char *str)
 {
 	char	*key;
 	size_t	size;
@@ -73,7 +73,7 @@ int	valid_export(char *str, t_gc **gc)
 		key = ft_substr(str, 0, size);
 		if (!key)
 			return (0);
-		if (!equal_char(str, key))
+		if (!equal_char(key))
 			return (free(key), 0);
 	}
 	else

@@ -6,7 +6,7 @@
 /*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 16:51:35 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/24 16:56:40 by achemlal         ###   ########.fr       */
+/*   Updated: 2025/06/01 12:49:24 by achemlal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	is_directory(char *path)
 	return (S_ISDIR(path_stat.st_mode));
 }
 
-int	ou_cas_p(t_redirection *ou, t_elem **elem, t_gc **gc)
+int	ou_cas_p(t_redirection *ou)
 {
 	int	ou_fd;
 
@@ -45,7 +45,7 @@ int	ou_cas_p(t_redirection *ou, t_elem **elem, t_gc **gc)
 	return (1);
 }
 
-int	in_cas_p(t_redirection *in, t_elem **elem, t_gc **gc)
+int	in_cas_p(t_redirection *in)
 {
 	int	in_fd;
 

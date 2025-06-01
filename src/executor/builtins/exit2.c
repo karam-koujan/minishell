@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit2.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 14:56:59 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/25 18:41:54 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/31 15:52:41 by achemlal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	free_exit(t_gc **gc, char **env)
 {
-	// printf("here\n");
 	if (gc)
 		free_all(gc);
 	if (env)
@@ -37,6 +36,6 @@ void	exit_status(int status)
 	{
 		exit_stat(128 + WTERMSIG(status), 1, NULL, NULL);
 	}
-	else if (WIFEXITED(status), 1)
+	else if (WIFEXITED(status) == 1)
 		exit_stat(WEXITSTATUS(status), 1, NULL, NULL);
 }

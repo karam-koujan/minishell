@@ -6,7 +6,7 @@
 /*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 12:30:17 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/24 13:16:58 by achemlal         ###   ########.fr       */
+/*   Updated: 2025/05/31 15:24:42 by achemlal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,8 @@
 
 void	close_single_fd(t_simple_cmd	*cmd)
 {
-	int				i;
 	t_redirection	*redir;
 
-	i = -1;
 	if (!cmd)
 		return ;
 	redir = cmd->redirs;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse_redir.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/21 10:31:06 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/27 01:24:24 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/31 15:46:13 by achemlal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,6 @@ t_token	*parse_redir(t_simple_cmd **cmd, t_token *token, t_env *env)
 {
 	t_redirection	*redir;
 	t_redir_type	redir_type;
-	char			*val;
 
 	if (token->type == REDIR_B_T)
 		redir_type = REDIR_IN;

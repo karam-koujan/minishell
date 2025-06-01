@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/29 03:09:20 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/29 20:52:15 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/05/31 15:45:56 by achemlal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,7 @@ char	*join_expnd(t_token *token, t_env *env)
 t_token	*parse_word(t_simple_cmd **cmd, t_token *token, t_env *env)
 {
 	char	*value;
-	char	*prev;
 
-	prev = NULL;
 	if (*cmd == NULL)
 		*cmd = create_simple_cmd();
 	if (*cmd == NULL)

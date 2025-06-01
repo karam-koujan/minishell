@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:16:34 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/30 12:23:49 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/06/01 15:25:16 by achemlal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,18 +17,18 @@ void	single_cmd(t_simple_cmd **data, t_env **env, t_elem **elem, t_gc **gc)
 	if ((*data)->argc == 0)
 		return (inf_outf_cmd(data, 0, elem, gc));
 	if (!ft_strcmp((*data)->args[0], "cd"))
-		return (check_redir_in_parent(*data, elem, gc),
-			builtin_cd(data, env, gc, elem));
+		return (check_redir_in_parent(*data),
+			builtin_cd(data, env));
 	else if (!ft_strcmp((*data)->args[0], "exit"))
-		return (check_redir_in_parent(*data, elem, gc),
+		return (check_redir_in_parent(*data),
 			builtin_exit(data, gc, elem));
 	else if (!ft_strcmp((*data)->args[0], "unset"))
-		return (check_redir_in_parent(*data, elem, gc),
+		return (check_redir_in_parent(*data),
 			builtin_unset(data, env, gc));
 	else if (ft_strcmp((*data)->args[0], "export") == 0)
 	{
 		if (((*data)->argc > 1))
-			return (check_redir_in_parent(*data, elem, gc),
+			return (check_redir_in_parent(*data),
 				builtin_export(data, env, gc, elem));
 	}
 	exec_cmd(data, *env, elem, gc);

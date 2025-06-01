@@ -6,25 +6,25 @@
 /*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:19:12 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/27 13:31:30 by achemlal         ###   ########.fr       */
+/*   Updated: 2025/05/31 15:53:53 by achemlal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include  "../../../includes/minishell.h"
 
-static void print_exit_error(char *msg, char *arg, char *type)
+static void	print_exit_error(char *msg, char *arg, char *type)
 {
-	if(type == "PR")
+	if (ft_strcmp(type, "PR") == 0)
 	{
 		write(2, "exit\nminishell: exit: ", 23);
-		if(arg)
+		if (arg)
 			write(2, arg, ft_strlen(arg));
 		write(2, msg, ft_strlen(msg));
 	}
 	else
 	{
 		write(2, "minishell: exit: ", 18);
-		if(arg)
+		if (arg)
 			write(2, arg, ft_strlen(arg));
 		write(2, msg, ft_strlen(msg));
 	}
@@ -84,7 +84,8 @@ void	builtin_exit_child(t_simple_cmd **data, t_gc **gc, t_elem **elem)
 		return (exit(exit_stat(0, 0, gc, (*elem)->env)));
 	if (!is_numeric((*data)->args[1]) || !ft_atoll((*data)->args[1], &code))
 	{
-		print_exit_error(": numeric argument required\n", (*data)->args[1], "CH");
+		print_exit_error(": numeric argument required\n",
+			(*data)->args[1], "CH");
 		return (exit(exit_stat(2, 1, gc, (*elem)->env)));
 	}
 	else if ((*data)->argc > 2)
@@ -104,7 +105,8 @@ void	builtin_exit(t_simple_cmd **data, t_gc **gc, t_elem **elem)
 		return (printf("exit\n"), exit(exit_stat(0, 0, gc, (*elem)->env)));
 	if (!is_numeric((*data)->args[1]) || !ft_atoll((*data)->args[1], &code))
 	{
-		print_exit_error(": numeric argument required\n", (*data)->args[1], "PR");
+		print_exit_error(": numeric argument required\n",
+			(*data)->args[1], "PR");
 		return (exit(exit_stat(2, 1, gc, (*elem)->env)));
 	}
 	else if ((*data)->argc > 2)
@@ -113,5 +115,6 @@ void	builtin_exit(t_simple_cmd **data, t_gc **gc, t_elem **elem)
 		exit_stat(1, 1, NULL, NULL);
 		return ;
 	}
-	return (write(2, "exit\n", 6), exit(exit_stat(code % 256, 1, gc, (*elem)->env)));
+	return (write(2, "exit\n", 6),
+		exit(exit_stat(code % 256, 1, gc, (*elem)->env)));
 }

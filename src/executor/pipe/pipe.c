@@ -3,22 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   pipe.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
+/*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:22:22 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/29 15:42:33 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/06/01 10:03:43 by achemlal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
-
-static void	handle_pipe_signal(int status)
-{
-	if (exit_stat(0, 0, NULL, NULL) == 0 || exit_stat(0, 0, NULL, NULL) == 127)
-		g_gl = 2;
-	if (exit_stat(0, 0, NULL, NULL) == 130 || status == 131)
-		write(1, "\n", 1);
-}
 
 static int	first_proc(t_simple_cmd *cmd, t_env *env, t_elem **elem, t_gc **gc)
 {
@@ -75,22 +67,6 @@ int	mid_proc(t_simple_cmd *cmd, t_env *env, t_elem **elem, t_gc **gc)
 		clear_parsing(gc);
 	}
 	return (ft_close(fd[1]), ft_close((*elem)->fd_save), fd[0]);
-}
-
-int	is_redir_exist(t_redirection *redirs, t_redir_type type)
-{
-	t_redirection	*r;
-
-	if (!redirs)
-		return (-1);
-	r = redirs;
-	while (r)
-	{
-		if (r->type == type)
-			return (1);
-		r = r->next;
-	}
-	return (0);
 }
 
 void	last_proc(t_simple_cmd *cmd, t_env *env, t_elem **elem, t_gc **gc)

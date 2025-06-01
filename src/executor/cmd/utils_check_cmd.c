@@ -6,58 +6,30 @@
 /*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/19 18:21:54 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/27 18:29:39 by achemlal         ###   ########.fr       */
+/*   Updated: 2025/06/01 17:39:25 by achemlal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../../includes/minishell.h"
 
-void	error_print(char *cmd, char*msg)
+static void	error_exit(char *cmd, t_elem **elem, t_gc **gc)
 {
-	write(2, "minishell: ", 11);
-	write(2, cmd, ft_strlen(cmd));
-	write(2, msg, ft_strlen(msg));
+	error_print(cmd, ": Command not found\n");
+	exit(exit_stat(127, 1, gc, (*elem)->env));
 }
 
-int	ft_check_path_cmd(char *cmd)
+void	exec_emp_path(char **cmd, t_elem **elem, t_gc **gc)
 {
-	int	i;
-
-	i = 0;
-	while (cmd[i])
+	if (access(cmd[0], F_OK) == 0)
 	{
-		if (cmd[i] == '/')
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
-int	check_str(char *str , char c)
-{
-	int	i;
-
-	i = 0;
-	while (str[i])
-	{
-			if (str[i] != c)
-				return (1);
-			i++;
-	}
-	return (0);
-}
-void exec_emp_path(char **cmd, t_elem **elem, t_gc **gc)
-{
-	if(access(cmd[0], F_OK) == 0)
-	{
-		if(access(cmd[0], X_OK) == -1)
+		if (access(cmd[0], X_OK) == -1)
 		{
-			error_print(cmd[0], "Permission denied\n");
+			error_print(cmd[0], ": Permission denied\n");
 			exit(exit_stat(126, 1, gc, (*elem)->env));
 		}
 		else
 		{
-			if(execve(cmd[0], cmd, (*elem)->env) == -1)
+			if (execve(cmd[0], cmd, (*elem)->env) == -1)
 				exit(exit_stat(0, 1, gc, (*elem)->env));
 		}
 	}
@@ -67,6 +39,7 @@ void exec_emp_path(char **cmd, t_elem **elem, t_gc **gc)
 		exit(exit_stat(127, 1, gc, (*elem)->env));
 	}
 }
+
 void	pars_cmd_1(char *cmd, t_elem **elem, t_gc **gc)
 {
 	if (cmd == NULL || cmd[0] == '\0')
@@ -131,8 +104,15 @@ void	pars_cmd_3(char **cmd, t_elem **elem, t_gc **gc)
 		exit(exit_stat(127, 1, gc, (*elem)->env));
 	}
 	execve(path_cmd, cmd, (*elem)->env);
+	if (access(path_cmd, F_OK) == 0)
+	{
+		if (access(path_cmd, X_OK) == -1)
+		{
+			error_print(path_cmd, ": Permission Denied\n");
+			exit(exit_stat(126, 1, gc, (*elem)->env));
+		}
+		exit(exit_stat(0, 1, gc, (*elem)->env));
+	}
 	free(path_cmd);
-	error_print(cmd[0], ": Command not found\n");
-	exit(exit_stat(127, 1, gc, (*elem)->env));
+	error_exit(cmd[0], elem, gc);
 }
-

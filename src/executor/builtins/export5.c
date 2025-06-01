@@ -6,13 +6,13 @@
 /*   By: achemlal <achemlal@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/02 18:46:19 by achemlal          #+#    #+#             */
-/*   Updated: 2025/05/24 16:01:34 by achemlal         ###   ########.fr       */
+/*   Updated: 2025/05/31 15:36:15 by achemlal         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include  "../../../includes/minishell.h"
 
-static char	*prepare_key(char *key, t_gc **gc)
+static char	*prepare_key(char *key)
 {
 	char	*trimmed;
 	char	*joined;
@@ -27,7 +27,7 @@ static char	*prepare_key(char *key, t_gc **gc)
 	return (joined);
 }
 
-static int	append_if_exists(t_env *env, char *key, char *value, t_gc **gc)
+static int	append_if_exists(t_env *env, char *key, char *value)
 {
 	char	*new_val;
 
@@ -46,18 +46,18 @@ static int	append_if_exists(t_env *env, char *key, char *value, t_gc **gc)
 	return (0);
 }
 
-void	handle_plus(t_env **env, char **key, char **value, t_gc **gc)
+void	handle_plus(t_env **env, char **key, char **value)
 {
 	t_env	*new_node;
 	char	*new_key;
 
 	if (!*key)
 		return ;
-	new_key = prepare_key(*key, gc);
+	new_key = prepare_key(*key);
 	if (!new_key)
 		return ;
 	*key = new_key;
-	if (append_if_exists(*env, *key, *value, gc))
+	if (append_if_exists(*env, *key, *value))
 		return ;
 	new_node = create_env_node(*key, *value);
 	add_node(env, new_node);
