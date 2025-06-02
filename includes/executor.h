@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.h                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkoujan <kkoujan@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:25:19 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/06/01 22:11:15 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/06/02 11:56:53 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,5 +113,5 @@ char	*expand_herdoc(char *line, t_env *env);
 void	handle_pipe_signal(int status);
 int		is_redir_exist(t_redirection *redirs, t_redir_type type);
 int		count_env_array(t_env *env);
-int	herdoc_count(t_cmd_table **data);
+int		herdoc_count(t_cmd_table **data);
 #endif

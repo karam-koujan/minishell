@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   here_doc3.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkoujan <kkoujan@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 21:10:55 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/06/01 22:15:17 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/06/02 11:52:35 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ int	handle_herdoc(t_cmd_table **data, t_gc **gc)
 	while (++i < (*data)->cmd_count)
 	{
 		redir = (*data)->cmds[i]->redirs;
-		if (redir )
 		while (redir)
 		{
 			if (redir->type == REDIR_HEREDOC)

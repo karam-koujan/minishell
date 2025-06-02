@@ -6,7 +6,7 @@
 /*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/03/12 23:42:33 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/05/27 00:52:48 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/06/02 11:57:18 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ typedef struct s_double_quote
 char	*quote_token(char **cmd, char end_char);
 t_token	*init_token(t_token_type type, char *val, int vr_in_qt);
 t_token	*tokenize(char *cmd, t_env *env);
-void	print_token_list(t_token *head);
 void	ft_token_add_back(t_token **lst, t_token *new);
 int		handle_double_quote(char *cmd, t_token **head, int *in_herdoc);
 int		loop_double_quote(char **cmd_ptr, t_token **head, \

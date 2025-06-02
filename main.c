@@ -3,110 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: kkoujan <kkoujan@student.1337.ma>          +#+  +:+       +#+        */
+/*   By: kkoujan <kkoujan@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/24 17:37:45 by kkoujan           #+#    #+#             */
-/*   Updated: 2025/06/01 22:09:02 by kkoujan          ###   ########.fr       */
+/*   Updated: 2025/06/02 11:56:26 by kkoujan          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./includes/minishell.h"
 
 int	g_gl;
-
-// void print_cmd_table(t_cmd_table *cmd_table)
-// {
-// 	int i;
-// 	int j;
-// 	t_redirection *redir;
-
-// 	if (!cmd_table)
-// 	{
-// 		printf("here Command table is NULL\n");
-// 		return;
-// 	}
-
-// 	printf("Command Table:\n");
-
-// 	if (cmd_table->cmd_count == 0)
-// 	{
-// 		printf(" here No commands in table\n");
-// 		return;
-// 	}
-// 	i = 0;
-// 	while (i < cmd_table->cmd_count)
-// 	{
-// 		printf("Command %d:\n", i + 1);
-
-// 		if (!cmd_table->cmds[i])
-// 		{
-// 			printf("  Command is NULL\n");
-// 			i++;
-// 			continue;
-// 		}
-
-// 		// Print arguments
-// 		printf("  Arguments: ");
-// 		if (cmd_table->cmds[i]->argc == 0 || !cmd_table->cmds[i]->args)
-// 		{
-// 			printf("None\n");
-// 		}
-// 		else
-// 		{
-// 			j = 0;
-// 			while (j < cmd_table->cmds[i]->argc)
-// 			{
-// 				if (j > 0)
-// 					printf(" ");
-// 				printf("'%s'", cmd_table->cmds[i]->args[j]);
-// 				j++;
-// 			}
-// 			printf("\n");
-// 		}
-
-// 		// Print redirections
-// 		printf("  Redirections: ");
-// 		if (!cmd_table->cmds[i]->redirs)
-// 		{
-// 			printf("None\n");
-// 		}
-// 		else
-// 		{
-// 			printf("\n");
-// 			redir = cmd_table->cmds[i]->redirs;
-// 			while (redir)
-// 			{
-// 				printf("    ");
-// 				// Print redirection type
-// 				if (redir->type == REDIR_IN)
-// 					printf("< ");
-// 				else if (redir->type == REDIR_OUT)
-// 					printf("> ");
-// 				else if (redir->type == REDIR_APPEND)
-// 					printf(">> ");
-// 				else if (redir->type == REDIR_HEREDOC)
-// 					printf("<< ");
-// 				printf("is var : %i", redir->is_ambigous);
-// 				// Print file or delimiter
-// 				if (!redir)
-// 				{
-// 					printf("Redirection node is NULL\n");
-// 					 return;
-// 				}
-
-// 				if (redir->file_or_delimiter)
-// 				{
-// 					printf("%s\n", redir->file_or_delimiter);
-// 					printf("%i\n", redir->herdoc_fd);
-// 				}
-// 				else
-// 					printf("(NULL)\n");  // To debug i                
-// 				redir = redir->next;
-// 			}
-// 		}
-// 		i++;
-// 	}
-// }
 
 void	start_sh(t_sh *sh, char **envp)
 {
@@ -115,7 +21,6 @@ void	start_sh(t_sh *sh, char **envp)
 	sh->cmd = NULL;
 	sh->env = NULL;
 	sh->gc = init_gc();
-	
 	sh->env = init_env_list(envp);
 	if (!sh->env)
 		init_empty_env(&sh->env);
@@ -179,7 +84,7 @@ int	main(int argc, char **argv, char **envp)
 	t_sh		sh;
 	t_elem		elem;
 
-	if(argc > 1 || !argv)
+	if (argc > 1 || !argv)
 	{
 		perror(argv[0]);
 		return (-1);
@@ -187,7 +92,7 @@ int	main(int argc, char **argv, char **envp)
 	g_gl = 0;
 	if (!isatty(1) || !isatty(0) || !isatty(2))
 		return (1);
-	if(!envp || !envp[0])
+	if (!envp || !envp[0])
 		elem.aff_path = "oui";
 	else
 		elem.aff_path = "non";
